@@ -1,7 +1,8 @@
 FROM ubuntu:22.04
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.description="NordVPN for Docker"
-LABEL org.opencontainers.image.licenses=GPL
+LABEL org.opencontainers.image.title=nordvpn
+LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL autoheal=true
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
@@ -11,7 +12,7 @@ RUN apt-get update -qq \
   libc6 \
   ## only if desired to obtain the private key
   # wireguard \
-  && curl -s https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb --output /tmp/nordrepo.deb \
+  && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
   && apt-get install -y -qq \
   /tmp/nordrepo.deb \
   && apt-get update -qq \
