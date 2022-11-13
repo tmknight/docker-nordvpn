@@ -1,4 +1,7 @@
 FROM ubuntu:22.04
+LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
+LABEL org.opencontainers.image.description="NordVPN for Docker"
+LABEL org.opencontainers.image.licenses=GPL
 LABEL autoheal=true
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
