@@ -13,7 +13,7 @@ Build based on:
 
 * `USER`     - User for NordVPN account.
 * `PASS`     - Password for NordVPN account, surrounding the password in single quotes will prevent issues with special characters such as `$`.
-* `TOKEN`     - Used in place of `USER` and `PASS` for NordVPN account, can be generated in the web portal
+* `TOKEN`     - Used in place of `USER` and `PASS` for NordVPN account, can be generated in your NordVPN account web portal
 * `PASSFILE` - File from which to get `PASS`, if using [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets) this should be set to `/run/secrets/<secret_name>`. This file should contain just the account password on the first line.
 * `CONNECT`  -  [country]/[server]/[country_code]/[city]/[group] or [country] [city], if none provide you will connect to  the recommended server.
    - Provide a [country] argument to connect to a specific country. For example: Australia , Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn countries` to get the list of countries.
