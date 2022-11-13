@@ -1,0 +1,51 @@
+#!/bin/bash
+
+docker_networks=$(dockerNetworks)
+if [ -z "$docker_networks" ]
+then
+  echo "No inet network"
+  exit
+fi
+IFS=',' read -ra networks <<< "$docker_networks"
+
+echo "Enabling connection to secure interface and docker network"
+
+iptables -F
+iptables -X
+
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -i lo -j ACCEPT
+for net in "${networks[@]}"
+do
+  network=($net)
+  iptables -A INPUT -i "${network[0]}" -s "${network[1]}" -j ACCEPT
+done
+
+iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -o lo -j ACCEPT
+iptables -A OUTPUT -o tap+ -j ACCEPT
+iptables -A OUTPUT -o tun+ -j ACCEPT
+iptables -A OUTPUT -o nordlynx+ -j ACCEPT
+for net in "${networks[@]}"
+do
+  network=($net)
+  iptables -A OUTPUT -o "${network[0]}" -d "${network[1]}" -j ACCEPT
+done
+iptables -A OUTPUT -o eth0 -p udp -m udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -o eth0 -p udp -m udp --dport 51820 -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp -m tcp --dport 1194 -j ACCEPT
+iptables -A OUTPUT -o eth0 -p udp -m udp --dport 1194 -j ACCEPT
+iptables -A OUTPUT -o eth0 -p tcp -m tcp --dport 443 -j ACCEPT
+
+iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -i lo -j ACCEPT
+for net in "${networks[@]}"
+do
+  network=($net)
+  iptables -A FORWARD -i "${network[0]}" -d "${network[1]}" -j ACCEPT
+  iptables -A FORWARD -i "${network[0]}" -s "${network[1]}" -j ACCEPT
+done
+
+iptables -t nat -A POSTROUTING -o tap+ -j MASQUERADE
+iptables -t nat -A POSTROUTING -o tun+ -j MASQUERADE
+iptables -t nat -A POSTROUTING -o nordlynx+ -j MASQUERADE

@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+  vpn:
+    build:
+      context: ./
+      dockerfile: nordvpn.dockerfile
+    container_name: nordvpn
+    cap_add:
+      - NET_ADMIN
+    mem_limit: 128m
+    memswap_limit: 128m
+    env_file: ./nord.env
+    ## Review https://github.com/tmknight/docker-nordvpn#environment-variables
+    environment:
+      CHECK_CONNECTION_INTERVAL: 300
+      KILLSWITCH: on
+    ports:
+      - 8888:8118
+    sysctls:
+      ## Recomended if using ipv4 only
+      - net.ipv6.conf.all.disable_ipv6=1
+    networks:
+      - frontend
+    restart: always
+  proxy:
+    build:
+      context: ./privoxy/
+      dockerfile: privoxy.dockerfile
+    container_name: privoxy
+    mem_limit: 512m
+    memswap_limit: 640m
+    environment:
+      TZ: America/New_York
+    sysctls:
+      ## Recomended if using ipv4 only
+      - net.ipv6.conf.all.disable_ipv6=1
+    depends_on:
+      - vpn
+    ## Route traffic through NordVPN
+    network_mode: service:vpn
+    volumes:
+      - /media/data0/privoxy/config:/etc/privoxy
+      ## If https inspection is enabled
+      - /media/data0/privoxy/certs:/var/lib/privoxy/certs
+    restart: always
+networks:
+  frontend:
+    name: vpn

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ }
+
+[[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC}
+[[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE}
+[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL}
+[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH}
+
+[[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL}
+nordvpn set technology ${TECHNOLOGY:-NordLynx}
+
+[[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
+do
+  nordvpn whitelist add port "${port}"
+done
+[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE}
+
+docker_networks=$(dockerNetworks)
+if [[ -n ${docker_networks} ]]
+then
+  IFS=',' read -ra networks <<< "$docker_networks"
+  for net in "${networks[@]}"
+  do
+    network=($net)
+    nordvpn whitelist add subnet "${network[1]}"
+  done
+fi
+[[ -n ${NETWORK} && -z ${NET_LOCAL} ]] && NET_LOCAL=${NETWORK}
+[[ -n ${NET_LOCAL} ]] && for net in ${NET_LOCAL//[;,]/ }
+do
+  nordvpn whitelist add subnet "${net}"
+done
+
+exit 0

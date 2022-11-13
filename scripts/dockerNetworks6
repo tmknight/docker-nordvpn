@@ -1,0 +1,20 @@
+#!/bin/bash
+
+docker_networks=$(ip link | awk -F': ' '$0 !~ "lo|wg|tun|tap|^[^0-9]"{print $2;getline}' | cut -d@ -f1 | (
+  while read -r interface
+  do
+    network="$(ip -o addr show dev "$interface" | awk '$3 == "inet6" {print $4; exit}')"
+    if [ ! -z "$network" ]
+    then
+      if [ -z "$result" ]
+      then
+        result="$interface $network"
+      else
+        result="$result,$interface $network"
+      fi
+    fi
+  done
+  echo "$result"
+))
+echo "${docker_networks}"
+exit 0

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+shopt -s nocasematch; if [[ "${TECHNOLOGY:-NordLynx}" =~ "NordLynx" ]]
+then
+  echo "##########################################################################"
+  echo "Here is your Wireguard private Key: $(wg show nordlynx private-key)"
+  echo "IP: $(ip -o addr show dev nordlynx | awk '$3 == "inet" {print $4}')"
+  echo "##########################################################################"
+fi
+
+exit 0
