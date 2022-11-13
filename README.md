@@ -16,11 +16,11 @@ Build based on:
 * `TOKEN`     - Used in place of `USER` and `PASS` for NordVPN account, can be generated in the web portal
 * `PASSFILE` - File from which to get `PASS`, if using [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets) this should be set to `/run/secrets/<secret_name>`. This file should contain just the account password on the first line.
 * `CONNECT`  -  [country]/[server]/[country_code]/[city]/[group] or [country] [city], if none provide you will connect to  the recommended server.
-   - Provide a [country] argument to connect to a specific country. For example: Australia , Use `docker run --rm ghcr.io/bubuntux/nordvpn nordvpn countries` to get the list of countries.
+   - Provide a [country] argument to connect to a specific country. For example: Australia , Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn countries` to get the list of countries.
    - Provide a [server] argument to connect to a specific server. For example: jp35 , [Full List](https://nordvpn.com/servers/tools/)
    - Provide a [country_code] argument to connect to a specific country. For example: us 
-   - Provide a [city] argument to connect to a specific city. For example: 'Hungary Budapest' , Use `docker run --rm ghcr.io/bubuntux/nordvpn nordvpn cities [country]` to get the list of cities. 
-   - Provide a [group] argument to connect to a specific servers group. For example: P2P , Use `docker run --rm ghcr.io/bubuntux/nordvpn nordvpn groups` to get the full list.
+   - Provide a [city] argument to connect to a specific city. For example: 'Hungary Budapest' , Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn cities [country]` to get the list of cities. 
+   - Provide a [group] argument to connect to a specific servers group. For example: P2P , Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn groups` to get the full list.
    - --group value  Specify a server group to connect to. For example: '--group p2p us'
 * `PRE_CONNECT` - Command to execute before attempt to connect.
 * `POST_CONNECT` - Command to execute after successful connection.
