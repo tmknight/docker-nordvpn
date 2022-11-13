@@ -29,6 +29,9 @@ RUN apt-get update -qq \
   && mkdir -p /run/nordvpn
 COPY ./nordvpn_start.sh /usr/bin/start
 COPY ./scripts/ /usr/local/bin/
+RUN chmod +x \
+  /usr/bin/* \
+  /usr/local/bin/*
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
