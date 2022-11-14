@@ -52,7 +52,10 @@ then
 fi
 
 ## Long run script
+echo "###########################"
 echo "Startup complete"
+date
+echo "###########################"
 nord_watch &
 wait $!
 exit $?
