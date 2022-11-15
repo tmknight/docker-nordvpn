@@ -52,7 +52,7 @@ then
 fi
 
 ## Long run script
-echo "Startup complete |" $(date "+%F %T %z")
+echo -e $(date "+%F %T %z") "\tStartup complete"
 nord_watch &
 wait $!
 exit $?
