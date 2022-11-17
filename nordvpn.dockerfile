@@ -35,5 +35,5 @@ RUN chmod -R +x \
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
-  CMD nordvpn status | grep -Eio --color=never "Status: Connected" || exit 1
+  CMD (nordvpn status | grep -Eio --color=never "Status: Connected") || (echo "Status: Disconnected" && exit 1)
 CMD start
