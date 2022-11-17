@@ -14,7 +14,7 @@ docker_networks=$(ip link | awk -F': ' '$0 !~ "lo|wg|tun|tap|^[^0-9]"{print $2;g
       fi
     fi
   done
-  echo "$result"
+  echo -e $(date "+%F %T %z") "\tINFO\t$result"
 ))
-echo "${docker_networks}"
+echo -e $(date "+%F %T %z") "\tINFO\t${docker_networks}"
 exit 0

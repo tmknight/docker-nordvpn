@@ -28,7 +28,7 @@ rm /run/nordvpn/* 2>/dev/null
 nordvpnd >/dev/null &
 while [ ! -S /run/nordvpn/nordvpnd.sock ]
 do
-    echo "Waiting for nord daemon to start..."
+    echo -e $(date "+%F %T %z") "\tINFO\tWaiting for nord daemon to start..."
     sleep 2s
 done
 
@@ -52,7 +52,7 @@ then
 fi
 
 ## Long run script
-echo -e $(date "+%F %T %z") "\tStartup complete"
+echo -e $(date "+%F %T %z") "\tINFO\tStartup complete"
 nord_watch &
 wait $!
 exit $?

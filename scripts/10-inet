@@ -3,12 +3,12 @@
 docker_networks=$(dockerNetworks)
 if [ -z "$docker_networks" ]
 then
-  echo "No inet network"
+  echo -e $(date "+%F %T %z") "\tWARNING\tNo inet network"
   exit
 fi
 IFS=',' read -ra networks <<< "$docker_networks"
 
-echo "Enabling connection to secure interface and docker network"
+echo -e $(date "+%F %T %z") "\tINFO\tEnabling connection to secure interface and docker network"
 
 iptables -F
 iptables -X
