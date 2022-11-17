@@ -33,7 +33,7 @@ do
 done
 
 ## Start nordvpn
-echo -e $(date "+%F %T %z") "\tINFO\tConnecting..."
+echo -e $(date "+%F %T %z") "\tINFO\tConfiguring and connecting NordVPN..."
 echo "################"
 nord_config || exit $?
 nord_login || exit $?
