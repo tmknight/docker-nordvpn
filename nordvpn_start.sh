@@ -3,7 +3,6 @@
 ## Set iptables
 ## NET_LOCAL is blocked until VPN connected
 00-firewall
-# echo -e $(date "+%F %T %z") "\tINFO\tEnabling connection to secure interface and docker network"
 10-inet
 ## IPv6 support desired
 netipv6=$(dockerNetworks6)
@@ -34,12 +33,14 @@ do
 done
 
 ## Start nordvpn
+echo -e $(date "+%F %T %z") "\tINFO\tConnecting..."
+echo "################"
 nord_config || exit $?
 nord_login || exit $?
 nord_connect || exit $?
+echo "################"
 
 ## Allow NET_LOCAL traffic
-# echo -e $(date "+%F %T %z") "\tINFO\tRouting traffic through VPN interface"
 30-route
 ## IPv6 support desired
 if [ -n "$netipv6" ]
