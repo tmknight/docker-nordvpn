@@ -28,6 +28,7 @@ RUN apt-get update -qq \
   /var/tmp/* \
   && mkdir -p /run/nordvpn
 COPY ./nordvpn_start.sh /usr/bin/start
+COPY ./nordvpn_healthcheck.sh /usr/local/bin/healthcheck
 COPY ./scripts/ /usr/local/bin/
 RUN chmod -R +x \
   /usr/bin/ \
@@ -35,5 +36,5 @@ RUN chmod -R +x \
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
-  CMD (nordvpn status | grep -Eio --color=never "Status: Connected") || (echo "Status: Disconnected" && exit 1)
+  CMD /usr/local/bin/healthcheck
 CMD start
