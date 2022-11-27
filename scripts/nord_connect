@@ -2,16 +2,16 @@
 
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
-# echo -e $(date "+%F %T %z") "\tINFO\tConnecting..."
+# echo -e $(date "+%F %T%z") "\tINFO\tConnecting..."
 current_sleep=1
 until nordvpn connect ${CONNECT}
 do
   if [ ${current_sleep} -gt 4096 ]
   then
-    echo -e $(date "+%F %T %z") "\tWARNING\tUnable to connect."
+    echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect."
     exit 1
   fi
-  echo -e $(date "+%F %T %z") "\tWARNING\tUnable to connect retrying in ${current_sleep} seconds."
+  echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect retrying in ${current_sleep} seconds."
   sleep ${current_sleep}
   current_sleep=$((current_sleep * 2))
 done

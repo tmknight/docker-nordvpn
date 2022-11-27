@@ -5,12 +5,12 @@ do
   sleep "${CHECK_CONNECTION_INTERVAL:-300}"
   if [[ ! $(curl -Is -m 30 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-www.google.com}") =~ ^[23] ]]
   then
-    echo -e $(date "+%F %T %z") "\tWARNING\tUnstable connection detected!"
+    echo -e $(date "+%F %T%z") "\tWARNING\tUnstable connection detected!"
     nordvpn status
     # s6-svc -wR -t /var/run/s6/services/nordvpn
     if ! nord_connect
     then
-      echo -e $(date "+%F %T %z") "\tWARNING\tUnable to connect"
+      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect"
       exit 1
     fi
   fi
