@@ -34,11 +34,11 @@ done
 
 ## Start nordvpn
 echo -e $(date "+%F %T%z") "\tINFO\tConfiguring and connecting NordVPN..."
-echo "####################"
+echo "########################"
 nord_config || exit $?
 nord_login || exit $?
 nord_connect || exit $?
-echo "####################"
+echo "########################"
 
 ## Allow NET_LOCAL traffic
 30-route
