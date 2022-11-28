@@ -21,15 +21,17 @@ nordvpn logout > /dev/null
 
 if [[ -n ${TOKEN} ]]
 then
-  nordvpn login --token "${TOKEN}" || {
+  nordvpn login --token "${TOKEN}" > /dev/null || {
     echo -e $(date "+%F %T%z") "\tWARNING\tInvalid token."
     exit 1
   }
 else
-  nordvpn login --legacy --username "${USER}" --password "${PASS}" || {
+  nordvpn login --legacy --username "${USER}" --password "${PASS}" > /dev/null || {
     echo -e $(date "+%F %T%z") "\tWARNING\tInvalid Username or password."
     exit 1
   }
 fi
-
+## Clear sensitive variables
+unset TOKEN
+unset PASS
 exit 0
