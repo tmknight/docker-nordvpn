@@ -2,12 +2,12 @@
 
 if ! iptables -L > /dev/null 2>&1
 then
-  echo -e $(date "+%F %T%z") "\tWARNING\tFATAL: iptables is not functional. Ensure your container config adds --cap-add=NET_ADMIN,NET_RAW" 1>&2
+  echo -e $(date "+%F %T%z") "\tWARNING\tiptables is not functional. Ensure your container capabilities include NET_ADMIN" 1>&2
   # Null route rather than leaving traffic unprotected.
   ip route del default
   ip route del 0.0.0.0/1 > /dev/null 2>&1
   ip route add default via 127.0.0.1
-  echo -e $(date "+%F %T%z") "\tWARNING\t--- Due to errors, routing has been disabled ---" 1>&2
+  echo -e $(date "+%F %T%z") "\tWARNING\tDue to errors, routing has been disabled and further execution halted; please check your container configuration" 1>&2
   # Don't allow execution to proceed as traffic may not be protected. Don't exit either as
   # containers that expect to be behind the VPN will route through the normal network.
   while true

@@ -2,7 +2,6 @@
 
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
-# echo -e $(date "+%F %T%z") "\tINFO\tConnecting..."
 current_sleep=1
 until nordvpn connect ${CONNECT}
 do

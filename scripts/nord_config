@@ -1,20 +1,18 @@
 #!/bin/bash
 
-[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ }
-
-[[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC}
-[[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE}
-[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL}
-[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH}
-
-[[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL}
-nordvpn set technology ${TECHNOLOGY:-NordLynx}
+[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -v "New feature"
+[[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC} | grep -v "New feature"
+[[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -v "New feature"
+[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL} | grep -v "New feature"
+[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH} | grep -v "New feature"
+[[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL} | grep -v "New feature"
+nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -v "New feature"
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
-  nordvpn whitelist add port "${port}"
+  nordvpn whitelist add port "${port}" | grep -v "New feature"
 done
-[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE}
+[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE} | grep -v "New feature"
 
 docker_networks=$(dockerNetworks)
 if [[ -n ${docker_networks} ]]
@@ -23,13 +21,13 @@ then
   for net in "${networks[@]}"
   do
     network=($net)
-    nordvpn whitelist add subnet "${network[1]}"
+    nordvpn whitelist add subnet "${network[1]}" | grep -v "New feature"
   done
 fi
 [[ -n ${NETWORK} && -z ${NET_LOCAL} ]] && NET_LOCAL=${NETWORK}
 [[ -n ${NET_LOCAL} ]] && for net in ${NET_LOCAL//[;,]/ }
 do
-  nordvpn whitelist add subnet "${net}"
+  nordvpn whitelist add subnet "${net}" | grep -v "New feature"
 done
 
 exit 0
