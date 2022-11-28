@@ -8,7 +8,7 @@ function Set-Target {
     ## Target time
     eDATE=$(date "+%F %T%z" --date="$sDATE + $1min")
     ## Evaluation target value
-    tDATE=$(date "+%Y%m%H%M" --date="$eDATE")
+    tDATE=$(date "+%Y%m%d%H%M" --date="$eDATE")
     echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '$eDATE'"
 }
 Set-Target ${RECONNECT_INTERVAL}
@@ -17,7 +17,7 @@ while true
 do
   sleep ${CHECK_CONNECTION_INTERVAL:-60}s
   ## Reconnect evaluation value
-  nDATE=$(date "+%Y%m%H%M")
+  nDATE=$(date "+%Y%m%d%H%M")
 
   ## Evaluate connection to internet
   if [[ ! $(curl -Is -m 30 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
