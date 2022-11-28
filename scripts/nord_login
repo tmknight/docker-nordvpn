@@ -34,4 +34,5 @@ fi
 ## Clear sensitive variables
 unset TOKEN
 unset PASS
+echo "Login successful; connection now in progress..."
 exit 0
