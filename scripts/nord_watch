@@ -1,19 +1,52 @@
 #!/bin/bash
 
+## Establish reconnection target in minutes
+RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
+function Set-Target {
+    ## Current time
+    sDATE=$(date "+%H%M")
+    ## Target time
+    eDATE=$(date "+%F %T%z" --date="$sDATE + $1min")
+    ## Evaluation target value
+    tDATE=$(date "+%Y%m%H%M" --date="$eDATE")
+    echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '$eDATE'"
+}
+Set-Target ${RECONNECT_INTERVAL}
+## Evaluate connection state
 while true
 do
-  sleep "${CHECK_CONNECTION_INTERVAL:-300}"
-  if [[ ! $(curl -Is -m 30 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-www.google.com}") =~ ^[23] ]]
+  sleep ${CHECK_CONNECTION_INTERVAL:-60}s
+  ## Reconnect evaluation value
+  nDATE=$(date "+%Y%m%H%M")
+
+  ## Evaluate connection to internet
+  if [[ ! $(curl -Is -m 30 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
   then
-    echo -e $(date "+%F %T%z") "\tWARNING\tUnstable connection detected!"
+    ## Show status and retry connection
+    echo -e $(date "+%F %T%z") "\tWARNING\tUnstable connection detected"
     nordvpn status
-    # s6-svc -wR -t /var/run/s6/services/nordvpn
     if ! nord_connect
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect"
-      exit 1
+      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      CODE=1
+      break
     fi
+  ## Evaluate reconnect interval
+  elif [ $tDATE -le $nDATE ]
+  then
+    ## Reconnect
+    echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
+    echo "########################"
+    nordvpn disconnect
+    if ! nord_connect
+    then
+      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      CODE=2
+      break
+    fi
+    echo "########################"
+    ## Reset reconnection target
+    Set-Target ${RECONNECT_INTERVAL}
   fi
 done
-
-exit 0
+exit ${CODE:-3}
