@@ -37,7 +37,7 @@ do
     ## Reconnect
     echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
     echo "########################"
-    nordvpn disconnect | grep -Eiv "new (feature|version)"
+    nordvpn disconnect | grep -Eiv "(new (feature|version)|rate your connection)"
     if ! nord_connect
     then
       echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
