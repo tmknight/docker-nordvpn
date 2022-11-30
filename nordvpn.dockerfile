@@ -31,6 +31,7 @@ RUN apt-get update -qq \
 COPY ./nordvpn_start.sh /usr/bin/start
 COPY ./nordvpn_healthcheck.sh /usr/local/bin/healthcheck
 COPY ./scripts/ /usr/local/bin/
+COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/bin/ \
   /usr/local/bin/

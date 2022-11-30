@@ -1,18 +1,18 @@
 #!/bin/bash
 
-[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv "new (feature|version)"
-[[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv "new (feature|version)"
-[[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv "new (feature|version)"
-[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL} | grep -Eiv "new (feature|version)"
-[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv "new (feature|version)"
-[[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv "new (feature|version)"
-nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv "new (feature|version)"
+[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
+[[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
+[[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
+[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
+[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
+[[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
+nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
-  nordvpn whitelist add port "${port}" | grep -Eiv "new (feature|version)"
+  nordvpn whitelist add port "${port}" | grep -Eiv -f /opt/inv-grep
 done
-[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE} | grep -Eiv "new (feature|version)"
+[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE} | grep -Eiv -f /opt/inv-grep
 
 docker_networks=$(dockerNetworks)
 if [[ -n ${docker_networks} ]]
@@ -21,13 +21,13 @@ then
   for net in "${networks[@]}"
   do
     network=($net)
-    nordvpn whitelist add subnet "${network[1]}" | grep -Eiv "new (feature|version)"
+    nordvpn whitelist add subnet "${network[1]}" | grep -Eiv -f /opt/inv-grep
   done
 fi
 [[ -n ${NETWORK} && -z ${NET_LOCAL} ]] && NET_LOCAL=${NETWORK}
 [[ -n ${NET_LOCAL} ]] && for net in ${NET_LOCAL//[;,]/ }
 do
-  nordvpn whitelist add subnet "${net}" | grep -Eiv "new (feature|version)"
+  nordvpn whitelist add subnet "${net}" | grep -Eiv -f /opt/inv-grep
 done
 
 exit 0

@@ -3,7 +3,7 @@
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 current_sleep=1
-until nordvpn connect ${CONNECT} | grep -Eiv "new (feature|version)"
+until nordvpn connect ${CONNECT} | grep -Eiv -f /opt/inv-grep
 do
   if [ ${current_sleep} -gt 4096 ]
   then
