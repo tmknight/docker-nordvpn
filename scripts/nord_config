@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## Client information
+nordvpn version | grep -Eiv "new feature"
+
+## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
 [[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
 [[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
