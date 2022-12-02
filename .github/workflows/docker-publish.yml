@@ -7,7 +7,7 @@ name: Docker Package for NordVPN
 
 on:
   schedule:
-    - cron: '16 23 * * *'
+    - cron: '00 23 * * *'
   push:
     branches: [ "main" ]
     # Publish semver tags as releases.
