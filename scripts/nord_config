@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Client information
-nordvpn version | grep -Eiv "new feature"
+nordvpn version | grep -Ei -f /opt/reg-grep
 
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
