@@ -2,7 +2,7 @@
 STAT=$(nordvpn status | grep -Eio --color=never "Status: Connected")
 CHK=$(curl -Is -m 5 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}")
 CODE=0
-if [ -z "$STAT"]
+if [ -z "$STAT" ]
 then
     STAT="Status: Disconnected"
     CODE=1
