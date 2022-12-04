@@ -24,6 +24,7 @@ do
   then
     ## Show status and retry connection
     echo -e $(date "+%F %T%z") "\tWARNING\tUnstable connection detected"
+    echo "########################"
     nordvpn status | grep -Eiv -f /opt/inv-grep
     if ! nord_connect
     then
@@ -31,6 +32,7 @@ do
       CODE=1
       break
     fi
+    echo "########################"
   ## Evaluate reconnect interval
   elif [ $tDATE -le $nDATE ]
   then
