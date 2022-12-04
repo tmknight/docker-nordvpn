@@ -51,7 +51,7 @@ Build based on:
    * NordLynx - NordVpn wireguard implementation (3x-5x times faster than OpenVPN)
 * `PROTOCOL` - TCP or UDP (only valid when using OpenVPN Technology)
 * `ALLOW_LIST` - Comma delimited list of domains that are going to be accessible _outside_ vpn
-   - Example `ALLOW_LIST=rarbg.to,yts.mx`
+   - Example `ALLOW_LIST=somesite.jp,anothersite.us`
 * `NET_LOCAL` - Add a route to local IPv4 network once the VPN is up
    - CIDR IPv4 networks: `192.168.1.0/24`
 * `NET6_LOCAL` - Add a route to local IPv6 network once the VPN is up
