@@ -20,11 +20,11 @@ do
   nDATE=$(date "+%Y%m%d%H%M")
 
   ## Evaluate connection to internet
-  if [[ ! $(curl -Is -m 30 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
+  if [[ ! $(curl -Is -m 5 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
   then
     ## Show status and retry connection
     echo -e $(date "+%F %T%z") "\tWARNING\tUnstable connection detected"
-    nordvpn status
+    nordvpn status | grep -Eiv -f /opt/inv-grep
     if ! nord_connect
     then
       echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
@@ -37,7 +37,7 @@ do
     ## Reconnect
     echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
     echo "########################"
-    nordvpn disconnect | grep -Eiv -f /opt/inv-grep
+    nordvpn disconnect | grep -Ei -f /opt/reg-grep
     if ! nord_connect
     then
       echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
