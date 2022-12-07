@@ -7,7 +7,7 @@ Build based on:
 
 `Ubuntu 22.04`
 
-`NordVPN 3.15.1`
+`NordVPN 3.15.2`
 
 # ENVIRONMENT VARIABLES
 
