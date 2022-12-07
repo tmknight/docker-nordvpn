@@ -3,7 +3,7 @@
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 current_sleep=1
-until nordvpn connect ${CONNECT} | grep -Ei -f /opt/reg-grep | grep -Eiv version
+until nordvpn connect ${CONNECT} | grep -Ei -f /opt/reg-grep
 do
   if [ ${current_sleep} -gt 32 ]
   then
