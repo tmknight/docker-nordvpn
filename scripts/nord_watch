@@ -3,15 +3,22 @@
 ## Establish reconnection target in minutes
 RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
 function Set-Target {
-    ## Current time
-    sDATE=$(date "+%H%M")
-    ## Target time
-    eDATE=$(date "+%F %T%z" --date="$sDATE + $1min")
-    ## Evaluation target value
-    tDATE=$(date "+%Y%m%d%H%M" --date="$eDATE")
-    echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '$eDATE'"
+  ## Current time
+  sDATE=$(date "+%H%M")
+  ## Target time
+  eDATE=$(date "+%F %T%z" --date="$sDATE + $1min")
+  ## Evaluation target value
+  tDATE=$(date "+%Y%m%d%H%M" --date="$eDATE")
+  echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '$eDATE'"
 }
-Set-Target ${RECONNECT_INTERVAL}
+## Determine if periodic reconnection is enabled
+if [ $RECONNECT_INTERVAL -ne 0 ]
+then
+  Set-Target ${RECONNECT_INTERVAL}
+else
+  echo -e $(date "+%F %T%z") "\tINFO\tPeriodic VPN reconnection is disabled"
+fi
+
 ## Evaluate connection state
 while true
 do
@@ -34,21 +41,24 @@ do
     fi
     echo "########################"
   ## Evaluate reconnect interval
-  elif [ $tDATE -le $nDATE ]
+  elif [ $RECONNECT_INTERVAL -ne 0 ]
   then
-    ## Reconnect
-    echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
-    echo "########################"
-    nordvpn disconnect | grep -Ei -f /opt/reg-grep | grep -Eiv version
-    if ! nord_connect
+    if [ $tDATE -le $nDATE ]
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
-      CODE=2
-      break
-    fi
-    echo "########################"
-    ## Reset reconnection target
-    Set-Target ${RECONNECT_INTERVAL}
+      ## Reconnect
+      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
+      echo "########################"
+      nordvpn disconnect | grep -Ei -f /opt/reg-grep
+      if ! nord_connect
+      then
+        echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+        CODE=2
+        break
+      fi
+      echo "########################"
+      ## Reset reconnection target
+      Set-Target ${RECONNECT_INTERVAL}
+      fi
   fi
 done
 exit ${CODE:-3}

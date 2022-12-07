@@ -64,5 +64,5 @@ Build based on:
    - Example `- CHECK_CONNECTION_INTERVAL=300`
 * `CHECK_CONNECTION_URL` - URL for checking Internet connection. (default = https://www.google.com)
    - Example `- CHECK_CONNECTION_URL=www.custom.domain`
-* `REFRESH_CONNECTION_INTERVAL` - Time in minutes to trigger VPN reconnection to help ensure best connection available (default = 120)
+* `REFRESH_CONNECTION_INTERVAL` - Time in minutes to trigger VPN reconnection to help ensure best connection available (default = 120; disable = 0)
    - Example `- REFRESH_CONNECTION_INTERVAL=240`
