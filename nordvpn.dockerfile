@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.title=nordvpn
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL autoheal=true
-ARG NORDVPN_VERSION=3.15.1
+ARG NORDVPN_VERSION=3.15.2
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get install -y -qq \
