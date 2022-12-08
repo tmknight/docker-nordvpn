@@ -37,19 +37,19 @@ Build based on:
          - Example `--group p2p us`
 * `PRE_CONNECT` - Command to execute before attempt to connect
 * `POST_CONNECT` - Command to execute after successful connection
-* `CYBER_SEC` - Enable or Disable
+* `CYBER_SEC` - Enable or Disable (default = Disable)
    -  When enabled, the CyberSec feature will automatically block suspicious websites so that no malware or other cyber threats can infect your device
    - Additionally, no flashy ads will come into your sight
    - More information on how it works: https://nordvpn.com/features/cybersec/
-* `DNS` - Up to 3 DNS servers or Disable (Setting DNS disables CyberSec)
+* `DNS` - Up to 3 DNS servers or Disable (Setting DNS disables CyberSec; default = NordVPN DNS servers)
    - Example `1.1.1.1,8.8.8.8`
-* `FIREWALL` - Enable or Disable
-* `OBFUSCATE` - Enable or Disable
+* `FIREWALL` - Enable or Disable (default = Enable)
+* `OBFUSCATE` - Enable or Disable (default = Disable)
    - When enabled, this feature allows to bypass network traffic sensors which aim to detect usage of the protocol and log, throttle or block it (only valid when using OpenVpn)
-* `TECHNOLOGY` - Specify Technology to use (NordLynx by default)
+* `TECHNOLOGY` - Specify Technology to use (default = NordLynx)
    * OpenVPN - Traditional connection.
    * NordLynx - NordVpn wireguard implementation (3x-5x times faster than OpenVPN)
-* `PROTOCOL` - TCP or UDP (only valid when using OpenVPN Technology)
+* `PROTOCOL` - TCP or UDP (only valid when using OpenVPN Technology; default = UDP)
 * `ALLOW_LIST` - Comma delimited list of domains that are going to be accessible _outside_ vpn
    - Example `ALLOW_LIST=somesite.ch,anothersite.au`
 * `NET_LOCAL` - Add a route to local IPv4 network once the VPN is up
