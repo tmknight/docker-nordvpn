@@ -1,6 +1,8 @@
 # docker-nordvpn
 NordVPN client for Docker
 
+Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
+
 Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
 
 Build based on:
