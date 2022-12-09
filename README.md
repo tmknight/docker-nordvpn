@@ -29,19 +29,18 @@ Add capabilities:
 * `PASSFILE` - File from which to get `PASS`
    - If using [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets) this should be set to `/run/secrets/<secret_name>`
    - This file should contain just the account password on the first line.
-* `CONNECT` - [country]/[server]/[country_code]/[city]/[group] or [country] [city], if none provide you will connect to  the recommended server.
-   - Provide a [country] argument to connect to a specific country. For example: Australia , Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn countries` to get the list of countries.
+* `CONNECT` - [country]/[server]/[country_code]/[city]/[group] or [country] [city] (default = connect to  the recommended server).
+   - Use [NordVPN API](https://github.com/tmknight/docker-nordvpn/edit/main/README.md#additional-information) to get the list of countries, cities, etc.
+   - Provide a [country] argument to connect to a specific country
+      - Example `CONNECT=Australia`
    - Provide a [server] argument to connect to a specific server
       - Example `CONNECT=jp35`
-      - [Full List](https://nordvpn.com/servers/tools/)
    - Provide a [country_code] argument to connect to a specific country
       - Example `CONNECT=us`
    - Provide a [city] argument to connect to a specific city
       - Example `CONNECT=Hungary Budapest`
-      - Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn cities [country]` to get the list of cities
    - Provide a [group] argument to connect to a specific servers group
       - Example `CONNECT=P2P`
-      - Use `docker run --rm ghcr.io/tmknight/nordvpn nordvpn groups` to get the full list
       - `--group` value  Specify a server group to connect to
          - Example `--group p2p us`
 * `PRE_CONNECT` - Command to execute before attempt to connect
@@ -76,6 +75,10 @@ Add capabilities:
 * `REFRESH_CONNECTION_INTERVAL` - Time in minutes to trigger VPN reconnection to help ensure best connection available (default = 120; disable = 0)
    - Example `- REFRESH_CONNECTION_INTERVAL=240`
 
+# Additional Information
+
+* Using the NordVPN API
+  - https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api/
 
 # Credits
 
