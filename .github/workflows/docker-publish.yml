@@ -7,16 +7,16 @@ name: Docker Image for NordVPN
 
 on:
   workflow_dispatch:
+  release:
+    types: [published]
   # schedule:
     # - cron: '10 00 * * *'
-  # release:
-    # types: [published]
-  push:
-    paths-ignore:
-      - '.github/**'
+  # push:
+    # paths-ignore:
+      # - '.github/**'
     # branches: [ "main" ]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    # tags: [ 'v*.*.*' ]
 
 env:
   # Use docker.io for Docker Hub if empty
