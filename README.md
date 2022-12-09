@@ -77,7 +77,7 @@ Add capabilities:
 
 # Additional Information
 
-* Using the NordVPN API
+Using the NordVPN API:
   - https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api/
 
 # Credits
