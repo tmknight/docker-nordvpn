@@ -2,6 +2,8 @@ name: Docker Image CI for NordVPN
 
 on:
   push:
+    paths-ignore:
+      - '.github/**'
     branches: [ "main" ]
     tags: [ 'v*.*.*' ]
   # pull_request:
