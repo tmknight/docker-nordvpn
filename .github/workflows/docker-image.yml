@@ -3,8 +3,9 @@ name: Docker Image CI for NordVPN
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags: [ 'v*.*.*' ]
+  # pull_request:
+    # branches: [ "main" ]
 
 jobs:
 
