@@ -9,6 +9,8 @@ on:
   schedule:
     - cron: '00 13 * * *'
   push:
+    paths-ignore:
+      - '.github/**'
     # branches: [ "main" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
