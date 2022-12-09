@@ -8,6 +8,8 @@ name: GitHub Package for NordVPN
 on:
   schedule:
     - cron: '00 23 * * *'
+  release:
+    types: [published]
   push:
     paths-ignore:
       - '.github/**'
@@ -16,9 +18,7 @@ on:
       - '.LICENSE'
     branches: [ "main" ]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  # pull_request:
-    # branches: [ "main" ]
+    # tags: [ 'v*.*.*' ]
 
 env:
   # Use docker.io for Docker Hub if empty
