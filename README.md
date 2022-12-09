@@ -1,5 +1,6 @@
 ![GitHubPackage](https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg)
 ![DockerPublishing](https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg)
+![DockerPulls](https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Image+Pulls&labelColor=black&color=green)
 # docker-nordvpn
 NordVPN client for Docker
 
