@@ -1,3 +1,4 @@
+![DockerHub Publishing](https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-image/badge.svg)
 # docker-nordvpn
 NordVPN client for Docker
 
