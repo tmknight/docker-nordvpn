@@ -1,3 +1,4 @@
+![GitHubPackage](https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg)
 ![DockerPublishing](https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg)
 # docker-nordvpn
 NordVPN client for Docker
