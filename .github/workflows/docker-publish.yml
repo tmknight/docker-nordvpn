@@ -7,8 +7,8 @@ name: Docker Image for NordVPN
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '10 00 * * *'
+  # schedule:
+    # - cron: '10 00 * * *'
   push:
     paths-ignore:
       - '.github/**'
