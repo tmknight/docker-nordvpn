@@ -6,6 +6,7 @@ name: Docker Image for NordVPN
 # documentation.
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '00 13 * * *'
   push:
