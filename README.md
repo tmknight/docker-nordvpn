@@ -1,20 +1,20 @@
 ![GitHubPackage](https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg)
 ![DockerPublishing](https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg)
 ![DockerPulls](https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Image+Pulls&labelColor=black&color=green)
-# docker-nordvpn
-NordVPN client for Docker
+# NordVPN client for Docker
 
 Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
 
-Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
+# The Essentials
 
 Build based on:
+- Ubuntu `22.04`
+- NordVPN `3.15.2`
 
-`Ubuntu 22.04`
+Docker Hub repository:
+- https://hub.docker.com/repository/docker/tmknight88/nordvpn
 
-`NordVPN 3.15.2`
-
-# ENVIRONMENT VARIABLES
+# Environment Variables
 
 * `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
    -  Generated from your NordVPN account web portal
@@ -71,3 +71,8 @@ Build based on:
    - Example `- CHECK_CONNECTION_URL=www.custom.domain`
 * `REFRESH_CONNECTION_INTERVAL` - Time in minutes to trigger VPN reconnection to help ensure best connection available (default = 120; disable = 0)
    - Example `- REFRESH_CONNECTION_INTERVAL=240`
+
+
+# Credits
+
+Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
