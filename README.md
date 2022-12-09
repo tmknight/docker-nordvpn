@@ -1,5 +1,5 @@
 # docker-nordvpn
-NordVPN for Docker
+NordVPN client for Docker
 
 Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
 
