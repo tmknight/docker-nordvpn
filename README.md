@@ -32,7 +32,7 @@ IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/i
       
 # Environment Variables
 
-Generally, the default settings will provide a great experience, however, several are available to provide flexibility:
+Generally, the default settings will provide a great experience, however, several environment variables are available to provide flexibility:
 
 * `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
    -  Generated from your NordVPN account web portal
