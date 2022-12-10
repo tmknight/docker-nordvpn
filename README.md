@@ -22,8 +22,7 @@ Add capabilities:
 - NET_ADMIN
 
 Environment variables:
-- USER
-- TOKEN (or PASS/PASSFILE)
+- TOKEN (or USER & PASS/PASSFILE)
 - NET_LOCAL (not really required, but it should be set)
 
 # Recommendations
@@ -35,10 +34,10 @@ IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/i
 
 Generally, the default settings will provide a great experience, however, several are available to provide flexibility:
 
-* `USER` - User for NordVPN account
-   - Not required when using `TOKEN`
 * `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
    -  Generated from your NordVPN account web portal
+* `USER` - User for NordVPN account
+   - Not required when using `TOKEN`
 * `PASS` - Password for NordVPN account
    - Surround in single quotes to prevent issues with special characters such as `$`.
    - Not required when using `TOKEN` or `PASSFILE`
