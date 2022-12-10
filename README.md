@@ -45,7 +45,7 @@ Generally, the default settings will provide a great experience, however, severa
    - If using [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets), this should be set to `/run/secrets/<secret_name>`
    - This file should contain just the account password on the first line.
 * `CONNECT` - [country]/[server]/[country_code]/[city]/[group] or [country] [city] (default = connect to  the recommended server).
-   - Use [NordVPN API](https://github.com/tmknight/docker-nordvpn/edit/main/README.md#additional-information) to get the list of countries, cities, etc.
+   - Use [NordVPN API](https://github.com/tmknight/docker-nordvpn#additional-information) to get the list of countries, cities, etc.
    - Provide a [country] argument to connect to a specific country
       - Example `CONNECT=Australia`
    - Provide a [server] argument to connect to a specific server
