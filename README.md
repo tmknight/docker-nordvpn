@@ -96,4 +96,4 @@ Using the NordVPN API:
 Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
 
 # Disclaimers
-This project is independently developed for personal use; there is no affiliation with NordVpn or Nord Security companies.  Nord Security companies are not responsible for nor have control over the nature, content and availability of this project.
+This project is independently developed for personal use; there is no affiliation with NordVpn or Nord Security companies.  Nord Security companies are not responsible for, nor have control over, the nature, content and availability of this project.
