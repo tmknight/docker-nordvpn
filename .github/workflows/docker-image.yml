@@ -4,9 +4,10 @@ on:
   push:
     paths-ignore:
       - '.github/**'
-      - '.*.md'
-      - '..gitignore'
-      - '.LICENSE'
+    paths:
+      - '!.*.md'
+      - '!..*'
+      - '!.LICENSE'
     branches: [ "main" ]
     tags: [ 'v*.*.*' ]
   # pull_request:
