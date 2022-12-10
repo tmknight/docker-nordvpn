@@ -20,8 +20,7 @@ fi
 
 ## Not sure about wanting to include this
 ## Seems prudent as these are non-VPN connections
-## TBD
-# 40-allowlist >/dev/null
+40-allowlist >/dev/null
 
 ## Start nordvpn daemon
 rm /run/nordvpn/* 2>/dev/null
