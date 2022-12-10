@@ -21,6 +21,11 @@ Examples:
 Add capabilities:
 - NET_ADMIN
 
+Environment variables:
+- USER
+- TOKEN (or PASS/PASSFILE)
+- NET_LOCAL (not really required, but it should be set)
+
 # Recommendations
 IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/ipv4-vs-ipv6/#:~:text=You%20might%20be%20wondering%20what,tunnel%20with%20the%20IPv4%20protocol.) by most VPN providers at this time.  Therefore, it is recommended to disable IPv6 support in your container: 
 
@@ -28,10 +33,12 @@ IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/i
       
 # Environment Variables
 
-* `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
-   -  Generated from your NordVPN account web portal
+Generally, the default settings will provide a great experience, however, several are available to provide flexibility:
+
 * `USER` - User for NordVPN account
    - Not required when using `TOKEN`
+* `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
+   -  Generated from your NordVPN account web portal
 * `PASS` - Password for NordVPN account
    - Surround in single quotes to prevent issues with special characters such as `$`.
    - Not required when using `TOKEN` or `PASSFILE`
