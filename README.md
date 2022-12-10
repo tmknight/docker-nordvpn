@@ -6,7 +6,6 @@
 Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
 
 # The Essentials
-
 Build based on:
 - Ubuntu `22.04`
 - NordVPN `3.15.2`
@@ -31,7 +30,6 @@ IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/i
 `net.ipv6.conf.all.disable_ipv6=1`
       
 # Environment Variables
-
 Generally, the default settings will provide a great experience, however, several environment variables are available to provide flexibility:
 
 * `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
@@ -91,10 +89,11 @@ Generally, the default settings will provide a great experience, however, severa
    - Example `REFRESH_CONNECTION_INTERVAL=240`
 
 # Additional Information
-
 Using the NordVPN API:
   - https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api/
 
 # Credits
-
 Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
+
+# Disclaimers
+This project is independently developed for personal use; there is no affiliation with NordVpn or Nord Security companies.  Nord Security companies are not responsible for nor have control over the nature, content and availability of this project.
