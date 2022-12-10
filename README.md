@@ -22,7 +22,7 @@ Add capabilities:
 - NET_ADMIN
 
 # Recommendations
-IPv6 support is limited and generally not recommended at this time with most VPNs.  It is recommended to disable IPv6 support in your container: 
+IPv6 support is limited and generally not recommended at this time with most VPNs.  Therefore, it is recommended to disable IPv6 support in your container: 
 
 `net.ipv6.conf.all.disable_ipv6=1`
       
