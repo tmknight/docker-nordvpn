@@ -14,6 +14,9 @@ Build based on:
 Docker Hub repository:
 - https://hub.docker.com/repository/docker/tmknight88/nordvpn
 
+Examples:
+- [nordvpn_proxy.yml](https://github.com/tmknight/docker-nordvpn/blob/main/nordvpn_proxy.yml)
+
 # Requirements
 Add capabilities:
 - NET_ADMIN
@@ -24,10 +27,11 @@ Add capabilities:
    -  Generated from your NordVPN account web portal
 * `USER` - User for NordVPN account
    - Not required when using `TOKEN`
-* `PASS` - Password for NordVPN account, surrounding the password in single quotes will prevent issues with special characters such as `$`.
+* `PASS` - Password for NordVPN account
+   - Surround in single quotes to prevent issues with special characters such as `$`.
    - Not required when using `TOKEN` or `PASSFILE`
 * `PASSFILE` - File from which to get `PASS`
-   - If using [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets) this should be set to `/run/secrets/<secret_name>`
+   - If using [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets), this should be set to `/run/secrets/<secret_name>`
    - This file should contain just the account password on the first line.
 * `CONNECT` - [country]/[server]/[country_code]/[city]/[group] or [country] [city] (default = connect to  the recommended server).
    - Use [NordVPN API](https://github.com/tmknight/docker-nordvpn/edit/main/README.md#additional-information) to get the list of countries, cities, etc.
