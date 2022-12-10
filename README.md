@@ -21,6 +21,11 @@ Examples:
 Add capabilities:
 - NET_ADMIN
 
+# Recommendations
+IPv6 support is limited and generally not recommended at this time with most VPNs.  It is recommended to disable IPv6 support in your container: 
+
+`net.ipv6.conf.all.disable_ipv6=1`
+      
 # Environment Variables
 
 * `TOKEN` - RECOMMENDED and used in place of `USER` and `PASS` for NordVPN account
@@ -53,31 +58,33 @@ Add capabilities:
    -  When enabled, the CyberSec feature will automatically block suspicious websites so that no malware or other cyber threats can infect your device
    - Additionally, no flashy ads will come into your sight
    - More information on how it works: https://nordvpn.com/features/cybersec/
-* `DNS` - Up to 3 DNS servers or Disable (Setting DNS disables CyberSec; default = NordVPN DNS servers)
+* `DNS` - Up to 3 DNS servers or Disable (setting DNS disables CyberSec; default = NordVPN DNS servers)
    - Example `1.1.1.1,8.8.8.8`
 * `FIREWALL` - Enable or Disable (default = Enable)
-* `OBFUSCATE` - Enable or Disable (default = Disable)
-   - When enabled, this feature allows to bypass network traffic sensors which aim to detect usage of the protocol and log, throttle or block it (only valid when using OpenVpn)
+* `OBFUSCATE` - Enable or Disable (only valid when using OpenVpn; default = Disable)
+   - When enabled, this feature allows to bypass network traffic sensors which aim to detect usage of the protocol and log, throttle or block it
 * `TECHNOLOGY` - Specify Technology to use (default = NordLynx)
    * OpenVPN - Traditional connection.
-   * NordLynx - NordVpn wireguard implementation (3x-5x times faster than OpenVPN)
-* `PROTOCOL` - TCP or UDP (only valid when using OpenVPN Technology; default = UDP)
+   * NordLynx - NordVpn wireguard implementation (much faster than OpenVPN)
+* `PROTOCOL` - TCP or UDP (only valid when using OpenVPN; default = UDP)
 * `ALLOW_LIST` - Comma delimited list of domains that are going to be accessible _outside_ vpn
    - Example `ALLOW_LIST=somesite.com,anothersite.net`
 * `NET_LOCAL` - Add a route to local IPv4 network once the VPN is up
    - CIDR IPv4 networks: `192.168.1.0/24`
+   - The Docker network is automatically added
 * `NET6_LOCAL` - Add a route to local IPv6 network once the VPN is up
    - CIDR IPv6 networks `fe00:d34d:b33f::/64`
+   - The Docker network is automatically added
 * `PORTS` - Semicolon delimited list of ports to whitelist for both UDP and TCP
-   - Example `- PORTS=9091;9095`
+   - Example `PORTS=9091;9095`
 * `PORT_RANGE` - Port range to whitelist for both UDP and TCP
-   - Example `- PORT_RANGE=9091 9095`
+   - Example `PORT_RANGE=9091 9095`
 * `CHECK_CONNECTION_INTERVAL` - Time in seconds to check connection and reconnect if need it. (default = 60)
-   - Example `- CHECK_CONNECTION_INTERVAL=300`
+   - Example `CHECK_CONNECTION_INTERVAL=300`
 * `CHECK_CONNECTION_URL` - URL for checking Internet connection. (default = https://www.google.com)
-   - Example `- CHECK_CONNECTION_URL=www.custom.domain`
+   - Example `CHECK_CONNECTION_URL=www.custom.domain`
 * `REFRESH_CONNECTION_INTERVAL` - Time in minutes to trigger VPN reconnection to help ensure best connection available (default = 120; disable = 0)
-   - Example `- REFRESH_CONNECTION_INTERVAL=240`
+   - Example `REFRESH_CONNECTION_INTERVAL=240`
 
 # Additional Information
 
