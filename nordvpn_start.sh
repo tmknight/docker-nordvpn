@@ -20,6 +20,7 @@ fi
 
 ## Not sure about wanting to include this
 ## Seems prudent as these are non-VPN connections
+## WIP
 40-allowlist
 
 ## Start nordvpn daemon

@@ -7,7 +7,7 @@ then
   do
     domain=$(echo "$domain" | sed 's/^.*:\/\///;s/\/.*$//')
     echo -e $(date "+%F %T%z") "\tINFO\tEnabling unsecured connection to host '${domain}'"
-    iptables  -A OUTPUT -o eth0 -d "${domain}" -j ACCEPT 2>/dev/null
-    ip6tables -A OUTPUT -o eth0 -d "${domain}" -j ACCEPT 2>/dev/null
+    iptables  -A OUTPUT -o eth0 -d "${domain}" -j ACCEPT # 2>/dev/null
+    [[ -n $(dockerNetworks6) ]] && ip6tables -A OUTPUT -o eth0 -d "${domain}" -j ACCEPT # 2>/dev/null
   done
 fi
