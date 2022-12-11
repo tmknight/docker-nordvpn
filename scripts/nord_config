@@ -34,4 +34,9 @@ do
   nordvpn whitelist add subnet "${net}" | grep -Eiv -f /opt/inv-grep
 done
 
+[[ -n ${ALLOW_LIST} ]] && for net in ${ALLOW_LIST}//[;,]/ }
+do
+  nordvpn whitelist add subnet "${net}" | grep -Eiv -f /opt/inv-grep
+done
+
 exit 0
