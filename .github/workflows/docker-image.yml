@@ -7,8 +7,8 @@ on:
       - '*.md'
       - '.*'
       - '.LICENSE'
-    branches: [ "main" ]
-    tags: [ 'v*.*.*' ]
+    # branches: [ "main" ]
+    # tags: [ 'v*.*.*' ]
   # pull_request:
     # branches: [ "main" ]
 
