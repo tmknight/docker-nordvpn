@@ -1,5 +1,6 @@
 #!/bin/bash
 
+shopt -s nocasematch
 ## Set iptables
 ## NET_LOCAL is blocked until VPN connected
 00-firewall
@@ -12,7 +13,6 @@ then
 fi
 
 ## if not using Nordlynx
-shopt -s nocasematch
 if [[ ${TECHNOLOGY} != "NordLynx" ]]
 then
     20-tun
@@ -46,7 +46,7 @@ fi
 ## Not sure about wanting to include this
 ## Seems prudent as these are non-VPN connections
 ## WIP
-40-allowlist
+[[ "${FIREWALL:-false}" == "false" ]] && 40-allowlist
 
 ## Expose private key with Wireguard
 if [ $(which wg) ]

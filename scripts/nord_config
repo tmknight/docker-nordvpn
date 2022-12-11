@@ -1,16 +1,26 @@
 #!/bin/bash
 
 ## Client information
-nordvpn version | grep -Ei version
+nordvpn version | grep -Eiv "new feature"
 
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
 [[ -n ${CYBER_SEC} ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
 [[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
-[[ -n ${FIREWALL} ]] && nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
-[[ -n ${KILLSWITCH} ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
 [[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
+nordvpn set firewall ${FIREWALL:-false} | grep -Eiv -f /opt/inv-grep
+## Firewall must be enabled to enable killswitch
+## Be warned that NordVPn firewall = true breaks ALLOW_LIST
+shopt -s nocasematch
+if [[ "${FIREWALL:-false}" == "true" ]]
+then
+  if [[ -n ${KILLSWITCH} ]]
+  then
+    nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
+  fi
+  [[ -n ${ALLOW_LIST} ]] && echo -e $(date "+%F %T%z") "\tWARNING\tNordVPN firewall use overrides ALLOW_LIST; ALLOW_LIST will not be honored"
+fi
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
