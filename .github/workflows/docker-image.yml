@@ -1,12 +1,13 @@
 name: Docker Image CI for NordVPN
 
 on:
-  push:
-    paths-ignore:
-      - '.github/**'
-      - '*.md'
-      - '.*'
-      - '.LICENSE'
+  workflow_dispatch:
+  # push:
+    # paths-ignore:
+      # - '.github/**'
+      # - '*.md'
+      # - '.*'
+      # - '.LICENSE'
     # branches: [ "main" ]
     # tags: [ 'v*.*.*' ]
   # pull_request:
@@ -21,4 +22,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      # run: docker build . --file nordvpn.dockerfile --tag nordvpn:$(date +%s)
+      run: docker build . --file nordvpn.dockerfile --tag nordvpn:$(date +%s)
