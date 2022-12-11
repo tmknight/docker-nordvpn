@@ -1,6 +1,7 @@
-![GitHubPackage](https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg)
-![DockerPublishing](https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg)
-![DockerPulls](https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Image+Pulls&labelColor=black&color=green)
+[![GitHubPackage][GitHubPackageBadge]][GitHubLink]
+[![DockerPublishing][DockerPublishingBadge]][DockerLink]
+[![DockerPulls][DockerPullsBadge]][DockerLink]
+
 # NordVPN client for Docker
 
 Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
@@ -97,3 +98,9 @@ Scripts based on the excellent work of https://github.com/bubuntux/nordvpn
 
 # Disclaimers
 This project is independently developed for personal use; there is no affiliation with NordVpn or Nord Security companies.  Nord Security companies are not responsible for, nor have control over, the nature, content and availability of this project.
+
+[GitHubPackageBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg
+[GitHubLink]: https://github.com/tmknight/docker-nordvpn
+[DockerPublishingBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg
+[DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Image+Pulls&labelColor=black&color=green
+[DockerLink]: https://hub.docker.com/r/tmknight88/nordvpn
