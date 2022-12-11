@@ -24,7 +24,7 @@ Add [capabilities](https://docs.docker.com/engine/reference/run/#runtime-privile
 
 Environment variables:
 - TOKEN (or USER & PASS/PASSFILE)
-- NET_LOCAL (not really required, but it should be set)
+- NET_LOCAL (technically not required for the container to work, but it should be set if local traffic is to be routed through VPN)
 
 # Recommendations
 IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/ipv4-vs-ipv6/#:~:text=You%20might%20be%20wondering%20what,tunnel%20with%20the%20IPv4%20protocol.) by most VPN providers at this time.  Therefore, it is recommended to disable IPv6 support in your container via [sysctl](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime): 
