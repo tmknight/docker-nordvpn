@@ -10,7 +10,7 @@ nordvpn version | grep -Eiv "new feature"
 [[ -n ${OBFUSCATE} ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
 [[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
-## NordVPN firewall disabled by default
+## NordVPN firewall enabled by default
 [[ -z ${FIREWALL} ]] && FIREWALL=true
 nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
 ## Firewall must be enabled to enable killswitch
