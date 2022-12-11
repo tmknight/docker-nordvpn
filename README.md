@@ -60,18 +60,17 @@ Generally, the default settings will provide a great experience, however, severa
          - Example `--group p2p us`
 * `PRE_CONNECT` - Command to execute before attempt to connect
 * `POST_CONNECT` - Command to execute after successful connection
-* `CYBER_SEC` - Enable or Disable (default = Disable)
-   -  When enabled, the CyberSec feature will automatically block suspicious websites so that no malware or other cyber threats can infect your device
-   - Additionally, no flashy ads will come into your sight
-   - More information on how it works: https://nordvpn.com/features/cybersec/
 * `DNS` - Up to 3 DNS servers or Disable (setting DNS disables CyberSec; default = NordVPN DNS servers)
    - Example `1.1.1.1,8.8.8.8`
-* `FIREWALL` - Enable or Disable (default = Enable)
-* `OBFUSCATE` - Enable or Disable (only valid when using OpenVpn; default = Disable)
-   - When enabled, this feature allows to bypass network traffic sensors which aim to detect usage of the protocol and log, throttle or block it
+* `FIREWALL` - TRUE or FALSE (default = TRUE)
+* `KILLSWITCH` - TRUE or FALSE (FIREWALL must also be true; default = TRUE)
+* `OBFUSCATE` - TRUE or FALSE (only valid when using OpenVpn; default = FALSE)
+   - Learn more at https://nordvpn.com/features/obfuscated-servers/
+* `CYBER_SEC` - TRUE or FALSE (default = FALSE)
+   - Learn more at https://nordvpn.com/features/cybersec/
 * `TECHNOLOGY` - Specify Technology to use (default = NordLynx)
-   * OpenVPN - Traditional connection.
-   * NordLynx - NordVpn wireguard implementation (much faster than OpenVPN)
+   - OpenVPN - Traditional connection.
+   - NordLynx - NordVpn wireguard implementation (much faster than OpenVPN)
 * `PROTOCOL` - TCP or UDP (only valid when using OpenVPN; default = UDP)
 * `NET_LOCAL` - Add a route to local IPv4 network once the VPN is up
    - CIDR IPv4 networks: `192.168.1.0/24`
