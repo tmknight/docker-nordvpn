@@ -48,7 +48,7 @@ fi
 ## WIP
 if [[ -n ${ALLOW_LIST} ]]
 then
-    if [[ "${FIREWALL:-false}" == "false" ]]
+    if [[ "${FIREWALL:-true}" == "false" ]]
     then
         40-allowlist
     else

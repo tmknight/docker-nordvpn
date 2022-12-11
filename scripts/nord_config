@@ -11,16 +11,13 @@ nordvpn version | grep -Eiv "new feature"
 [[ -n ${PROTOCOL} ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
 ## NordVPN firewall disabled by default
-[[ -z ${FIREWALL} ]] && FIREWALL=false
+[[ -z ${FIREWALL} ]] && FIREWALL=true
 nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
 ## Firewall must be enabled to enable killswitch
 ## Be warned that NordVPn firewall = true breaks ALLOW_LIST
 if [[ "${FIREWALL}" == "true" ]]
 then
-  if [[ -n ${KILLSWITCH} ]]
-  then
-    nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
-  fi
+  nordvpn set killswitch ${KILLSWITCH:-true} | grep -Eiv -f /opt/inv-grep
 fi
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
