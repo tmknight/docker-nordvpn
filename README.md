@@ -102,5 +102,5 @@ This project is independently developed for personal use; there is no affiliatio
 [GitHubPackageBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg
 [GitHubLink]: https://github.com/tmknight/docker-nordvpn
 [DockerPublishingBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg
-[DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Image+Pulls&labelColor=black&color=green
+[DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=black&color=green
 [DockerLink]: https://hub.docker.com/r/tmknight88/nordvpn
