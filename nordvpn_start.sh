@@ -46,7 +46,15 @@ fi
 ## Not sure about wanting to include this
 ## Seems prudent as these are non-VPN connections
 ## WIP
-[[ "${FIREWALL:-false}" == "false" ]] && 40-allowlist
+if [[ -n ${ALLOW_LIST} ]]
+then
+    if [[ "${FIREWALL:-false}" == "false" ]]
+    then
+        40-allowlist
+    else
+        echo -e $(date "+%F %T%z") "\tWARNING\tNordVPN firewall use overrides ALLOW_LIST; ALLOW_LIST will not be honored"
+    fi
+fi
 
 ## Expose private key with Wireguard
 if [ $(which wg) ]
