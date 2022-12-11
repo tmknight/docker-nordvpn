@@ -18,11 +18,6 @@ then
     20-tun
 fi
 
-## Not sure about wanting to include this
-## Seems prudent as these are non-VPN connections
-## WIP
-40-allowlist
-
 ## Start nordvpn daemon
 rm /run/nordvpn/* 2>/dev/null
 nordvpnd >/dev/null &
@@ -47,6 +42,11 @@ if [ -n "$netipv6" ]
 then
     30-route6 >/dev/null
 fi
+
+## Not sure about wanting to include this
+## Seems prudent as these are non-VPN connections
+## WIP
+40-allowlist
 
 ## Expose private key with Wireguard
 if [ $(which wg) ]
