@@ -73,7 +73,7 @@ Generally, the default settings will provide a great experience, however, severa
 
 Using the NordVPN API:
 
-- <https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api/>
+- <https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api>
 
 # Credits
 
