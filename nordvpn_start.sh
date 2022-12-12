@@ -48,11 +48,12 @@ fi
 ## WIP
 if [[ -n ${BYPASS_LIST} ]]
 then
-    if [[ "${FIREWALL:-true}" == "false" ]]
+    if [[ -n ${FIREWALL} && "${FIREWALL}" == "false" || -z ${FIREWALL} ]]
     then
         40-bypasslist
     else
-        echo -e $(date "+%F %T%z") "\tWARNING\tNordVPN firewall use overrides BYPASS_LIST; BYPASS_LIST will not be honored"
+        echo -e $(date "+%F %T%z") "\tWARNING\tFIREWALL use overrides BYPASS_LIST; BYPASS_LIST will not be honored"
+        echo -e $(date "+%F %T%z") "\tWARNING\tPlease leave FIREWALL unset or FALSE for BYPASS_LIST to be honored"
     fi
 fi
 
