@@ -1,10 +1,10 @@
 #!/bin/bash
 
-[[ -n ${WHITELIST} && -z ${ALLOW_LIST} ]] && ALLOW_LIST=${WHITELIST}
-if [[ -n ${ALLOW_LIST} ]]
+[[ -n ${WHITELIST} && -z ${BYPASS_LIST} ]] && BYPASS_LIST=${WHITELIST}
+if [[ -n ${BYPASS_LIST} ]]
 then
   gw="$(ip route | awk '/default/{print $3}')"
-  for domain in ${ALLOW_LIST//[;,]/ }
+  for domain in ${BYPASS_LIST//[;,]/ }
   do
     domain=$(echo "$domain" | sed 's/^.*:\/\///;s/\/.*$//')
     echo -e $(date "+%F %T%z") "\tINFO\tEnabling unsecured connection to host '${domain}'"

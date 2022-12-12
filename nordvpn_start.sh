@@ -46,13 +46,13 @@ fi
 ## Not sure about wanting to include this
 ## Seems prudent as these are non-VPN connections
 ## WIP
-if [[ -n ${ALLOW_LIST} ]]
+if [[ -n ${BYPASS_LIST} ]]
 then
     if [[ "${FIREWALL:-true}" == "false" ]]
     then
-        40-allowlist
+        40-bypasslist
     else
-        echo -e $(date "+%F %T%z") "\tWARNING\tNordVPN firewall use overrides ALLOW_LIST; ALLOW_LIST will not be honored"
+        echo -e $(date "+%F %T%z") "\tWARNING\tNordVPN firewall use overrides BYPASS_LIST; BYPASS_LIST will not be honored"
     fi
 fi
 
