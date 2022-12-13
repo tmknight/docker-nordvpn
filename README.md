@@ -21,7 +21,7 @@ Examples of use:
 
 Docker Hub repository:
 
-- <https://hub.docker.com/repository/docker/tmknight88/nordvpn>
+- <https://hub.docker.com/r/tmknight88/nordvpn>
 
 # Requirements
 
