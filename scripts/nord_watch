@@ -40,6 +40,8 @@ do
       break
     fi
     echo "########################"
+    ## Reconnection complete, reset reconnection target
+    [ $RECONNECT_INTERVAL -ne 0 ] && Set-Target ${RECONNECT_INTERVAL}
   ## Evaluate reconnect interval
   elif [ $RECONNECT_INTERVAL -ne 0 ]
   then
