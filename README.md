@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD041 -->
-[![GitHubPackage][GitHubPackageBadge]][GitHubLink]
+[![GitHubPackage][GitHubPackageBadge]][GitHubPackageLink]
 [![DockerPublishing][DockerPublishingBadge]][DockerLink]
 [![DockerSize][DockerSizeBadge]][DockerLink]
 [![DockerPulls][DockerPullsBadge]][DockerLink]
@@ -21,7 +21,7 @@ Examples of use:
 
 Docker Hub repository:
 
-- <https://hub.docker.com/repository/docker/tmknight88/nordvpn>
+- <https://hub.docker.com/r/tmknight88/nordvpn>
 
 # Requirements
 
@@ -85,6 +85,7 @@ This project is independently developed for personal use; there is no affiliatio
 
 [GitHubPackageBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg
 [GitHubLink]: https://github.com/tmknight/docker-nordvpn
+[GitHubPackageLink]: https://github.com/tmknight/docker-nordvpn/pkgs/container/nordvpn
 [DockerPublishingBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg
 [DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=black&color=green
 [DockerSizeBadge]: https://badgen.net/docker/size/tmknight88/nordvpn?icon=docker&label=Docker+Size&labelColor=black&color=green
