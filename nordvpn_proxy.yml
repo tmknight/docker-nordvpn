@@ -8,9 +8,9 @@ services:
     mem_limit: 128m
     memswap_limit: 128m
     env_file: ./nord.env
-    environment: # Review https://github.com/tmknight/nordvpn#environment-variables
-      CHECK_CONNECTION_INTERVAL: 300
-      KILLSWITCH: true
+    environment: # Review https://github.com/tmknight/docker-nordvpn#environment-variables
+      CHECK_CONNECTION_INTERVAL: 120
+      BYPASS_LIST: iconfig.co,whatsmyip.com
     ports:
       - 8888:8118
     sysctls:
