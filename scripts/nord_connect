@@ -3,18 +3,26 @@
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 current_sleep=1
-until nordvpn connect ${CONNECT} | grep -Ei -f /opt/reg-grep
-do
-  if [ ${current_sleep} -gt 32 ]
+RECOMMENDED=$(nord_recommend)
+ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
+CONNECT_STRING=${CONNECT:-$(echo $RECOMMENDED | jq --raw-output .servername)}
+if [[ $ACTION != "stay" ]]
   then
-    echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect."
-    exit 1
-  fi
-  echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; retrying in ${current_sleep} seconds."
-  sleep ${current_sleep}
-  current_sleep=$((current_sleep * 2))
-done
+  until nordvpn connect ${CONNECT_STRING} | grep -Ei -f /opt/reg-grep
+  do
+    if [ ${current_sleep} -gt 32 ]
+    then
+      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      exit 1
+    fi
+    echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; retrying in ${current_sleep} seconds."
+    sleep ${current_sleep}
+    current_sleep=$((current_sleep * 2))
+  done
 
-[[ -n ${POST_CONNECT} ]] && eval ${POST_CONNECT}
-
+  [[ -n ${POST_CONNECT} ]] && eval ${POST_CONNECT}
+else
+  host=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
+  echo "You are already connected to the recommended server ($host)"
+fi
 exit 0
