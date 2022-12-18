@@ -12,6 +12,7 @@ RUN apt-get update -qq \
   iputils-ping \
   libc6 \
   dnsutils \
+  jq \
   ## only if desired to obtain the private key
   # wireguard \
   && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
