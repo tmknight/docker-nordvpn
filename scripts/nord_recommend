@@ -1,7 +1,7 @@
 ## Determine current server load vs recommended server load
 ## Select the recommended server withe the lowest load
 recUri='https://nordvpn.com/wp-admin/admin-ajax.php?action=servers_recommendations'
-recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | .[] | select(.load > 1) | {hostname: .hostname,load: .load}][0]') || exit 1
+recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | foreach .[] as $item ({}; if (foreach $item.technologies[] as $x ({}; if ($x.name == "Wireguard" and $x.pivot.status == "online") then {x} else empty end)) then {$item} else empty end) | {hostname: .item.hostname, load: .item.load}][0]') || exit 1
 recSvrHost=$(echo $recSvr | jq --raw-output .hostname)
 recSvrLoad=$(echo $recSvr | jq .load)
 
