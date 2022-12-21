@@ -5,9 +5,9 @@
 current_sleep=1
 RECOMMENDED=$(nord_recommend)
 SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
-[[ -z $SERVER ]] && echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; exiting"; exit 1
+[[ -n ${SERVER} ]] || echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; exiting"; exit 1
 ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
-if [[ $ACTION != "stay" ]]
+if [[ ${ACTION} != "stay" ]]
   then
   until nordvpn connect ${SERVER} | grep -Ei -f /opt/reg-grep
   do
