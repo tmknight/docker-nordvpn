@@ -1,6 +1,21 @@
 ## Determine current server load vs recommended server load
+
+## Determine if filters and if special characters escaped
+if [[ -n ${CONNECTION_FILTERS} ]]
+then
+    if [[ ! $CONNECTION_FILTERS =~ .*(\\\[|\\\]).* ]]
+    then
+        clnFilters=$(echo $CONNECTION_FILTERS | sed 's/\[/\\\[/i' | sed 's/\]/\\\]/i')
+        recFilters="?${clnFilters}"
+    else
+        recFilters="?${CONNECTION_FILTERS}"
+    fi
+else
+    recFilters=""
+fi
+
 ## Select the recommended server withe the lowest load
-recUri='https://nordvpn.com/wp-admin/admin-ajax.php?action=servers_recommendations'
+recUri="https://api.nordvpn.com/v1/servers/recommendations${recFilters}"
 recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | foreach .[] as $item ({}; if (foreach $item.technologies[] as $x ({}; if ($x.name == "Wireguard" and $x.pivot.status == "online") then {x} else empty end)) then {$item} else empty end) | {hostname: .item.hostname, load: .item.load}][0]') || exit 1
 recSvrHost=$(echo $recSvr | jq --raw-output .hostname)
 recSvrLoad=$(echo $recSvr | jq .load)
