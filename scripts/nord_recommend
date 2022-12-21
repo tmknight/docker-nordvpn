@@ -3,12 +3,14 @@
 ## Determine if filters and if special characters escaped
 if [[ -n ${CONNECTION_FILTERS} ]]
 then
-    if [[ ! $CONNECTION_FILTERS =~ .*(\\\[|\\\]).* ]]
+    if [[ $CONNECTION_FILTERS =~ .*(\\\[|\\\]).* ]]
     then
+        ## already escaped
+        recFilters="?${CONNECTION_FILTERS}"
+    else
+        ## needs escaped
         clnFilters=$(echo $CONNECTION_FILTERS | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')
         recFilters="?${clnFilters}"
-    else
-        recFilters="?${CONNECTION_FILTERS}"
     fi
 else
     recFilters=""
