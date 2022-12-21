@@ -5,7 +5,7 @@ if [[ -n ${CONNECTION_FILTERS} ]]
 then
     if [[ ! $CONNECTION_FILTERS =~ .*(\\\[|\\\]).* ]]
     then
-        clnFilters=$(echo $CONNECTION_FILTERS | sed 's/\[/\\\[/i' | sed 's/\]/\\\]/i')
+        clnFilters=$(echo $CONNECTION_FILTERS | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')
         recFilters="?${clnFilters}"
     else
         recFilters="?${CONNECTION_FILTERS}"
