@@ -4,8 +4,9 @@
 
 current_sleep=1
 RECOMMENDED=$(nord_recommend)
-ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
 SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+[[ -z $SERVER ]] && echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; exiting"; exit 1
+ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
 if [[ $ACTION != "stay" ]]
   then
   until nordvpn connect ${SERVER} | grep -Ei -f /opt/reg-grep
@@ -13,7 +14,7 @@ if [[ $ACTION != "stay" ]]
     if [ ${current_sleep} -gt 32 ]
     then
       echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
-      exit 1
+      exit 2
     fi
     echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; retrying in ${current_sleep} seconds."
     sleep ${current_sleep}
