@@ -1,11 +1,12 @@
 #!/bin/bash
+shopt -s nocasematch
 
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 current_sleep=1
 RECOMMENDED=$(nord_recommend)
 SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
-if [[ -z ${SERVER} ]]
+if [[ -z ${SERVER} || ${SERVER} == "null" ]]
 then
   if [[ -n ${CONNECTION_FILTERS} ]]
   then
