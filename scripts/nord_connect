@@ -17,7 +17,7 @@ then
   SERVER=""
   ACTION="go"
 else
-  echo -e $(date "+%F %T%z") "\tINFO\tRecommended server is ${SERVER}"
+  echo "The recommended server is ${SERVER}"
   ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
 fi
 if [[ ${ACTION} != "stay" ]]
