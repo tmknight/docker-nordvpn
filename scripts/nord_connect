@@ -7,10 +7,17 @@ RECOMMENDED=$(nord_recommend)
 SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
 if [[ -z ${SERVER} ]]
 then
-  echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; exiting"
-  exit 1
+  if [[ -n ${CONNECTION_FILTERS} ]]
+  then
+    echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retrying without filters"
+  else
+    echo -e $(date "+%F %T%z") "\tWARNING\tCannot connect to recommended; retrying with default"
+  fi
+  SERVER=""
+  ACTION="go"
+else
+  ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
 fi
-ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
 if [[ ${ACTION} != "stay" ]]
   then
   until nordvpn connect ${SERVER} | grep -Ei -f /opt/reg-grep
