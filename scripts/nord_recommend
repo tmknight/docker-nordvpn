@@ -1,4 +1,5 @@
 ## Determine current server load vs recommended server load
+shopt -s nocasematch
 
 ## Determine if filters and if special characters escaped
 if [[ -n ${CONNECTION_FILTERS} ]]
@@ -18,7 +19,32 @@ fi
 
 ## Select the recommended server withe the lowest load
 recUri="https://api.nordvpn.com/v1/servers/recommendations${recFilters}"
-recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | foreach .[] as $item ({}; if (foreach $item.technologies[] as $x ({}; if ($x.name == "Wireguard" and $x.pivot.status == "online") then {x} else empty end)) then {$item} else empty end) | {hostname: .item.hostname, load: .item.load}][0]') || exit 1
+
+## We need to ensure Wireguard is online when using NordLynx
+if [[ ${TECHNOLOGY} == "NordLynx" ]]
+then
+    recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) |
+        foreach .[] as $item ({};
+            if (
+                foreach $item.technologies[] as $x ({};
+                    if ($x.name == "Wireguard" and $x.pivot.status == "online")
+                    then
+                        {$x}
+                    else
+                        empty
+                    end
+                )
+            )
+            then
+                {$item}
+            else
+                empty
+            end
+        ) | {hostname: .item.hostname, load: .item.load}][0]'
+    )
+else
+    recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | .[] | {hostname: .hostname, load: .load}][0]')
+fi
 recSvrHost=$(echo $recSvr | jq --raw-output .hostname)
 recSvrLoad=$(echo $recSvr | jq .load)
 
@@ -27,7 +53,7 @@ curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
 if [[ -n $curSvrHost ]]
 then
     curUri='https://api.nordvpn.com/server'
-    curSvrLoad=$(curl --silent $curUri | jq '.[] | select(.domain == "'$curSvrHost'").load') || exit 2
+    curSvrLoad=$(curl --silent $curUri | jq '.[] | select(.domain == "'$curSvrHost'").load')
     ## Compare current and recommended; return server with lowest load
     if [ $curSvrLoad -gt $recSvrLoad ]
     then
@@ -44,7 +70,7 @@ then
     fi
 else
     host=$recSvrHost
-        action="go"
+    action="go"
 fi
 name=$(echo $host | sed -E 's/\.nordvpn\.com//i')
 echo '{
