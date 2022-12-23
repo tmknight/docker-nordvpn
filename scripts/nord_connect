@@ -26,7 +26,7 @@ if [[ ${ACTION} != "stay" ]]
   do
     if [ ${current_sleep} -gt 32 ]
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
       exit 2
     fi
     echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; retrying in ${current_sleep} seconds."
