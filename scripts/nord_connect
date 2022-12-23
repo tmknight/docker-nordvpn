@@ -3,29 +3,26 @@ shopt -s nocasematch
 
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
-RECOMMENDED=$1
-if [[ -z ${RECOMMENDED} ]]
 ## Get RECOMMENDED if internet accessible
+if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
 then
-  if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
-  then
-    RECOMMENDED=$(nord_recommend)
-  fi
-fi
-SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+  RECOMMENDED=$1
+  [[ -z ${RECOMMENDED} ]] && RECOMMENDED=$(nord_recommend)
+  SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
 
-## Determine is valid servername
-if [[ -z ${SERVER} || ${SERVER} == "null" ]]
-then
-  if [[ -n ${CONNECTION_FILTERS} ]]
+  ## Determine is valid servername
+  if [[ -z ${SERVER} || ${SERVER} == "null" ]]
   then
-    echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retrying without filters"
+    if [[ -n ${CONNECTION_FILTERS} ]]
+    then
+      echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retrying without filters"
+    else
+      echo -e $(date "+%F %T%z") "\tWARNING\tCannot connect to recommended; retrying with default"
+    fi
+    unset SERVER
   else
-    echo -e $(date "+%F %T%z") "\tWARNING\tCannot connect to recommended; retrying with default"
+    echo "The recommended server is ${SERVER}"
   fi
-  unset SERVER
-else
-  echo "The recommended server is ${SERVER}"
 fi
 
 ## Make the connection
