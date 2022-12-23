@@ -38,7 +38,7 @@ do
     nordvpn status | grep -Eiv -f /opt/inv-grep
     if ! nord_connect
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
       CODE=1
       break
     fi
@@ -60,7 +60,7 @@ do
         nordvpn disconnect | grep -Ei -f /opt/reg-grep
         if ! nord_connect ${RECOMMENDED}
         then
-          echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+          echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
           CODE=2
           break
         fi
