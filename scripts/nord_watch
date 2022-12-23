@@ -55,7 +55,7 @@ do
       echo "########################"
       RECOMMENDED=$(nord_recommend)
       ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
-      if [ ${ACTION} != "stay"]
+      if [ ${ACTION} != "stay" ]
       then
         nordvpn disconnect | grep -Ei -f /opt/reg-grep
         if ! nord_connect ${RECOMMENDED}
