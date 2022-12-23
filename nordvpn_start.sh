@@ -1,6 +1,6 @@
 #!/bin/bash
-
 shopt -s nocasematch
+
 ## Set iptables
 ## NET_LOCAL is blocked until VPN connected
 00-firewall
@@ -43,19 +43,8 @@ then
     30-route6 >/dev/null
 fi
 
-## Not sure about wanting to include this
-## Seems prudent as these are non-VPN connections
-## WIP
-if [[ -n ${BYPASS_LIST} ]]
-then
-    if [[ -n ${FIREWALL} && "${FIREWALL}" == "false" || -z ${FIREWALL} ]]
-    then
-        40-bypasslist
-    else
-        echo -e $(date "+%F %T%z") "\tWARNING\tFIREWALL use overrides BYPASS_LIST; BYPASS_LIST will not be honored"
-        echo -e $(date "+%F %T%z") "\tWARNING\tPlease leave FIREWALL unset or FALSE for BYPASS_LIST to be honored"
-    fi
-fi
+## Allow unsecured traffic to declared domains
+[[ -n ${BYPASS_LIST} ]] && 40-bypasslist
 
 ## Expose private key with Wireguard
 if [ $(which wg) ]
