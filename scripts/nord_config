@@ -29,6 +29,7 @@ then
   then
     ## If BYPASS_LIST, disable nord firewall, regardless if declared
     echo -e "WARNING\tUse of BYPASS_LIST overrides FIREWALL; FIREWALL value will not be honored."
+    echo -e "INFO\tUsing iptables in place of NordVPN firewall."
   fi
   FIREWALL=false
 else
