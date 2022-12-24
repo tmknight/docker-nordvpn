@@ -55,14 +55,14 @@ do
       ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
       HOST=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
       SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
-      ## Reconnect
-      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
+      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assess connection"
       if [ ${ACTION} == "stay" ]
       then
         echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server ($HOST); retaining current connection"
       else
+        ## Reconnect
         echo "########################"
-        echo "The recommended server is ${SERVER}"
+        echo "The recommended server is ${SERVER}; reconnecting"
         nordvpn disconnect | grep -Ei -f /opt/reg-grep
         if ! nord_connect ${SERVER}
         then
