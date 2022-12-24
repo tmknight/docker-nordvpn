@@ -62,6 +62,7 @@ do
         echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server ($HOST); retaining current connection"
       else
         echo "########################"
+        echo "The recommended server is ${SERVER}"
         nordvpn disconnect | grep -Ei -f /opt/reg-grep
         if ! nord_connect ${SERVER}
         then
