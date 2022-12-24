@@ -22,7 +22,7 @@ fi
 recUri="https://api.nordvpn.com/v1/servers/recommendations${recFilters}"
 
 ## We need to ensure Wireguard is online when using NordLynx
-if [[ ${TECHNOLOGY} == "NordLynx" ]]
+if [[ ${TECHNOLOGY:-NordLynx} == "NordLynx" ]]
 then
     recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) |
         foreach .[] as $item ({};
