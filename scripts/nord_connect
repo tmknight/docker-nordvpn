@@ -6,9 +6,13 @@ shopt -s nocasematch
 ## Get RECOMMENDED if internet accessible
 if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
 then
-  RECOMMENDED=$1
-  [[ -z ${RECOMMENDED} ]] && RECOMMENDED=$(nord_recommend)
-  SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+  ## Obtain recommended server from API
+  SERVER=$1
+  if [[ -z ${SERVER} ]]
+  then
+    RECOMMENDED=$(nord_recommend)
+    SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+  fi
 
   ## Determine is valid servername
   if [[ -z ${SERVER} || ${SERVER} == "null" ]]
@@ -19,6 +23,7 @@ then
     else
       echo -e $(date "+%F %T%z") "\tWARNING\tCannot connect to recommended; retrying with default"
     fi
+    ## Let NordVPN client select the server
     unset SERVER
   else
     echo "The recommended server is ${SERVER}"
@@ -32,7 +37,7 @@ do
   if [ ${current_sleep} -gt 32 ]
   then
     echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
-    exit 2
+    exit 1
   fi
   echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; retrying in ${current_sleep} seconds."
   sleep ${current_sleep}
@@ -41,6 +46,4 @@ done
 
 [[ -n ${POST_CONNECT} ]] && eval ${POST_CONNECT}
 
-## Clear recommended
-unset RECOMMENDED
 exit 0
