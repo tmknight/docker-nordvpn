@@ -64,10 +64,10 @@ then
     then
         host=$curSvrHost
         action="stay"
-    ## Just in case
+    ## Just in case; keep the current connection
     else
-        host=$curSvrHost
-        action="go"
+        host="null"
+        action="stay"
     fi
 else
     host=$recSvrHost
