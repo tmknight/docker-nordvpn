@@ -50,15 +50,26 @@ do
   then
     if [ $tDATE -le $nDATE ]
     then
+      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assess connection"
       ## Determine recommended server from API
-      RECOMMENDED=$(nord_recommend)
+      RECOMMENDED=$(nord_recommend ${CONNECTION_FILTERS})
+      if [ "null" == ${RECOMMENDED} ]
+      then
+        echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retrying without filters"
+        RECOMMENDED=$(nord_recommend)
+      fi
+
       ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
       HOST=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
       SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
-      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assess connection"
       if [ ${ACTION} == "stay" ]
       then
-        echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server ($HOST); retaining current connection"
+        if [ ${HOST} == "null" ]
+        then
+          echo -e $(date "+%F %T%z") "\tWARNING\tCannot determine recommended server; retaining current connection"
+        else
+          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server ($HOST); retaining current connection"
+        fi
       else
         ## Reconnect
         echo "########################"

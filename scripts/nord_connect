@@ -3,35 +3,35 @@ shopt -s nocasematch
 
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
-## Get RECOMMENDED if internet accessible
-if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
+SERVER=$1
+if [[ -z ${SERVER} ]]
 then
-  ## Obtain recommended server from API
-  SERVER=$1
-  if [[ -z ${SERVER} ]]
+  ## Get RECOMMENDED if internet accessible
+  if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
   then
+    ## Obtain recommended server from API
     RECOMMENDED=$(nord_recommend)
     SERVER=$(echo ${RECOMMENDED} | jq --raw-output .servername)
-  fi
 
-  ## Determine is valid servername
-  if [[ -z ${SERVER} || ${SERVER} == "null" ]]
-  then
-    if [[ -n ${CONNECTION_FILTERS} ]]
+    ## Determine is valid servername
+    if [[ -z ${SERVER} || ${SERVER} == "null" ]]
     then
-      echo -e "WARNING\tInvalid connection string; retrying without filters"
-    else
-      echo -e "WARNING\tCannot connect to recommended; retrying with default"
+      if [[ -n ${CONNECTION_FILTERS} ]]
+      then
+        echo -e "WARNING\tInvalid connection string; retrying without filters"
+      else
+        echo -e "WARNING\tCannot connect to recommended; retrying with default"
+      fi
+      ## Let NordVPN client select the server
+      unset SERVER
     fi
-    ## Let NordVPN client select the server
-    unset SERVER
-  fi
-else
+  else
     ## Firewall, notify that filters not to be used
     if [[ -n ${CONNECTION_FILTERS} ]]
     then
       echo -e "WARNING\tCannot evaluate filters; retrying with defaults"
     fi
+  fi
 fi
 
 ## Make the connection

@@ -3,15 +3,16 @@ shopt -s nocasematch
 
 ## Determine current server load vs recommended server load
 ## Determine if filters and if special characters escaped
-if [[ -n ${CONNECTION_FILTERS} ]]
+FILTERS=$1
+if [[ -n ${FILTERS} ]]
 then
-    if [[ ${CONNECTION_FILTERS} =~ .*(\\\[|\\\]).* ]]
+    if [[ ${FILTERS} =~ .*(\\\[|\\\]).* ]]
     then
         ## already escaped
-        recFilters="?${CONNECTION_FILTERS}"
+        recFilters="?${FILTERS}"
     else
         ## needs escaped
-        clnFilters=$(echo ${CONNECTION_FILTERS} | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')
+        clnFilters=$(echo ${FILTERS} | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')
         recFilters="?${clnFilters}"
     fi
 else
@@ -46,47 +47,38 @@ then
 else
     recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | .[] | {hostname: .hostname, load: .load}][0]')
 fi
-recSvrHost=$(echo ${recSvr} | jq --raw-output .hostname)
-recSvrLoad=$(echo ${recSvr} | jq .load)
 
-if [[ -z ${recSvrLoad} || ${recSvrLoad} == "null" ]]
+if [[ "null" != ${recSvr} ]]
 then
-    if [[ -n ${CONNECTION_FILTERS} ]]
-    then
-      echo -e "WARNING\tInvalid connection string; retrying without filters"
-    else
-      echo -e "WARNING\tCannot connect to recommended; retrying with default"
-    fi
-    ## Let NordVPN client select the server
-    recSvrLoad=100
-fi
+    recSvrHost=$(echo ${recSvr} | jq --raw-output .hostname)
+    recSvrLoad=$(echo ${recSvr} | jq .load)
+    # [[ -z ${recSvrLoad} || ${recSvrLoad} == "null" ]] && recSvrLoad=100
 
-## Get current connected server load
-curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
-if [[ -n ${curSvrHost} ]]
-then
-    curUri='https://api.nordvpn.com/server'
-    curSvrLoad=$(curl --silent ${curUri} | jq '.[] | select(.domain == "'${curSvrHost}'").load')
-    ## Compare current and recommended; return server with lowest load
-    if [ ${curSvrLoad:-100} -gt ${recSvrLoad} ]
+    ## Get current connected server load
+    curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
+    if [[ -n ${curSvrHost} ]]
     then
-        host=${recSvrHost}
-        action="go"
+        curUri='https://api.nordvpn.com/server'
+        curSvrLoad=$(curl --silent ${curUri} | jq '.[] | select(.domain == "'${curSvrHost}'").load')
+        ## Compare current and recommended; return server with lowest load
+        if [ ${curSvrLoad} -gt ${recSvrLoad} ]
+        then
+            host=${recSvrHost}
+            action="go"
+        else
+            host=${curSvrHost}
+            action="stay"
+        fi
     else
         host=${curSvrHost}
         action="stay"
     fi
-elif [[ -z ${recSvrHost} || ${recSvrHost} == "null" ]]
-then
-        host=${curSvrHost}
-        action="stay"
+    name=$(echo ${host} | sed -E 's/\.nordvpn\.com//i')
+    echo '{
+        "hostname":"'${host:-null}'",
+        "servername":"'${name:-null}'",
+        "action":"'${action:-stay}'"
+    }'
 else
-    host=${recSvrHost}
-    action="go"
+    echo "null"
 fi
-name=$(echo ${host} | sed -E 's/\.nordvpn\.com//i')
-echo '{
-    "hostname":"'${host}'",
-    "servername":"'${name}'",
-    "action":"'${action}'"
-}'
