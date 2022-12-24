@@ -19,9 +19,9 @@ then
   then
     if [[ -n ${CONNECTION_FILTERS} ]]
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retrying without filters"
+      echo -e "WARNING\tInvalid connection string; retrying without filters"
     else
-      echo -e $(date "+%F %T%z") "\tWARNING\tCannot connect to recommended; retrying with default"
+      echo -e "WARNING\tCannot connect to recommended; retrying with default"
     fi
     ## Let NordVPN client select the server
     unset SERVER
@@ -30,7 +30,7 @@ else
     ## Firewall, notify that filters not to be used
     if [[ -n ${CONNECTION_FILTERS} ]]
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tCannot evaluate filters; retrying with defaults"
+      echo -e "WARNING\tCannot evaluate filters; retrying with defaults"
     fi
 fi
 
@@ -40,10 +40,10 @@ until nordvpn connect ${SERVER} | grep -Ei -f /opt/reg-grep
 do
   if [ ${current_sleep} -gt 32 ]
   then
-    echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
+    echo -e "CRITICAL\tUnable to connect; exiting"
     exit 1
   fi
-  echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; retrying in ${current_sleep} seconds."
+  echo -e "WARNING\tUnable to connect; retrying in ${current_sleep} seconds."
   sleep ${current_sleep}
   current_sleep=$((current_sleep * 2))
 done
