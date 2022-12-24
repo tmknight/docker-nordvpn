@@ -26,6 +26,12 @@ then
     ## Let NordVPN client select the server
     unset SERVER
   fi
+else
+    ## Firewall, notify that filters not to be used
+    if [[ -n ${CONNECTION_FILTERS} ]]
+    then
+      echo -e $(date "+%F %T%z") "\tWARNING\tCannot evaluate filters; retrying with defaults"
+    fi
 fi
 
 ## Make the connection
