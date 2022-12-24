@@ -60,13 +60,8 @@ then
     then
         host=$recSvrHost
         action="go"
-    elif [[ $curSvrHost == $recSvrHost ]]
-    then
-        host=$curSvrHost
-        action="stay"
-    ## Just in case; keep the current connection
     else
-        host="null"
+        host=$curSvrHost
         action="stay"
     fi
 else
