@@ -68,7 +68,7 @@ then
     curUri='https://api.nordvpn.com/server'
     curSvrLoad=$(curl --silent ${curUri} | jq '.[] | select(.domain == "'${curSvrHost}'").load')
     ## Compare current and recommended; return server with lowest load
-    if [ ${curSvrLoad} -gt ${recSvrLoad} ]
+    if [ ${curSvrLoad:-100} -gt ${recSvrLoad} ]
     then
         host=${recSvrHost}
         action="go"
@@ -76,6 +76,10 @@ then
         host=${curSvrHost}
         action="stay"
     fi
+elif [[ -z ${recSvrHost} || ${recSvrHost} == "null" ]]
+then
+        host=${curSvrHost}
+        action="stay"
 else
     host=${recSvrHost}
     action="go"
