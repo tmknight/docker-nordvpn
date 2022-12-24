@@ -29,7 +29,11 @@ then
     ## Firewall, notify that filters not to be used
     if [[ -n ${CONNECTION_FILTERS} ]]
     then
-      echo -e "WARNING\tCannot evaluate filters; retrying with defaults"
+      echo -e "INFO\tThe NordVPN FIREWALL is preventing evaluation of connection filters."
+      echo -e "INFO\tThis is expected on first startup before the tunnel has been established."
+      echo -e "INFO\tFilters will be evaluated on connection refresh."
+      echo -e "INFO\tSet FIREWALL to 'false' to allow filter evaluation at startup."
+      echo -e "INFO\tRetrying now with default connect string."
     fi
   fi
 fi
