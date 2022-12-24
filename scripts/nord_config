@@ -12,7 +12,7 @@ dnsReg="([0-9]{1,3}\.){3}[0-9]{1,3}"
 [[ -n ${PROTOCOL} && ${CYBER_SEC} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
 then
-  echo -e "WARNING\tTECHNOLOGY was set to unsupported value (${TECHNOLOGY}); defaulting to NordLynx"
+  echo -e "WARNING\tTECHNOLOGY was set to unsupported value (${TECHNOLOGY}); defaulting to 'NordLynx'."
   TECHNOLOGY="NordLynx"
 fi
 nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
@@ -28,14 +28,14 @@ then
   if [[ -n ${FIREWALL} ]]
   then
     ## If BYPASS_LIST, disable nord firewall, regardless if declared
-    echo -e "WARNING\tBYPASS_LIST use overrides FIREWALL; FIREWALL value will not be honored"
+    echo -e "WARNING\tUse of BYPASS_LIST overrides FIREWALL; FIREWALL value will not be honored."
   fi
   FIREWALL=false
 else
 ## Ensure FIREWALL true/false
   if [[ ! ${FIREWALL:-true} =~ (true|false) ]]
   then
-    echo -e "WARNING\tNon-boolean FIREWALL value (${FIREWALL}); defaulting to true"
+    echo -e "WARNING\tNon-boolean FIREWALL value (${FIREWALL}); defaulting to 'true'."
     FIREWALL=true
   fi
 fi
@@ -48,7 +48,7 @@ then
 ## Ensure KILLSWITCH true/false
   if [[ ! ${KILLSWITCH:-true} =~ (true|false) ]]
   then
-    echo -e "WARNING\tNon-boolean KILLSWITCH value (${KILLSWITCH}); defaulting to true"
+    echo -e "WARNING\tNon-boolean KILLSWITCH value (${KILLSWITCH}); defaulting to 'true'."
     KILLSWITCH=true
   fi
   nordvpn set killswitch ${KILLSWITCH:-true} | grep -Eiv -f /opt/inv-grep
