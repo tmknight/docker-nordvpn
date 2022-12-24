@@ -12,7 +12,7 @@ dnsReg="([0-9]{1,3}\.){3}[0-9]{1,3}"
 [[ -n ${PROTOCOL} && ${CYBER_SEC} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
 then
-  echo -e "WARNING\tTECHNOLOGY was set to unsupported value (${TECHNOLOGY}); defaulting to 'NordLynx'."
+  echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
   TECHNOLOGY="NordLynx"
 fi
 nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
