@@ -1,0 +1,81 @@
+#!/bin/bash
+shopt -s nocasematch
+
+## Determine current server load vs recommended server load
+## Determine if filters and if special characters escaped
+if [[ -n ${CONNECTION_FILTERS} ]]
+then
+    if [[ $CONNECTION_FILTERS =~ .*(\\\[|\\\]).* ]]
+    then
+        ## already escaped
+        recFilters="?${CONNECTION_FILTERS}"
+    else
+        ## needs escaped
+        clnFilters=$(echo $CONNECTION_FILTERS | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')
+        recFilters="?${clnFilters}"
+    fi
+else
+    recFilters=""
+fi
+
+## Select the recommended server withe the lowest load
+recUri="https://api.nordvpn.com/v1/servers/recommendations${recFilters}"
+
+## We need to ensure Wireguard is online when using NordLynx
+if [[ ${TECHNOLOGY:-NordLynx} == "NordLynx" ]]
+then
+    recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) |
+        foreach .[] as $item ({};
+            if (
+                foreach $item.technologies[] as $x ({};
+                    if ($x.name == "Wireguard" and $x.pivot.status == "online")
+                    then
+                        {$x}
+                    else
+                        empty
+                    end
+                )
+            )
+            then
+                {$item}
+            else
+                empty
+            end
+        ) | {hostname: .item.hostname, load: .item.load}][0]'
+    )
+else
+    recSvr=$(curl --silent ${recUri} | jq '[sort_by(.load) | .[] | {hostname: .hostname, load: .load}][0]')
+fi
+recSvrHost=$(echo $recSvr | jq --raw-output .hostname)
+recSvrLoad=$(echo $recSvr | jq .load)
+
+## Get current connected server load
+curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
+if [[ -n $curSvrHost ]]
+then
+    curUri='https://api.nordvpn.com/server'
+    curSvrLoad=$(curl --silent $curUri | jq '.[] | select(.domain == "'$curSvrHost'").load')
+    ## Compare current and recommended; return server with lowest load
+    if [ $curSvrLoad -gt $recSvrLoad ]
+    then
+        host=$recSvrHost
+        action="go"
+    elif [[ $curSvrHost == $recSvrHost ]]
+    then
+        host=$curSvrHost
+        action="stay"
+    ## Just in case
+    else
+        host=$curSvrHost
+        action="go"
+    fi
+else
+    host=$recSvrHost
+    action="go"
+fi
+name=$(echo $host | sed -E 's/\.nordvpn\.com//i')
+echo '{
+    "hostname":"'$host'",
+    "servername":"'$name'",
+    "action":"'$action'"
+}'
