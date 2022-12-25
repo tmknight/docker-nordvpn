@@ -1,7 +1,6 @@
 #!/bin/bash
 
-## Establish reconnection target in minutes
-RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
+## Function to set reconnect time
 function Set-Target {
   ## Current time
   sDATE=$(date "+%H%M")
@@ -11,6 +10,10 @@ function Set-Target {
   tDATE=$(date "+%Y%m%d%H%M" --date="$eDATE")
   echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '$eDATE'"
 }
+
+## Establish reconnection target in minutes
+RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
+
 ## Determine if periodic reconnection is enabled
 if [ $RECONNECT_INTERVAL -ne 0 ]
 then
@@ -35,7 +38,7 @@ do
     nordvpn status | grep -Eiv -f /opt/inv-grep
     if ! nord_connect
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
       CODE=1
       break
     fi
@@ -50,17 +53,25 @@ do
       ## Reconnect
       echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
       echo "########################"
-      nordvpn disconnect | grep -Ei -f /opt/reg-grep
-      if ! nord_connect
+      RECOMMENDED=$(nord_recommend)
+      ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
+      if [ ${ACTION} != "stay" ]
       then
-        echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
-        CODE=2
-        break
+        nordvpn disconnect | grep -Ei -f /opt/reg-grep
+        if ! nord_connect ${RECOMMENDED}
+        then
+          echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
+          CODE=2
+          break
+        fi
+      else
+        host=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
+        echo "You are already connected to the recommended server ($host)"
       fi
-      echo "########################"
-      ## Reset reconnection target
-      Set-Target ${RECONNECT_INTERVAL}
-      fi
+    echo "########################"
+    ## Reset reconnection target
+    Set-Target ${RECONNECT_INTERVAL}
+    fi
   fi
 done
 exit ${CODE:-3}
