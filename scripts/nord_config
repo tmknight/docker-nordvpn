@@ -1,6 +1,6 @@
 #!/bin/bash
-
 shopt -s nocasematch
+
 ## Client information
 nordvpn version | grep -Eiv "new feature"
 
@@ -10,25 +10,49 @@ dnsReg="([0-9]{1,3}\.){3}[0-9]{1,3}"
 [[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
 [[ -n ${OBFUSCATE} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
 [[ -n ${PROTOCOL} && ${CYBER_SEC} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
-[[ ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]] && nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
+if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
+then
+  echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
+  TECHNOLOGY="NordLynx"
+fi
+nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
 
-## NordVPN firewall enabled by default unless
-## BYPASS_LIST set and FIREWALL unset
-## Be warned that FIREWALL = true conflicts with BYPASS_LIST
+## NordVPN firewall enabled by default unless BYPASS_LIST set
+## Be warned that FIREWALL = true conflicts with BYPASS_LIST,
+## thus if BYPASS_LIST declared, FIREWALL automatically set to false
 if [[ -z ${FIREWALL} && -z ${BYPASS_LIST} ]]
 then
   FIREWALL=true
-elif [[ -z ${FIREWALL} && -n ${BYPASS_LIST} ]]
+elif [[ -n ${BYPASS_LIST} ]]
 then
+  if [[ -n ${FIREWALL} ]]
+  then
+    ## If BYPASS_LIST, disable nord firewall, regardless if declared
+    echo -e "WARNING\tUse of BYPASS_LIST overrides FIREWALL; FIREWALL value will not be honored."
+    echo -e "INFO\tUsing iptables in place of NordVPN firewall."
+  fi
   FIREWALL=false
+else
+## Ensure FIREWALL true/false
+  if [[ ! ${FIREWALL:-true} =~ (true|false) ]]
+  then
+    echo -e "WARNING\tNon-boolean FIREWALL value (${FIREWALL}); defaulting to 'true'."
+    FIREWALL=true
+  fi
 fi
-[[ ${FIREWALL:-true} =~ (true|false) ]] && nordvpn set firewall ${FIREWALL:-true} | grep -Eiv -f /opt/inv-grep
+nordvpn set firewall ${FIREWALL:-true} | grep -Eiv -f /opt/inv-grep
 
 ## FIREWALL must be enabled to enable KILLSWITCH
 ## Enabled by default
 if [[ "${FIREWALL}" == "true" ]]
 then
-  [[ ${KILLSWITCH:-true} =~ (true|false) ]] && nordvpn set killswitch ${KILLSWITCH:-true} | grep -Eiv -f /opt/inv-grep
+## Ensure KILLSWITCH true/false
+  if [[ ! ${KILLSWITCH:-true} =~ (true|false) ]]
+  then
+    echo -e "WARNING\tNon-boolean KILLSWITCH value (${KILLSWITCH}); defaulting to 'true'."
+    KILLSWITCH=true
+  fi
+  nordvpn set killswitch ${KILLSWITCH:-true} | grep -Eiv -f /opt/inv-grep
 fi
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
@@ -54,5 +78,4 @@ fi
 do
   nordvpn whitelist add subnet "${net}" | grep -Eiv -f /opt/inv-grep
 done
-
 exit 0
