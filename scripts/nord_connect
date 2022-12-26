@@ -7,7 +7,7 @@ SERVER=$1
 if [[ -z ${SERVER}  || ${SERVER} == "null" ]]
 then
   ## Get RECOMMENDED if internet accessible
-  if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
+  if [[ $(curl -sm 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
   then
     ## Obtain recommended server from API
     RECOMMENDED=$(nord_recommend)
