@@ -34,8 +34,8 @@ then
       echo -e "INFO\tFilters will be evaluated on connection refresh."
       echo -e "INFO\tSet FIREWALL to 'false' to allow filter evaluation at startup."
       echo -e "INFO\tRetrying now with default connect string."
-      unset SERVER
     fi
+    unset SERVER
   fi
 else
   echo "The recommended server is ${SERVER}"

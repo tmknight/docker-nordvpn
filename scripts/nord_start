@@ -32,13 +32,7 @@ echo -e $(date "+%F %T%z") "\tINFO\tConfiguring and connecting NordVPN..."
 echo "########################"
 nord_config || exit $?
 nord_login || exit $?
-
-## Get recommended server
-RECOMMENDED=$(nord_recommend ${CONNECTION_FILTERS})
-SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
-
-## Connect to recommended server
-nord_connect ${SERVER} || exit $?
+nord_connect || exit $?
 echo "########################"
 
 ## Allow NET_LOCAL traffic
