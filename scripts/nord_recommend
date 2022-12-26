@@ -48,6 +48,7 @@ else
 fi
 recSvrHost=$(echo ${recSvr} | jq --raw-output .hostname)
 recSvrLoad=$(echo ${recSvr} | jq .load)
+[[ ${recSvrLoad} =~ (\s|null) ]] && recSvrLoad=100
 
 ## Get current connected server load
 curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
@@ -56,7 +57,7 @@ then
     curUri='https://api.nordvpn.com/server'
     curSvrLoad=$(curl --silent ${curUri} | jq '.[] | select(.domain == "'${curSvrHost}'").load')
     ## Compare current and recommended; return server with lowest load
-    if [ ${curSvrLoad:-100} -gt ${recSvrLoad:-100} ]
+    if [ ${curSvrLoad:-100} -gt ${recSvrLoad} ]
     then
         host=${recSvrHost}
         action="go"
