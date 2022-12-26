@@ -4,7 +4,7 @@ shopt -s nocasematch
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 SERVER=$1
-if [[ -z ${SERVER} ]]
+if [[ -z ${SERVER}  || ${SERVER} == "null" ]]
 then
   ## Get RECOMMENDED if internet accessible
   if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
@@ -36,17 +36,6 @@ then
       echo -e "INFO\tRetrying now with default connect string."
     fi
   fi
-elif [[ ${SERVER} == "null" ]]
-    then
-      if [[ -n ${CONNECTION_FILTERS} ]]
-      then
-        echo -e "WARNING\tInvalid connection string; retrying without filters"
-      else
-        echo -e "WARNING\tCannot connect to recommended; retrying with default"
-      fi
-      ## Let NordVPN client select the server
-      unset SERVER
-    fi
 else
   echo "The recommended server is ${SERVER}"
 fi
