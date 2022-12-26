@@ -48,7 +48,7 @@ else
 fi
 recSvrHost=$(echo ${recSvr} | jq --raw-output .hostname)
 recSvrLoad=$(echo ${recSvr} | jq .load)
-[[ ${recSvrLoad:-null} =~ (\s|null) || ${recSvrHost:-null} =~ (\s|null) ]] && recSvrLoad=0
+[[ ${recSvrLoad:-null} =~ ([[:space:]]|null) || ${recSvrHost:-null} =~ ([[:space:]]|null) ]] && recSvrLoad=0
 
 ## Get current connected server load
 curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
