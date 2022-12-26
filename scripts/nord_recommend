@@ -48,7 +48,7 @@ else
 fi
 recSvrHost=$(echo ${recSvr} | jq --raw-output .hostname)
 recSvrLoad=$(echo ${recSvr} | jq .load)
-[[ ${recSvrLoad} =~ (\s|null) ]] && recSvrLoad=100
+[[ ${recSvrLoad:-null} =~ (\s|null) || ${recSvrHost:-null} =~ (\s|null) ]] && recSvrLoad=0
 
 ## Get current connected server load
 curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
@@ -59,8 +59,14 @@ then
     ## Compare current and recommended; return server with lowest load
     if [ ${curSvrLoad:-100} -gt ${recSvrLoad} ]
     then
-        host=${recSvrHost}
-        action="go"
+        if [ ${recSvrLoad} -eq 0 ]
+        then
+            host="null"
+            action="stay"
+        else
+            host=${recSvrHost}
+            action="go"
+        fi
     else
         host=${curSvrHost}
         action="stay"
