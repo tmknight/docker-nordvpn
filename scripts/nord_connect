@@ -36,6 +36,17 @@ then
       echo -e "INFO\tRetrying now with default connect string."
     fi
   fi
+elif [[ ${SERVER} == "null" ]]
+    then
+      if [[ -n ${CONNECTION_FILTERS} ]]
+      then
+        echo -e "WARNING\tInvalid connection string; retrying without filters"
+      else
+        echo -e "WARNING\tCannot connect to recommended; retrying with default"
+      fi
+      ## Let NordVPN client select the server
+      unset SERVER
+    fi
 else
   echo "The recommended server is ${SERVER}"
 fi
