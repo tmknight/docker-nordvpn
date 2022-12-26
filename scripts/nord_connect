@@ -24,6 +24,8 @@ then
       fi
       ## Let NordVPN client select the server
       unset SERVER
+    else
+      echo "The recommended server is ${SERVER}"
     fi
   else
     ## Firewall, notify that filters not to be used
