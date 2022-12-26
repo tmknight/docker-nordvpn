@@ -65,6 +65,7 @@ then
         action="stay"
     fi
 elif [[ -n ${recSvrHost} ]]
+then
     host=${recSvrHost}
     action="go"
 fi

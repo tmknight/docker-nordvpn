@@ -56,9 +56,9 @@ do
       ACTION=$(echo $RECOMMENDED | jq --raw-output .action)
       HOST=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
       SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
-      if [ ${ACTION} == "stay" ]
+      if [ ${ACTION:-stay} == "stay" ]
       then
-        if [ ${HOST} == "null" ]
+        if [ ${HOST:-null} == "null" ]
         then
           echo -e $(date "+%F %T%z") "\tWARNING\tCannot determine recommended server; retaining current connection"
         else
