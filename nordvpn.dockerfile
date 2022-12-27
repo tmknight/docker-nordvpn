@@ -4,6 +4,13 @@ LABEL org.opencontainers.image.title=nordvpn
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL autoheal=true
+ENV CHECK_CONNECTION_INTERVAL=60 \
+  CHECK_CONNECTION_URL="https://www.google.com" \
+  FIREWALL=true \
+  KILLSWITCH=true \
+  REFRESH_CONNECTION_INTERVAL=120 \
+  RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL} \
+  TECHNOLOGY=NordLynx
 ARG NORDVPN_VERSION=3.15.2
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
