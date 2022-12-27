@@ -33,7 +33,7 @@ then
     then
       echo -e "INFO\tThe NordVPN FIREWALL is preventing evaluation of connection filters."
       echo -e "INFO\tThis is expected on startup before the tunnel has been established."
-      if [ ${RECONNECT_INTERVAL} -ne 0 ]
+      if [ ${RECONNECT_INTERVAL:-120} -ne 0 ]
       then
         echo -e "INFO\tFilters will be evaluated on connection refresh."
       fi
