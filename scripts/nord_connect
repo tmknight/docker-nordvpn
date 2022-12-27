@@ -4,10 +4,10 @@ shopt -s nocasematch
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 SERVER=$1
-if [[ -z ${SERVER} ]]
+if [[ -z ${SERVER}  || ${SERVER} == "null" ]]
 then
   ## Get RECOMMENDED if internet accessible
-  if [[ $(curl -s --connect-timeout 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
+  if [[ $(curl -sm 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
   then
     ## Obtain recommended server from API
     RECOMMENDED=$(nord_recommend)
@@ -24,18 +24,26 @@ then
       fi
       ## Let NordVPN client select the server
       unset SERVER
+    else
+      echo "The recommended server is ${SERVER}"
     fi
   else
     ## Firewall, notify that filters not to be used
     if [[ -n ${CONNECTION_FILTERS} ]]
     then
       echo -e "INFO\tThe NordVPN FIREWALL is preventing evaluation of connection filters."
-      echo -e "INFO\tThis is expected on first startup before the tunnel has been established."
-      echo -e "INFO\tFilters will be evaluated on connection refresh."
+      echo -e "INFO\tThis is expected on startup before the tunnel has been established."
+      if [ ${RECONNECT_INTERVAL} -ne 0 ]
+      then
+        echo -e "INFO\tFilters will be evaluated on connection refresh."
+      fi
       echo -e "INFO\tSet FIREWALL to 'false' to allow filter evaluation at startup."
       echo -e "INFO\tRetrying now with default connect string."
     fi
+    unset SERVER
   fi
+else
+  echo "The recommended server is ${SERVER}"
 fi
 
 ## Make the connection
