@@ -4,6 +4,7 @@ shopt -s nocasematch
 ## Set iptables
 ## NET_LOCAL is blocked until VPN connected
 00-firewall
+05-dns
 10-inet
 ## IPv6 support desired
 netipv6=$(dockerNetworks6)
