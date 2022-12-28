@@ -17,7 +17,7 @@ Build based on:
 
 Examples of use:
 
-- [nordvpn_proxy.yml](https://github.com/tmknight/docker-nordvpn/blob/main/nordvpn_proxy.yml)
+- [nordvpn_proxy.yml](https://github.com/tmknight/docker-nordvpn/blob/main/examples/nordvpn_proxy.yml)
 
 Docker Hub repository:
 
@@ -36,9 +36,18 @@ Environment variables:
 
 # Recommendations
 
-IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/ipv4-vs-ipv6/#:~:text=You%20might%20be%20wondering%20what,tunnel%20with%20the%20IPv4%20protocol.) by most VPN providers at this time. Therefore, it is recommended to disable IPv6 support in your container via [sysctl](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime):
+**IPv6**
 
-`net.ipv6.conf.all.disable_ipv6=1`
+  - IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/ipv4-vs-ipv6/#:~:text=You%20might%20be%20wondering%20what,tunnel%20with%20the%20IPv4%20protocol.) by most VPN providers at this time. Therefore, it is recommended to disable IPv6 support in your container via [sysctl](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime):
+
+    - `net.ipv6.conf.all.disable_ipv6=1`
+    
+**DNS**
+
+  - Prior to establishing the tunnel, the host DNS settings will be used
+  - If you are concerned with DNS leakage (which will only be nordvpn.com), you should set [docker DNS](https://docs.docker.com/config/containers/container-networking/#dns-services)
+  
+    - Note, this is not the same as the [DNS environment variable](https://github.com/tmknight/docker-nordvpn#environment-variables)
 
 # Environment Variables
 
@@ -51,7 +60,7 @@ Generally, the default settings will provide a great experience, however, severa
 | **CHECK_CONNECTION_URL**        | <https://www.google.com> | URL used by `CHECK_CONNECTION_INTERVAL`                                                                                                                                                                                                   |
 | **CONNECTION_FILTERS**          |                          | Use [NordVPN API](https://github.com/tmknight/docker-nordvpn#additional-information) to help craft your filters (e.g `filters[country_id]=81&filters[servers_groups][identifier]=legacy_standard`)                                        |
 | **CYBER_SEC**                   | FALSE                    | Learn more at [NordVPN](https://nordvpn.com/features/cybersec/) (TRUE/FALSE)                                                                                                                                                              |
-| **DNS**                         |                          | A comma-separated list of IPv4/IPv6 addresses to be set as the interface's DNS servers, or non-IP hostnames to be set as the interface's DNS search domains (leave unset to use NordVPN servers)                                          |
+| **DNS**                         |                          | A comma-separated list of IPv4/IPv6 addresses to be set as the VPN tunnel DNS servers, or non-IP hostnames to be set as the tunnel's DNS search domains (leave unset to use NordVPN servers)                                          |
 | **FIREWALL**                    | TRUE                     | Use the NordVPN firewall over iptables (TRUE/FALSE; will default to FALSE when `BYPASS_LIST` in use)                                                                                                                                      |
 | **KILLSWITCH**                  | TRUE                     | Use the NordVPN kill switch; `FIREWALL` must also be TRUE (TRUE/FALSE)                                                                                                                                                                    |
 | **NET_LOCAL**                   |                          | Add a route to local IPv4 network once the VPN is up; the Docker network is automatically added; must be CIDR IPv4 format (e.g. `192.168.1.0/24`)                                                                                         |
