@@ -50,7 +50,7 @@ do
   then
     if [ ${tDATE} -le ${nDATE} ]
     then
-      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assess connection"
+      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assessing connection"
       ## Determine recommended server from API
       RECOMMENDED=$(nord_recommend ${CONNECTION_FILTERS})
       ACTION=$(echo ${RECOMMENDED} | jq --raw-output .action)
