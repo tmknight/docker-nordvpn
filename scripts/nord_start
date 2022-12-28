@@ -4,7 +4,11 @@ shopt -s nocasematch
 ## Set iptables
 ## NET_LOCAL is blocked until VPN connected
 00-firewall
-05-dns
+
+## Set NordVPN DNS servers
+# 05-dns
+
+## Establish network support
 10-inet
 ## IPv6 support desired
 netipv6=$(dockerNetworks6)
