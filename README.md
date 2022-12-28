@@ -25,29 +25,35 @@ Docker Hub repository:
 
 # Requirements
 
-Add [capabilities](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities):
+**Capabilities**
 
-- NET_ADMIN
+- [NET_ADMIN](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
 
-Environment variables:
+**Environment**
 
-- TOKEN (or USER & PASS/PASSFILE)
-- NET_LOCAL (technically not required for the container to work, but it should be set if local traffic is to be routed through VPN)
+- TOKEN
+
+  - Or `USER` & `PASS`/`PASSFILE` if you, for some reason, decide to use them instead
+
+- NET_LOCAL
+
+  - Technically not required for the container to work, but it should be set if local traffic is to be routed through NordVPN
 
 # Recommendations
 
 **IPv6**
 
-  - IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/ipv4-vs-ipv6/#:~:text=You%20might%20be%20wondering%20what,tunnel%20with%20the%20IPv4%20protocol.) by most VPN providers at this time. Therefore, it is recommended to disable IPv6 support in your container via [sysctl](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime):
+- IPv6 support is limited and generally [not supported](https://nordvpn.com/blog/ipv4-vs-ipv6/#:~:text=You%20might%20be%20wondering%20what,tunnel%20with%20the%20IPv4%20protocol.) by most VPN providers at this time
+- Therefore, it is recommended to disable IPv6 support in your container via [sysctl](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime):
 
-    - `net.ipv6.conf.all.disable_ipv6=1`
+  - `net.ipv6.conf.all.disable_ipv6=1`
     
 **DNS**
 
-  - Prior to establishing the tunnel, the host DNS settings will be used
-  - If you are concerned with DNS leakage (which will only be nordvpn.com), you should set [docker DNS](https://docs.docker.com/config/containers/container-networking/#dns-services)
+- Prior to establishing the tunnel, the host DNS settings will be used
+- If you are concerned with DNS leakage (which will only be nordvpn.com), you should set [docker DNS](https://docs.docker.com/config/containers/container-networking/#dns-services)
   
-    - Note, this is not the same as the [DNS environment variable](https://github.com/tmknight/docker-nordvpn#environment-variables)
+  - Note, this is not the same as the [DNS environment variable](https://github.com/tmknight/docker-nordvpn#environment-variables)
 
 # Environment Variables
 
