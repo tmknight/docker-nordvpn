@@ -34,7 +34,10 @@ RUN apt-get update -qq \
   /var/cache/apt/archives/* \
   /var/lib/apt/lists/* \
   /var/tmp/* \
-  && mkdir -p /run/nordvpn
+  && mkdir -p /run/nordvpn \
+  ## Set NordVPN DNS servers
+  && echo "nameserver 103.86.96.100" >> /etc/resolve.conf \
+  && echo "nameserver 103.86.99.100" >> /etc/resolve.conf
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
