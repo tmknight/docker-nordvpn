@@ -23,6 +23,12 @@ Docker Hub repository:
 
 - <https://hub.docker.com/r/tmknight88/nordvpn>
 
+Optimized for NordLynx:
+
+- NordLynx is NordVPN's implementation of Wireguard and is the recommended technology (fast, stable) to use
+
+  - OpenVPN is supported, however, the stability is not great and features (e.g. [BYPASS_LIST](#env-bypass)) do not work well
+
 # Requirements
 
 Capabilities
@@ -61,7 +67,7 @@ Generally, the default settings will provide a great experience, however, severa
 
 | Variable                        | Default                  | Description                                                                                                                                                                                                                               |
 |:-------------------------------:|:------------------------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **BYPASS_LIST**                 |                          | Comma-separated list of domain names that should bypass VPN (i.e. these connections should not be secured); if set, `FIREWALL` will default to FALSE                                                                                      |
+| <span id="env-bypass">**BYPASS_LIST**</span> |   | Comma-separated list of domain names that should bypass VPN (i.e. these connections should not be secured); if set, `FIREWALL` will default to FALSE                                                                                      |
 | **CHECK_CONNECTION_INTERVAL**   | 60                       | Time in seconds to check connection state and remediate as required                                                                                                                                                                       |
 | **CHECK_CONNECTION_URL**        | <https://www.google.com> | URL used by `CHECK_CONNECTION_INTERVAL`                                                                                                                                                                                                   |
 | **CONNECTION_FILTERS**          |                          | Use the [NordVPN API](#api) to help craft your filters (e.g `filters[country_id]=81&filters[servers_groups][identifier]=legacy_standard`)                                        |
