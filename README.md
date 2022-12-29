@@ -13,7 +13,7 @@ Leveraging the native NordVPN client and iptables to create the fastest, most st
 Build based on:
 
 - Ubuntu `22.04`
-- NordVPN `3.15.2`
+- NordVPN `3.15.3`
 
 Examples of use:
 
@@ -47,12 +47,12 @@ IPv6
 - Therefore, it is recommended to disable IPv6 support in your container via [sysctl](https://docs.docker.com/engine/reference/commandline/run/#configure-namespaced-kernel-parameters-sysctls-at-runtime):
 
   - `net.ipv6.conf.all.disable_ipv6=1`
-    
+
 DNS
 
 - Prior to establishing the tunnel, the host DNS settings will be used
 - If you are concerned with DNS leakage (which will only be nordvpn.com), you should set [docker DNS](https://docs.docker.com/config/containers/container-networking/#dns-services)
-  
+
   - Note, this is not the same as the [DNS environment variable](#env-dns)
 
 # Environment Variables
@@ -99,7 +99,6 @@ Scripts based on the excellent work of <https://github.com/bubuntux/nordvpn>
 This project is independently developed for personal use; there is no affiliation with NordVPN or Nord Security companies.  Nord Security companies are not responsible for, nor have control over, the nature, content and availability of this project.
 
 [GitHubPackageBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/github-package.yml/badge.svg
-[GitHubLink]: https://github.com/tmknight/docker-nordvpn
 [GitHubPackageLink]: https://github.com/tmknight/docker-nordvpn/pkgs/container/nordvpn
 [DockerPublishingBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg
 [DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=black&color=green
