@@ -44,7 +44,8 @@ then
     unset SERVER
   fi
 else
-  echo "The recommended server is ${SERVER}"
+  ## Report the recommended server, unless called from nord_watch
+  [[ $(ps -ax | grep -Ei nord_watch | grep -Eiv grep) ]] || echo "The recommended server is ${SERVER}"
 fi
 
 ## Make the connection
