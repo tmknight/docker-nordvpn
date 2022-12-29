@@ -25,9 +25,9 @@ Docker Hub repository:
 
 Optimized for NordLynx:
 
-- NordLynx is NordVPN's implementation of Wireguard and is the recommended technology (fast, stable) to use
+- NordLynx is NordVPN's implementation of Wireguard and is the recommended [TECHNOLOGY](#env-technology) (fast, stable) to use
 
-  - OpenVPN is supported, however, the stability is not great and some features (e.g. [BYPASS_LIST](#env-bypass)) do not work well
+  - OpenVPN is provided as an option, however, it currently does not work well (if at all)
 
 # Requirements
 
@@ -86,7 +86,7 @@ Generally, the default settings will provide a great experience, however, severa
 | **PRE_CONNECT**                 |                          | Command to execute before attempt to connect                                                                                                                                                                                              |
 | **PROTOCOL**                    | UDP                      | Only valid when using TECHNOLOGY OpenVPN (TCP/UDP)                                                                                                                                                                                        |
 | **REFRESH_CONNECTION_INTERVAL** | 120                      | Time in minutes to trigger VPN reconnection to help ensure best connection available                                                                                                                                                      |
-| **TECHNOLOGY**                  | NordLynx                 | Specify Technology to use (NordLynx/OpenVPN)                                                                                                                                                                                              |
+| <span id="env-technology">**TECHNOLOGY**</span> | NordLynx                 | Specify Technology to use (NordLynx/OpenVPN)                                                                                                                                                                                              |
 | <span id="env-token">**TOKEN**</span> |                          | **RECOMMENDED**; use in place of `USER` and `PASS` for NordVPN account; generated from your NordVPN account web portal                                                                                                                    |
 | **USER**                        |                          | User for NordVPN account (not required when using `TOKEN`)                                                                                                                                                                                |
 
