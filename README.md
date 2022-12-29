@@ -17,7 +17,7 @@ Build based on:
 
 Examples of use:
 
-- [nordvpn_proxy.yml](examples/nordvpn_proxy.yml)
+- [nordvpn_proxy.yml](examples/)
 
 Docker Hub repository:
 
