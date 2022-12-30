@@ -25,7 +25,7 @@ Docker Hub repository:
 
 Optimized for NordLynx:
 
-- NordLynx is NordVPN's implementation of Wireguard and is the recommended and default [TECHNOLOGY](#env-technology) (fast, stable)
+- NordLynx is NordVPN's fast/stable implementation of Wireguard; it is the recommended and default [TECHNOLOGY](#env-technology)
 
 # Requirements
 
