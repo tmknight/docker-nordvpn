@@ -25,6 +25,7 @@ ip6tables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ip6tables -A OUTPUT -o lo -j ACCEPT
 ip6tables -A OUTPUT -o tap+ -j ACCEPT
 ip6tables -A OUTPUT -o tun+ -j ACCEPT
+ip6tables -A OUTPUT -o nordtun+ -j ACCEPT
 ip6tables -A OUTPUT -o nordlynx+ -j ACCEPT
 for net in "${networks[@]}"
 do
@@ -48,4 +49,5 @@ done
 
 ip6tables -t nat -A POSTROUTING -o tap+ -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o tun+ -j MASQUERADE
+ip6tables -t nat -A POSTROUTING -o nordtun+ -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -o nordlynx+ -j MASQUERADE
