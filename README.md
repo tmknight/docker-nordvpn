@@ -27,7 +27,7 @@ Optimized for NordLynx:
 
 - NordLynx is NordVPN's implementation of Wireguard and is the recommended [TECHNOLOGY](#env-technology) (fast, stable) to use
 
-  - OpenVPN is provided as an option, however, it currently does not work well (if at all)
+  - OpenVPN is provided as an option, however, it currently does not work well (work in progress)
 
 # Requirements
 
