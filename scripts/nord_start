@@ -9,16 +9,10 @@ shopt -s nocasematch
 10-inet
 ## IPv6 support desired
 netipv6=$(dockerNetworks6)
-if [ -n "$netipv6" ]
-then
-    10-inet6
-fi
+[[ -n ${netipv6} ]] && 10-inet6
 
 ## if not using Nordlynx
-if [[ ${TECHNOLOGY} != "NordLynx" ]]
-then
-    20-tun
-fi
+[[ ${TECHNOLOGY} != "NordLynx" ]] && 20-tun
 
 ## Start nordvpn daemon
 rm /run/nordvpn/* 2>/dev/null
@@ -40,19 +34,13 @@ echo "########################"
 ## Allow NET_LOCAL traffic
 30-route
 ## IPv6 support desired
-if [ -n "$netipv6" ]
-then
-    30-route6 >/dev/null
-fi
+[[ -n ${netipv6} ]] && 30-route6 >/dev/null
 
 ## Allow unsecured traffic to declared domains
 [[ -n ${BYPASS_LIST} ]] && 40-bypasslist
 
 ## Expose private key with Wireguard
-if [ $(which wg) ]
-then
-    nord_migrate
-fi
+[[ $(which wg) ]] && nord_migrate
 
 ## Long run script
 echo -e $(date "+%F %T%z") "\tINFO\tStartup complete"
