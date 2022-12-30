@@ -37,7 +37,7 @@ Environment
 
 - [TOKEN](#env-token)
 
-  - Or `USER` & `PASS`/`PASSFILE` if you, for some reason, decide to use them instead
+  - Or `USER` & `PASS`/`PASSFILE` if you, for some reason, decide to use these instead
 
 - [NET_LOCAL](#env-netlocal)
 
@@ -65,15 +65,15 @@ Generally, the default settings will provide a great experience, however, severa
 
 | Variable                        | Default                  | Description                                                                                                                                                                                                                               |
 |:-------------------------------:|:------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| <span id="env-bypass">**BYPASS_LIST**</span> |   | Comma-separated list of domain names that should bypass VPN (i.e. these connections should not be secured); if set, `FIREWALL` will default to FALSE                                                                                      |
+| **BYPASS_LIST** |   | Comma-separated list of domain names that should bypass VPN (i.e. these connections should not be secured); if set, `FIREWALL` will default to FALSE                                                                                      |
 | **CHECK_CONNECTION_INTERVAL**   | 60                       | Time in seconds to check connection state and remediate as required                                                                                                                                                                       |
 | **CHECK_CONNECTION_URL**        | <https://www.google.com> | URL used by `CHECK_CONNECTION_INTERVAL`                                                                                                                                                                                                   |
 | **CONNECTION_FILTERS**          |                          | Use the [NordVPN API](#api) to help craft your filters; largely for OpenVPN, though useful with NordLynx when wanting to set a specific country/city (e.g `filters[country_city_id]=8980922`)                                        |
 | **CYBER_SEC**                   | FALSE                    | Learn more at [NordVPN](https://nordvpn.com/features/cybersec/) (TRUE/FALSE)                                                                                                                                                              |
-| <span id="env-dns">**DNS**</span> |                          | A comma-separated list of IPv4/IPv6 addresses to be set as the VPN tunnel DNS servers, or non-IP hostnames to be set as the tunnel's DNS search domains (leave unset to use NordVPN servers)                                          |
+| **DNS**<span id="env-dns"></span> |                          | A comma-separated list of IPv4/IPv6 addresses to be set as the VPN tunnel DNS servers, or non-IP hostnames to be set as the tunnel's DNS search domains (leave unset to use NordVPN servers)                                          |
 | **FIREWALL**                    | TRUE                     | Use the NordVPN firewall over iptables (TRUE/FALSE; will default to FALSE when `BYPASS_LIST` in use)                                                                                                                                      |
 | **KILLSWITCH**                  | TRUE                     | Use the NordVPN kill switch; `FIREWALL` must also be TRUE (TRUE/FALSE)                                                                                                                                                                    |
-| <span id="env-netlocal">**NET_LOCAL**</span> |                          | Add a route to local IPv4 network once the VPN is up; the Docker network is automatically added; must be CIDR IPv4 format (e.g. `192.168.1.0/24`)                                                                                         |
+| **NET_LOCAL**<span id="env-netlocal"></span> |                          | Add a route to local IPv4 network once the VPN is up; the Docker network is automatically added; must be CIDR IPv4 format (e.g. `192.168.1.0/24`)                                                                                         |
 | **NET6_LOCAL**                  |                          | Add a route to local IPv4 network once the VPN is up; the Docker network is automatically added; must be CIDR IPv6 format (e.g. `fe00:d34d:b33f::/64`)                                                                                    |
 | **OBFUSCATE**                   | FALSE                    | Only valid when using TECHNOLOGY OpenVPN; learn more at [NordVPN](https://nordvpn.com/features/obfuscated-servers/) (TRUE/FALSE)                                                                                                          |
 | **PASS**                        |                          | Password for NordVPN account; surround in single quotes to prevent issues with special characters such as `$` (not required when using `TOKEN` or `PASSFILE`)                                                                             |
@@ -84,13 +84,13 @@ Generally, the default settings will provide a great experience, however, severa
 | **PRE_CONNECT**                 |                          | Command to execute before attempt to connect                                                                                                                                                                                              |
 | **PROTOCOL**                    | UDP                      | Only valid when using TECHNOLOGY OpenVPN (TCP/UDP)                                                                                                                                                                                        |
 | **REFRESH_CONNECTION_INTERVAL** | 120                      | Time in minutes to trigger VPN reconnection to help ensure best connection available                                                                                                                                                      |
-| <span id="env-technology">**TECHNOLOGY**</span> | NordLynx                 | Specify the VPN Technology to use (NordLynx/OpenVPN)                                                                           |
-| <span id="env-token">**TOKEN**</span> |                          | **RECOMMENDED**; use in place of `USER` and `PASS` for NordVPN account; generated from your NordVPN account web portal                                                                                                                    |
+| **TECHNOLOGY**<span id="env-technology"></span> | NordLynx                 | Specify the VPN Technology to use (NordLynx/OpenVPN)                                                                           |
+| **TOKEN**<span id="env-token"></span> |                          | **RECOMMENDED**; use in place of `USER` and `PASS` for NordVPN account; generated from your NordVPN account web portal                                                                                                                    |
 | **USER**                        |                          | User for NordVPN account (not required when using `TOKEN`)                                                                                                                                                                                |
 
 # Additional Information
 
-<span id="api">Using the NordVPN API</span>
+Using the NordVPN API<span id="api"></span>
 
 - <https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api>
 
