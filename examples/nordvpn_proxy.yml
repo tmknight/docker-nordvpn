@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   vpn:
-    image: ghcr.io/tmknight/nordvpn:latest
+    image: tmknight88/nordvpn:latest
     container_name: nordvpn
     cap_add:
       - NET_ADMIN
@@ -9,9 +9,9 @@ services:
     memswap_limit: 128m
     env_file: ./nord.env
     environment: # Review https://github.com/tmknight/docker-nordvpn#environment-variables
-      CONNECTION_FILTERS: "filters[country_id]=38&filters[servers_groups][identifier]=legacy_standard"
-      CHECK_CONNECTION_INTERVAL: 90
       BYPASS_LIST: iconfig.co,whatsmyip.com
+      CHECK_CONNECTION_INTERVAL: 90
+      CONNECTION_FILTERS: "filters[country_id]=38"
     ports:
       - 8888:8118
     sysctls:
