@@ -1,18 +1,21 @@
 #!/bin/bash
 
-## Establish reconnection target in minutes
-RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
+## Function to set reconnect time
 function Set-Target {
   ## Current time
   sDATE=$(date "+%H%M")
   ## Target time
-  eDATE=$(date "+%F %T%z" --date="$sDATE + $1min")
+  eDATE=$(date "+%F %T%z" --date="${sDATE} + ${1}min")
   ## Evaluation target value
-  tDATE=$(date "+%Y%m%d%H%M" --date="$eDATE")
-  echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '$eDATE'"
+  tDATE=$(date "+%Y%m%d%H%M" --date="${eDATE}")
+  echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '${eDATE}'"
 }
+
+## Establish reconnection target in minutes
+RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
+
 ## Determine if periodic reconnection is enabled
-if [ $RECONNECT_INTERVAL -ne 0 ]
+if [ ${RECONNECT_INTERVAL} -ne 0 ]
 then
   Set-Target ${RECONNECT_INTERVAL}
 else
@@ -35,32 +38,53 @@ do
     nordvpn status | grep -Eiv -f /opt/inv-grep
     if ! nord_connect
     then
-      echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
+      echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
       CODE=1
       break
     fi
     echo "########################"
     ## Reconnection complete, reset reconnection target
-    [ $RECONNECT_INTERVAL -ne 0 ] && Set-Target ${RECONNECT_INTERVAL}
+    [ ${RECONNECT_INTERVAL} -ne 0 ] && Set-Target ${RECONNECT_INTERVAL}
   ## Evaluate reconnect interval
-  elif [ $RECONNECT_INTERVAL -ne 0 ]
+  elif [ ${RECONNECT_INTERVAL} -ne 0 ]
   then
-    if [ $tDATE -le $nDATE ]
+    if [ ${tDATE} -le ${nDATE} ]
     then
-      ## Reconnect
-      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; reconnecting"
-      echo "########################"
-      nordvpn disconnect | grep -Ei -f /opt/reg-grep
-      if ! nord_connect
+      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assessing connection"
+      ## Determine recommended server from API
+      RECOMMENDED=$(nord_recommend ${CONNECTION_FILTERS})
+      ACTION=$(echo ${RECOMMENDED} | jq --raw-output .action)
+      HOST=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
+      SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+      if [ ${ACTION:-stay} == "stay" ]
       then
-        echo -e $(date "+%F %T%z") "\tWARNING\tUnable to connect; exiting"
-        CODE=2
-        break
+        if [ ${HOST:-null} == "null" ]
+        then
+          if [[ -n ${CONNECTION_FILTERS} ]]
+          then
+            echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retaining current connection"
+          else
+            echo -e $(date "+%F %T%z") "\tWARNING\tCannot determine recommended server; retaining current connection"
+          fi
+        else
+          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server (${HOST}); retaining current connection"
+        fi
+      else
+        ## Reconnect
+        echo "########################"
+        echo "The recommended server is ${SERVER}; reconnecting"
+        nordvpn disconnect | grep -Ei -f /opt/reg-grep
+        if ! nord_connect ${SERVER}
+        then
+          echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
+          CODE=2
+          break
+        fi
+        echo "########################"
       fi
-      echo "########################"
-      ## Reset reconnection target
-      Set-Target ${RECONNECT_INTERVAL}
-      fi
+    ## Reset reconnection target
+    Set-Target ${RECONNECT_INTERVAL}
+    fi
   fi
 done
 exit ${CODE:-3}

@@ -25,6 +25,7 @@ iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
 iptables -A OUTPUT -o tap+ -j ACCEPT
 iptables -A OUTPUT -o tun+ -j ACCEPT
+iptables -A OUTPUT -o nordtun+ -j ACCEPT
 iptables -A OUTPUT -o nordlynx+ -j ACCEPT
 for net in "${networks[@]}"
 do
@@ -48,4 +49,5 @@ done
 
 iptables -t nat -A POSTROUTING -o tap+ -j MASQUERADE
 iptables -t nat -A POSTROUTING -o tun+ -j MASQUERADE
+iptables -t nat -A POSTROUTING -o nordtun+ -j MASQUERADE
 iptables -t nat -A POSTROUTING -o nordlynx+ -j MASQUERADE

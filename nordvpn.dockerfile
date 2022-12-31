@@ -4,7 +4,12 @@ LABEL org.opencontainers.image.title=nordvpn
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL autoheal=true
-ARG NORDVPN_VERSION=3.15.2
+ENV CHECK_CONNECTION_INTERVAL=60 \
+  CHECK_CONNECTION_URL="https://www.google.com" \
+  REFRESH_CONNECTION_INTERVAL=120 \
+  RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL} \
+  TECHNOLOGY=NordLynx
+ARG NORDVPN_VERSION=3.15.3
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get install -y -qq \
@@ -12,6 +17,7 @@ RUN apt-get update -qq \
   iputils-ping \
   libc6 \
   dnsutils \
+  jq \
   ## only if desired to obtain the private key
   # wireguard \
   && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
@@ -29,15 +35,12 @@ RUN apt-get update -qq \
   /var/lib/apt/lists/* \
   /var/tmp/* \
   && mkdir -p /run/nordvpn
-COPY ./nordvpn_start.sh /usr/bin/start
-COPY ./nordvpn_healthcheck.sh /usr/local/bin/healthcheck
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
-  /usr/bin/ \
   /usr/local/bin/
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
-  CMD /usr/local/bin/healthcheck
-CMD start
+  CMD /usr/local/bin/nord_healthcheck
+CMD /usr/local/bin/nord_start
