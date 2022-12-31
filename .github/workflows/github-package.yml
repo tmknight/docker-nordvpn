@@ -18,6 +18,7 @@ on:
       - '*.md'
       - '.*'
       - '.LICENSE'
+      - 'examples'
     branches: [ "main", "testing" ]
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
