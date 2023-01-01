@@ -8,7 +8,7 @@ services:
     mem_limit: 128m
     memswap_limit: 128m
     env_file: ./nord.env
-    environment: # Review https://github.com/tmknight/docker-nordvpn#environment-variables
+    environment: # Review https://github.com/tmknight/docker-nordvpn/#environment-variables
       BYPASS_LIST: iconfig.co,whatsmyip.com
       CHECK_CONNECTION_INTERVAL: 90
       CONNECTION_FILTERS: "filters[country_id]=38"
