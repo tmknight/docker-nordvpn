@@ -1,4 +1,4 @@
-# NordVPN
+# Docker NordVPN
 
 [![GitHubPackage][GitHubPackageBadge]][GitHubPackageLink]
 [![DockerPublishing][DockerPublishingBadge]][DockerLink]
