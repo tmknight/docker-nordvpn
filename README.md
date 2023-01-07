@@ -1,10 +1,9 @@
-<!-- markdownlint-disable MD041 -->
+# NordVPN client for Docker
+
 [![GitHubPackage][GitHubPackageBadge]][GitHubPackageLink]
 [![DockerPublishing][DockerPublishingBadge]][DockerLink]
 [![DockerSize][DockerSizeBadge]][DockerLink]
 [![DockerPulls][DockerPullsBadge]][DockerLink]
-
-# NordVPN client for Docker
 
 Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
 
