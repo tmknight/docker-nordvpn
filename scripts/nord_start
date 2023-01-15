@@ -26,6 +26,9 @@ done
 ## Start nordvpn
 echo -e $(date "+%F %T%z") "\tINFO\tConfiguring and connecting NordVPN..."
 echo "########################"
+## Client information
+nordvpn version | grep -Eiv "new feature"
+
 ## Disable the nordvpn firewall prior to connection if CONNECTION_FILTERS
 tmpFIREWALL=false
 if [[ -n ${CONNECTION_FILTERS} && ${FIREWALL:-true} ]]
@@ -39,7 +42,7 @@ nord_connect || exit $?
 ## Reset nord firewall if CONNECTION_FILTERS
 if [[ ${tmpFIREWALL} ]]
 then
-    export FIREWALL=false
+    export FIREWALL=true
     nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
 fi
 echo "########################"
