@@ -1,9 +1,6 @@
 #!/bin/bash
 shopt -s nocasematch
 
-## Client information
-nordvpn version | grep -Eiv "new feature"
-
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
 [[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
