@@ -31,7 +31,7 @@ nordvpn version | grep -Eiv "new feature"
 
 ## Disable the nordvpn firewall prior to connection if CONNECTION_FILTERS
 tmpFIREWALL=false
-if [[ -n ${CONNECTION_FILTERS} && ${FIREWALL:-true} ]]
+if [[ -n ${CONNECTION_FILTERS} && ${FIREWALL:-true} == true ]]
 then
     tmpFIREWALL=true
     export FIREWALL=false
@@ -40,7 +40,7 @@ nord_config || exit $?
 nord_login || exit $?
 nord_connect || exit $?
 ## Reset nord firewall if CONNECTION_FILTERS
-if [[ ${tmpFIREWALL} ]]
+if [[ ${tmpFIREWALL} == true ]]
 then
     export FIREWALL=true
     nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
