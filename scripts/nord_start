@@ -26,9 +26,20 @@ done
 ## Start nordvpn
 echo -e $(date "+%F %T%z") "\tINFO\tConfiguring and connecting NordVPN..."
 echo "########################"
-nord_config || exit $?
+## Disable the nordvpn firewall prior to connection if CONNECTION_FILTERS
+if [[ -z ${CONNECTION_FILTERS} ]]
+then
+    nord_config || exit $?
+else
+    nordvpn set firewall false
+fi
 nord_login || exit $?
 nord_connect || exit $?
+## Run final configurations after connectio if CONNECTION_FILTERS
+if [[ -n ${CONNECTION_FILTERS} && ${FIREWALL:-true} ]]
+then
+    nord_config || exit $?
+fi
 echo "########################"
 
 ## Allow NET_LOCAL traffic
