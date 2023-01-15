@@ -73,7 +73,6 @@ do
         ## Reconnect
         echo "########################"
         echo "The recommended server is ${SERVER}; reconnecting"
-        # nordvpn disconnect | grep -Ei -f /opt/reg-grep
         if ! nord_connect ${SERVER}
         then
           echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
