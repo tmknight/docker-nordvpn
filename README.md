@@ -1,14 +1,15 @@
-<!-- markdownlint-disable MD041 -->
+# Docker NordVPN
+
 [![GitHubPackage][GitHubPackageBadge]][GitHubPackageLink]
 [![DockerPublishing][DockerPublishingBadge]][DockerLink]
 [![DockerSize][DockerSizeBadge]][DockerLink]
 [![DockerPulls][DockerPullsBadge]][DockerLink]
 
-# NordVPN client for Docker
+### The NordVPN client for Docker
 
 Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
 
-# The Essentials
+## The Essentials
 
 Build based on:
 
@@ -27,7 +28,7 @@ Optimized for NordLynx:
 
 - NordLynx is NordVPN's fast/stable implementation of Wireguard; it is the recommended and default [TECHNOLOGY](#env-technology)
 
-# Requirements
+## Requirements
 
 Capabilities
 
@@ -43,7 +44,7 @@ Environment
 
   - Technically not required for the container to work, but it should be set if local traffic is to be routed through NordVPN
 
-# Recommendations
+## Recommendations
 
 IPv6
 
@@ -59,7 +60,7 @@ DNS
 
   - Note, this is not the same as the [DNS environment variable](#env-dns)
 
-# Environment Variables
+## Environment Variables
 
 Generally, the default settings will provide a great experience, however, several environment variables are available to provide flexibility:
 
@@ -88,17 +89,17 @@ Generally, the default settings will provide a great experience, however, severa
 | **TOKEN**<span id="env-token"></span> |                          | **RECOMMENDED**; use in place of `USER` and `PASS` for NordVPN account; generated from your NordVPN account web portal                                                                                                                    |
 | **USER**                        |                          | User for NordVPN account (not required when using `TOKEN`)                                                                                                                                                                                |
 
-# Additional Information
+## Additional Information
 
 Using the NordVPN API<span id="api"></span>
 
 - <https://sleeplessbeastie.eu/2019/02/18/how-to-use-public-nordvpn-api>
 
-# Credits
+## Credits
 
 Scripts based on the excellent work of <https://github.com/bubuntux/nordvpn>
 
-# Disclaimers
+## Disclaimers
 
 This project is independently developed for personal use; there is no affiliation with NordVPN or Nord Security companies.  Nord Security companies are not responsible for, nor have control over, the nature, content and availability of this project.
 
