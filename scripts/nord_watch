@@ -67,7 +67,8 @@ do
             echo -e $(date "+%F %T%z") "\tWARNING\tCannot determine recommended server; retaining current connection"
           fi
         else
-          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server (${HOST}); retaining current connection"
+          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server (${SERVER})"
+          echo -e $(date "+%F %T%z") "\tINFO\tRetaining current connection (${HOST})"
         fi
       else
         ## Reconnect
