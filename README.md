@@ -30,6 +30,10 @@ Optimized for NordLynx:
 
 ## Requirements
 
+Wireguard on the host
+
+- You <ins>must</ins> install Wireguard on your <ins>host</ins> in order to leverage NordLynx
+
 Capabilities
 
 - [NET_ADMIN](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
