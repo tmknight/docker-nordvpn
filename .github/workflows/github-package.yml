@@ -19,7 +19,7 @@ on:
       - '.*'
       - '.LICENSE'
       - 'examples'
-    branches: [ "main", "testing" ]
+    branches: [ "main", "develop" ]
     # Publish semver tags as releases.
     # tags: [ 'v*.*.*' ]
 
