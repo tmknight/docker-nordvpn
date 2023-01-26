@@ -19,7 +19,7 @@ if [ ${RECONNECT_INTERVAL} -ne 0 ]
 then
   Set-Target ${RECONNECT_INTERVAL}
 else
-  echo -e $(date "+%F %T%z") "\tINFO\tPeriodic VPN reconnection is disabled"
+  echo -e $(date "+%F %T%z") "\tINFO\tPeriodic VPN connection refresh is disabled"
 fi
 
 ## Evaluate connection state
@@ -67,13 +67,13 @@ do
             echo -e $(date "+%F %T%z") "\tWARNING\tCannot determine recommended server; retaining current connection"
           fi
         else
-          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server (${HOST}); retaining current connection"
+          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server (${SERVER})"
+          echo -e $(date "+%F %T%z") "\tINFO\tRetaining current connection (${HOST})"
         fi
       else
         ## Reconnect
         echo "########################"
         echo "The recommended server is ${SERVER}; reconnecting"
-        # nordvpn disconnect | grep -Ei -f /opt/reg-grep
         if ! nord_connect ${SERVER}
         then
           echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
