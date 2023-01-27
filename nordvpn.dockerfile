@@ -8,7 +8,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   CHECK_CONNECTION_URL="https://www.google.com" \
   REFRESH_CONNECTION_INTERVAL=120 \
   TECHNOLOGY=NordLynx
-ARG NORDVPN_VERSION=3.15.3
+ARG NORDVPN_VERSION=3.15.4
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get install -y -qq \
@@ -37,7 +37,8 @@ RUN apt-get update -qq \
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
-  /usr/local/bin/
+  /usr/local/bin/ \
+  && /usr/local/bin/iptables-wrapper-installer.sh
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
