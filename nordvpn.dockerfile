@@ -8,7 +8,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   CHECK_CONNECTION_URL="https://www.google.com" \
   REFRESH_CONNECTION_INTERVAL=120 \
   TECHNOLOGY=NordLynx
-ARG NORDVPN_VERSION=3.15.3
+ARG NORDVPN_VERSION=3.15.4
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get install -y -qq \
