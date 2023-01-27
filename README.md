@@ -14,7 +14,7 @@ Leveraging the native NordVPN client and iptables to create the fastest, most st
 Build based on:
 
 - Ubuntu `22.04`
-- NordVPN `3.15.3`
+- NordVPN `3.15.4`
 
 Examples of use:
 
