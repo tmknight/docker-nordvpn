@@ -46,7 +46,7 @@ do
     ## Reconnection complete, reset reconnection target
     [ ${RECONNECT_INTERVAL} -ne 0 ] && Set-Target ${RECONNECT_INTERVAL}
   ## Evaluate reconnect interval
-  elif [[ ${RECONNECT_INTERVAL} -ne 0 || -z "${CONNECT}" ]]
+  elif [[ ${RECONNECT_INTERVAL} -ne 0 ]]
   then
     if [ ${tDATE} -le ${nDATE} ]
     then
@@ -56,6 +56,10 @@ do
       ACTION=$(echo ${RECOMMENDED} | jq --raw-output .action)
       HOST=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
       SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+      if [[ -n ${CONNECT} ]]
+      then
+        SERVER="${CONNECT}"
+      fi
       if [ ${ACTION:-stay} == "stay" ]
       then
         if [ ${HOST:-null} == "null" ]
