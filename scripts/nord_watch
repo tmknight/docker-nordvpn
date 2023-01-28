@@ -46,7 +46,7 @@ do
     ## Reconnection complete, reset reconnection target
     [ ${RECONNECT_INTERVAL} -ne 0 ] && Set-Target ${RECONNECT_INTERVAL}
   ## Evaluate reconnect interval
-  elif [ ${RECONNECT_INTERVAL} -ne 0 ]
+  elif [ ${RECONNECT_INTERVAL} -ne 0 || ${CONNECT:-0} -eq 0]
   then
     if [ ${tDATE} -le ${nDATE} ]
     then
