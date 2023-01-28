@@ -6,9 +6,10 @@ LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL autoheal=true
 ENV CHECK_CONNECTION_INTERVAL=60 \
   CHECK_CONNECTION_URL="https://www.google.com" \
+  CONNECT="" \
+  CONNECTION_FILTERS="" \
   REFRESH_CONNECTION_INTERVAL=120 \
-  TECHNOLOGY=NordLynx \
-  CONNECT=""
+  TECHNOLOGY=NordLynx
 ARG NORDVPN_VERSION=3.15.4
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
