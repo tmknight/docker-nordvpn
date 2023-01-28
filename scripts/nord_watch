@@ -78,7 +78,7 @@ do
         ## Reconnect
         echo "########################"
         echo "The recommended server is ${SERVER}; reconnecting"
-        if ! nord_connect ${SERVER}
+        if ! nord_connect "${SERVER}"
         then
           echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
           CODE=2
