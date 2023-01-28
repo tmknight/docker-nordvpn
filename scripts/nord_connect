@@ -4,7 +4,7 @@ shopt -s nocasematch
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
-SERVER=$1
+SERVER="$1"
 if [[ -z ${SERVER} || ${SERVER} == "null" ]]
 then
   ## Get RECOMMENDED if internet accessible
