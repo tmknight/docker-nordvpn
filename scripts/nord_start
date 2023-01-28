@@ -38,7 +38,7 @@ then
 fi
 nord_config || exit $?
 nord_login || exit $?
-nord_connect || exit $?
+nord_connect "${CONNECT}" || exit $?
 ## Reset nord firewall if CONNECTION_FILTERS
 if [[ ${tmpFIREWALL} == true ]]
 then
