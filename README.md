@@ -102,7 +102,7 @@ Using the NordVPN API<span id="api"></span>
 
 ## Credits
 
-Scripts based on the excellent work of <https://github.com/bubuntux/nordvpn>
+Scripts based on the excellent work of [bubuntux](https://github.com/bubuntux/nordvpn)
 
 ## Disclaimers
 
