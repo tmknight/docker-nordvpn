@@ -102,8 +102,8 @@ Using the NordVPN API<span id="api"></span>
 
 ## Credits
 
-- [bubuntux](https://github.com/bubuntux/nordvpn)
-- [kubernetes-sigs](https://github.com/kubernetes-sigs/iptables-wrappers)
+- [bubuntux](https://github.com/bubuntux)
+- [kubernetes-sigs](https://github.com/kubernetes-sigs)
 
 ## Disclaimers
 
