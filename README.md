@@ -7,7 +7,7 @@
 
 ### The NordVPN client for Docker
 
-Leveraging the native NordVPN client and iptables to create the fastest, most stable connection possible.
+Leveraging the latest native NordVPN client, iptables and the Nord API to create the fastest, most stable connection possible.
 
 ## The Essentials
 
@@ -73,7 +73,8 @@ Generally, the default settings will provide a great experience, however, severa
 | **BYPASS_LIST** |   | Comma-separated list of domain names that should bypass VPN (i.e. these connections should not be secured); if set, `FIREWALL` will default to FALSE                                                                                      |
 | **CHECK_CONNECTION_INTERVAL**   | 60                       | Time in seconds to check connection state and remediate as required                                                                                                                                                                       |
 | **CHECK_CONNECTION_URL**        | <https://www.google.com> | URL used by `CHECK_CONNECTION_INTERVAL`                                                                                                                                                                                                   |
-| **CONNECTION_FILTERS**<span id="env-filters"></span> |                          | Use the [NordVPN API](#api) to help craft your filters; largely for OpenVPN, though useful with NordLynx when wanting to set a specific country/city (e.g `filters[country_city_id]=8980922`)                                        |
+| **CONNECTION_FILTERS**<span id="env-filters"></span> |                          | To connect to the fastest, lowest load server of special interest. Use the [NordVPN API](#api) to help craft your filters; largely for OpenVPN, though useful with NordLynx when wanting to set a specific country/city (e.g `filters[country_city_id]=8980922`)                                        |
+| **CONNECT** ||Provide a [country] (`Australia`), [server] (`jp35`), [country_code] (`us`), [city] (`Hungary Budapest`) or [group] (`Onion_Over_VPN`) (note CONNECT overrides CONNECTION_FILTERS; use one or the other)|
 | **CYBER_SEC**                   | FALSE                    | Learn more at [NordVPN](https://nordvpn.com/features/cybersec/) (TRUE/FALSE)                                                                                                                                                              |
 | **DNS**<span id="env-dns"></span> |                          | A comma-separated list of IPv4/IPv6 addresses to be set as the VPN tunnel DNS servers, or non-IP hostnames to be set as the tunnel's DNS search domains (leave unset to use NordVPN servers)                                          |
 | **FIREWALL**                    | TRUE                     | Use the NordVPN firewall over iptables (TRUE/FALSE; will default to FALSE when `BYPASS_LIST` in use)                                                                                                                                      |
@@ -101,7 +102,8 @@ Using the NordVPN API<span id="api"></span>
 
 ## Credits
 
-Scripts based on the excellent work of <https://github.com/bubuntux/nordvpn>
+- [bubuntux](https://github.com/bubuntux)
+- [kubernetes-sigs](https://github.com/kubernetes-sigs)
 
 ## Disclaimers
 

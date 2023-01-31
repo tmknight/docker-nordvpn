@@ -4,8 +4,8 @@ shopt -s nocasematch
 [[ -n ${PRE_CONNECT} ]] && eval ${PRE_CONNECT}
 
 RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
-SERVER=$1
-if [[ -z ${SERVER}  || ${SERVER} == "null" ]]
+SERVER="$1"
+if [[ -z ${SERVER} || ${SERVER} == "null" ]]
 then
   ## Get RECOMMENDED if internet accessible
   if [[ $(curl -sm 5 "${CHECK_CONNECTION_URL:-https://www.google.com}") ]]
