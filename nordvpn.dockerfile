@@ -3,9 +3,9 @@ FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description="NordVPN for Docker"
-LABEL org.opencontainers.image.title=nordvpn
-LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.licenses=GPL-3.0
+LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
+LABEL org.opencontainers.image.title=nordvpn
 LABEL autoheal=true
 ENV CHECK_CONNECTION_INTERVAL=60 \
   CHECK_CONNECTION_URL="https://www.google.com" \
