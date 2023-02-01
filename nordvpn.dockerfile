@@ -1,4 +1,7 @@
-FROM ubuntu:22.04
+ARG UBUNTU_VER=22.04
+FROM ubuntu:${UBUNTU_VER}
+ARG UBUNTU_VER
+LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description="NordVPN for Docker"
 LABEL org.opencontainers.image.title=nordvpn
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
