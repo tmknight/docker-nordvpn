@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
   release:
     types: [published]
-  schedule:
-    - cron: '59 23 28 * *'
+  # schedule:
+    # - cron: '59 23 28 * *'
   # push:
     # paths-ignore:
       # - '.github/**'
