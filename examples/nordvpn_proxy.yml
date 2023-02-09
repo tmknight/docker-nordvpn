@@ -20,7 +20,7 @@ services:
       - frontend
     restart: always
   proxy:
-    image: ghcr.io/tmknight/privoxy:latest
+    image: tmknight88/privoxy:latest
     container_name: privoxy
     mem_limit: 512m
     memswap_limit: 640m
