@@ -64,7 +64,6 @@ echo -e $(date "+%F %T%z") "\tINFO\tStartup complete"
 if [ ${CHECK_CONNECTION_INTERVAL:-60} -ne 0 ]
 then
     nord_watch &
-else
-    wait $!
-    exit $?
 fi
+wait $!
+exit $?
