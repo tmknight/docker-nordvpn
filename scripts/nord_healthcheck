@@ -1,15 +1,21 @@
 #!/bin/bash
-STAT=$(nordvpn status | grep -Eio --color=never "Status: Connected")
-CHK=$(curl -Is -m 5 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}")
 CODE=0
-if [ -z "$STAT" ]
+STAT=$(nordvpn status | grep -Eio --color=never "Status: Connected") || CODE=1
+if [[ -z "$STAT" || $CODE -ne 0 ]]
 then
     STAT="Status: Disconnected"
-    CODE=1
-elif [[ ! $CHK =~ ^[23] ]]
-then
-    STAT="Status: Unstable"
     CODE=2
+fi
+
+if [ $CODE -eq 0 ]
+then
+    URI=https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data
+    CHK=$(curl -fs $URI) || CODE=3
+    if [[ ! "$CHK" == true ]]
+    then
+        STAT="Status: Unstable"
+        CODE=${CODE:-4}
+    fi
 fi
 echo -n $STAT
 exit $CODE
