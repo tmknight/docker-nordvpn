@@ -4,7 +4,7 @@ STAT=$(nordvpn status | grep -Eio --color=never "Status: Connected") || CODE=1
 if [[ -z "$STAT" || $CODE -ne 0 ]]
 then
     STAT="Status: Disconnected"
-    CODE=2
+    [ $CODE -eq 0 ] && CODE=2
 fi
 
 if [ $CODE -eq 0 ]
