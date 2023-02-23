@@ -61,6 +61,9 @@ echo "########################"
 
 ## Long run script
 echo -e $(date "+%F %T%z") "\tINFO\tStartup complete"
-nord_watch &
+if [ ${CHECK_CONNECTION_INTERVAL:-60} -ne 0 ]
+then
+    nord_watch &
+fi
 wait $!
 exit $?
