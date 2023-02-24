@@ -1,8 +1,11 @@
-FROM ubuntu:22.04
+ARG UBUNTU_VER=22.04
+FROM ubuntu:${UBUNTU_VER}
+ARG UBUNTU_VER
+LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description="NordVPN for Docker"
-LABEL org.opencontainers.image.title=nordvpn
-LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.licenses=GPL-3.0
+LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
+LABEL org.opencontainers.image.title=nordvpn
 LABEL autoheal=true
 ENV CHECK_CONNECTION_INTERVAL=60 \
   CHECK_CONNECTION_URL="https://www.google.com" \
@@ -10,7 +13,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   CONNECTION_FILTERS="" \
   REFRESH_CONNECTION_INTERVAL=120 \
   TECHNOLOGY=NordLynx
-ARG NORDVPN_VERSION=3.15.4
+ARG NORDVPN_VERSION=3.15.5
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get install -y -qq \
