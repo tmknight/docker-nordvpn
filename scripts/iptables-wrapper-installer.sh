@@ -31,9 +31,9 @@
 set -eu
 
 # Find iptables binary location
-if [ -d /usr/sbin -a -e /usr/sbin/iptables ]; then
+if [ -d /usr/sbin ] && [ -e /usr/sbin/iptables ]; then
     sbin="/usr/sbin"
-elif [ -d /sbin -a -e /sbin/iptables ]; then
+elif [ -d /sbin ] && [ -e /sbin/iptables ]; then
     sbin="/sbin"
 else
     echo "ERROR: iptables is not present in either /usr/sbin or /sbin" 1>&2

@@ -7,15 +7,15 @@ then
   for domain in ${BYPASS_LIST//[;,]/ }
   do
     domain=$(echo "$domain" | sed 's/^.*:\/\///;s/\/.*$//')
-    echo -e $(date "+%F %T%z") "\tINFO\tEnabling unsecured connection to host '${domain}'"
+    echo -e "$(date "+%F %T%z")\tINFO\tEnabling unsecured connection to host '${domain}'"
     ## set iptables
     iptables -A OUTPUT -o eth0 -d "${domain}" -j ACCEPT # 2>/dev/null
     [[ -n $(dockerNetworks6) ]] && ip6tables -A OUTPUT -o eth0 -d "${domain}" -j ACCEPT # 2>/dev/null
     ## route IPs to eth0
-    ips=$(dig +short $domain | sed 's/^.*:\/\///;s/\/.*$//')
+    ips=$(dig +short "$domain" | sed 's/^.*:\/\///;s/\/.*$//')
     for ip in $ips
     do
-      ip route | grep -q "$ip" || ip route add $ip via $gw dev eth0
+      ip route | grep -q "$ip" || ip route add "$ip" via "$gw" dev eth0
     done
   done
 fi

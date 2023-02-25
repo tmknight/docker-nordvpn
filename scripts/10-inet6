@@ -3,12 +3,12 @@
 docker_networks=$(dockerNetworks6)
 if [ -z "$docker_networks" ]
 then
-  echo -e $(date "+%F %T%z") "\tWARNING\tNo inet6 network"
+  echo -e "$(date "+%F %T%z")\tWARNING\tNo inet6 network"
   exit
 fi
 IFS=',' read -ra networks <<< "$docker_networks"
 
-echo -e $(date "+%F %T%z") "\tINFO\tEnabling connection to secure interface6 and docker network6"
+echo -e "$(date "+%F %T%z")\tINFO\tEnabling connection to secure interface6 and docker network6"
 
 ip6tables -F
 ip6tables -X
@@ -17,7 +17,7 @@ ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ip6tables -A INPUT -i lo -j ACCEPT
 for net in "${networks[@]}"
 do
-  network=($net)
+  network=("$net")
   ip6tables -A INPUT -i "${network[0]}" -s "${network[1]}" -j ACCEPT
 done
 
@@ -29,7 +29,7 @@ ip6tables -A OUTPUT -o nordtun+ -j ACCEPT
 ip6tables -A OUTPUT -o nordlynx+ -j ACCEPT
 for net in "${networks[@]}"
 do
-  network=($net)
+  network=("$net")
   ip6tables -A OUTPUT -o "${network[0]}" -d "${network[1]}" -j ACCEPT
 done
 ip6tables -A OUTPUT -o eth0 -p udp -m udp --dport 53 -j ACCEPT
@@ -42,7 +42,7 @@ ip6tables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ip6tables -A FORWARD -i lo -j ACCEPT
 for net in "${networks[@]}"
 do
-  network=($net)
+  network=("$net")
   ip6tables -A FORWARD -i "${network[0]}" -d "${network[1]}" -j ACCEPT
   ip6tables -A FORWARD -i "${network[0]}" -s "${network[1]}" -j ACCEPT
 done

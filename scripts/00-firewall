@@ -7,4 +7,4 @@ ip6tables -P OUTPUT DROP 2>/dev/null
 ip6tables -P INPUT DROP 2>/dev/null
 ip6tables -P FORWARD DROP 2>/dev/null
 
-echo -e $(date "+%F %T%z") "\tINFO\tFirewall is up; traffic will be routed through vpn"
+echo -e "$(date "+%F %T%z")\tINFO\tFirewall is up; traffic will be routed through vpn"

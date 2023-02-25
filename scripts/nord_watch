@@ -8,24 +8,24 @@ function Set-Target {
   eDATE=$(date "+%F %T%z" --date="${sDATE} + ${1}min")
   ## Evaluation target value
   tDATE=$(date "+%Y%m%d%H%M" --date="${eDATE}")
-  echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time is '${eDATE}'"
+  echo -e "$(date "+%F %T%z")\tINFO\tTarget reconnect time is '${eDATE}'"
 }
 
 ## Establish reconnection target in minutes
 RECONNECT_INTERVAL=${REFRESH_CONNECTION_INTERVAL:-120}
 
 ## Determine if periodic reconnection is enabled
-if [ ${RECONNECT_INTERVAL} -ne 0 ]
+if [ "${RECONNECT_INTERVAL}" -ne 0 ]
 then
-  Set-Target ${RECONNECT_INTERVAL}
+  Set-Target "${RECONNECT_INTERVAL}"
 else
-  echo -e $(date "+%F %T%z") "\tINFO\tPeriodic VPN connection refresh is disabled"
+  echo -e "$(date "+%F %T%z")\tINFO\tPeriodic VPN connection refresh is disabled"
 fi
 
 ## Evaluate connection state
 while true
 do
-  sleep ${CHECK_CONNECTION_INTERVAL:-60}s
+  sleep "${CHECK_CONNECTION_INTERVAL:-60}"s
   ## Reconnect evaluation value
   nDATE=$(date "+%Y%m%d%H%M")
 
@@ -33,46 +33,46 @@ do
   if [[ ! $(curl -Is -m 5 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
   then
     ## Show status and retry connection
-    echo -e $(date "+%F %T%z") "\tWARNING\tUnstable connection detected"
+    echo -e "$(date "+%F %T%z")\tWARNING\tUnstable connection detected"
     echo "########################"
     nordvpn status | grep -Eiv -f /opt/inv-grep
     if ! nord_connect
     then
-      echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
+      echo -e "$(date "+%F %T%z")\tCRITICAL\tUnable to connect; exiting"
       CODE=1
       break
     fi
     echo "########################"
     ## Reconnection complete, reset reconnection target
-    [ ${RECONNECT_INTERVAL} -ne 0 ] && Set-Target ${RECONNECT_INTERVAL}
+    [ "${RECONNECT_INTERVAL}" -ne 0 ] && Set-Target "${RECONNECT_INTERVAL}"
   ## Evaluate reconnect interval
   elif [[ ${RECONNECT_INTERVAL} -ne 0 ]]
   then
-    if [ ${tDATE} -le ${nDATE} ]
+    if [ "${tDATE}" -le "${nDATE}" ]
     then
-      echo -e $(date "+%F %T%z") "\tINFO\tTarget reconnect time reached; assessing connection"
+      echo -e "$(date "+%F %T%z")\tINFO\tTarget reconnect time reached; assessing connection"
       ## Determine recommended server from API
-      RECOMMENDED=$(nord_recommend ${CONNECTION_FILTERS})
-      ACTION=$(echo ${RECOMMENDED} | jq --raw-output .action)
-      HOST=$(echo ${RECOMMENDED} | jq --raw-output .hostname)
-      SERVER=$(echo $RECOMMENDED | jq --raw-output .servername)
+      RECOMMENDED=$(nord_recommend "${CONNECTION_FILTERS}")
+      ACTION=$(echo "${RECOMMENDED}" | jq --raw-output .action)
+      HOST=$(echo "${RECOMMENDED}" | jq --raw-output .hostname)
+      SERVER=$(echo "$RECOMMENDED" | jq --raw-output .servername)
       if [[ -n ${CONNECT} ]]
       then
         SERVER="${CONNECT}"
       fi
-      if [ ${ACTION:-stay} == "stay" ]
+      if [ "${ACTION:-stay}" == "stay" ]
       then
-        if [ ${HOST:-null} == "null" ]
+        if [ "${HOST:-null}" == "null" ]
         then
           if [[ -n ${CONNECTION_FILTERS} ]]
           then
-            echo -e $(date "+%F %T%z") "\tWARNING\tInvalid connection string; retaining current connection"
+            echo -e "$(date "+%F %T%z")\tWARNING\tInvalid connection string; retaining current connection"
           else
-            echo -e $(date "+%F %T%z") "\tWARNING\tCannot determine recommended server; retaining current connection"
+            echo -e "$(date "+%F %T%z")\tWARNING\tCannot determine recommended server; retaining current connection"
           fi
         else
-          echo -e $(date "+%F %T%z") "\tINFO\tAlready connected to the recommended server (${SERVER})"
-          echo -e $(date "+%F %T%z") "\tINFO\tRetaining current connection (${HOST})"
+          echo -e "$(date "+%F %T%z")\tINFO\tAlready connected to the recommended server (${SERVER})"
+          echo -e "$(date "+%F %T%z")\tINFO\tRetaining current connection (${HOST})"
         fi
       else
         ## Reconnect
@@ -80,15 +80,15 @@ do
         echo "The recommended server is ${SERVER}; reconnecting"
         if ! nord_connect "${SERVER}"
         then
-          echo -e $(date "+%F %T%z") "\tCRITICAL\tUnable to connect; exiting"
+          echo -e "$(date "+%F %T%z")\tCRITICAL\tUnable to connect; exiting"
           CODE=2
           break
         fi
         echo "########################"
       fi
     ## Reset reconnection target
-    Set-Target ${RECONNECT_INTERVAL}
+    Set-Target "${RECONNECT_INTERVAL}"
     fi
   fi
 done
-exit ${CODE:-3}
+exit "${CODE:-3}"

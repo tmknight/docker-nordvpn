@@ -19,12 +19,12 @@ rm /run/nordvpn/* 2>/dev/null
 nordvpnd >/dev/null &
 while [ ! -S /run/nordvpn/nordvpnd.sock ]
 do
-    echo -e $(date "+%F %T%z") "\tINFO\tWaiting for nord daemon to start..."
+    echo -e "$(date "+%F %T%z")\tINFO\tWaiting for nord daemon to start..."
     sleep 2s
 done
 
 ## Start nordvpn
-echo -e $(date "+%F %T%z") "\tINFO\tConfiguring and connecting NordVPN..."
+echo -e "$(date "+%F %T%z")\tINFO\tConfiguring and connecting NordVPN..."
 echo "########################"
 ## Client information
 nordvpn version | grep -Eiv "new feature"
@@ -44,7 +44,7 @@ if [[ ${tmpFIREWALL} == true ]]
 then
     export FIREWALL=true
     nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
-    [[ ${KILLSWITCH:-true} ]] && nordvpn set killswitch ${KILLSWITCH:-true} | grep -Eiv -f /opt/inv-grep
+    [[ ${KILLSWITCH:-true} ]] && nordvpn set killswitch "${KILLSWITCH:-true}" | grep -Eiv -f /opt/inv-grep
 fi
 echo "########################"
 
@@ -60,8 +60,8 @@ echo "########################"
 [[ $(which wg) ]] && nord_migrate
 
 ## Long run script
-echo -e $(date "+%F %T%z") "\tINFO\tStartup complete"
-if [ ${CHECK_CONNECTION_INTERVAL:-60} -ne 0 ]
+echo -e "$(date "+%F %T%z")\tINFO\tStartup complete"
+if [ "${CHECK_CONNECTION_INTERVAL:-60}" -ne 0 ]
 then
     nord_watch &
 fi

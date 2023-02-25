@@ -2,16 +2,16 @@
 shopt -s nocasematch
 
 ## Apply settings
-[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
-[[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
-[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
+[[ -n ${DNS} ]] && nordvpn set dns "${DNS//[;,]/ }" | grep -Eiv -f /opt/inv-grep
+[[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec "${CYBER_SEC}" | grep -Eiv -f /opt/inv-grep
+[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate "${OBFUSCATE}" | grep -Eiv -f /opt/inv-grep
 if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
 then
   echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
   TECHNOLOGY="NordLynx"
 fi
-nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
-[[ -n ${PROTOCOL} && ${PROTOCOL} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
+nordvpn set technology "${TECHNOLOGY:-NordLynx}" | grep -Eiv -f /opt/inv-grep
+[[ -n ${PROTOCOL} && ${PROTOCOL} =~ (udp|tcp) ]] && nordvpn set protocol "${PROTOCOL}" | grep -Eiv -f /opt/inv-grep
 
 ## NordVPN firewall enabled by default unless BYPASS_LIST set
 ## Be warned that FIREWALL = true conflicts with BYPASS_LIST,
@@ -36,7 +36,7 @@ else
     FIREWALL=true
   fi
 fi
-nordvpn set firewall ${FIREWALL:-true} | grep -Eiv -f /opt/inv-grep
+nordvpn set firewall "${FIREWALL:-true}" | grep -Eiv -f /opt/inv-grep
 
 ## FIREWALL must be enabled to enable KILLSWITCH
 ## Enabled by default
@@ -48,14 +48,14 @@ then
     echo -e "WARNING\tNon-boolean KILLSWITCH value (${KILLSWITCH}); defaulting to 'true'."
     KILLSWITCH=true
   fi
-  nordvpn set killswitch ${KILLSWITCH:-true} | grep -Eiv -f /opt/inv-grep
+  nordvpn set killswitch "${KILLSWITCH:-true}" | grep -Eiv -f /opt/inv-grep
 fi
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
   nordvpn whitelist add port "${port}" | grep -Eiv -f /opt/inv-grep
 done
-[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE} | grep -Eiv -f /opt/inv-grep
+[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports "${PORT_RANGE}" | grep -Eiv -f /opt/inv-grep
 
 ## Whitelist local IPv4 networks
 netReg="${dnsReg}/[0-9]{1,2}"
@@ -65,7 +65,7 @@ then
   IFS=',' read -ra networks <<< "$docker_networks"
   for net in "${networks[@]}"
   do
-    network=($net)
+    network=("$net")
     nordvpn whitelist add subnet "${network[1]}" | grep -Eiv -f /opt/inv-grep
   done
 fi
