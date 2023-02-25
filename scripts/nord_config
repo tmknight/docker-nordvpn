@@ -65,7 +65,7 @@ then
   IFS=',' read -ra networks <<< "$docker_networks"
   for net in "${networks[@]}"
   do
-    network=("$net")
+    network=($net)
     nordvpn whitelist add subnet "${network[1]}" | grep -Eiv -f /opt/inv-grep
   done
 fi
