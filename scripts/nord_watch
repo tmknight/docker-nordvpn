@@ -91,4 +91,4 @@ do
     fi
   fi
 done
-exit "${CODE:-3}"
+exit ${CODE:-3}

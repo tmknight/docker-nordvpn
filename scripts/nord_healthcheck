@@ -19,4 +19,4 @@ then
     fi
 fi
 echo -n "$STAT"
-exit "$CODE"
+exit $CODE
