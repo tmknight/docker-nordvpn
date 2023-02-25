@@ -17,7 +17,7 @@ ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ip6tables -A INPUT -i lo -j ACCEPT
 for net in "${networks[@]}"
 do
-  network=($net)
+  IFS=" " read -r -a network <<< "$net"
   ip6tables -A INPUT -i "${network[0]}" -s "${network[1]}" -j ACCEPT
 done
 
@@ -29,7 +29,7 @@ ip6tables -A OUTPUT -o nordtun+ -j ACCEPT
 ip6tables -A OUTPUT -o nordlynx+ -j ACCEPT
 for net in "${networks[@]}"
 do
-  network=($net)
+  IFS=" " read -r -a network <<< "$net"
   ip6tables -A OUTPUT -o "${network[0]}" -d "${network[1]}" -j ACCEPT
 done
 ip6tables -A OUTPUT -o eth0 -p udp -m udp --dport 53 -j ACCEPT
@@ -42,7 +42,7 @@ ip6tables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 ip6tables -A FORWARD -i lo -j ACCEPT
 for net in "${networks[@]}"
 do
-  network=($net)
+  IFS=" " read -r -a network <<< "$net"
   ip6tables -A FORWARD -i "${network[0]}" -d "${network[1]}" -j ACCEPT
   ip6tables -A FORWARD -i "${network[0]}" -s "${network[1]}" -j ACCEPT
 done
