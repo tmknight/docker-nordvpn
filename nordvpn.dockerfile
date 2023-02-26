@@ -16,6 +16,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
 ARG NORDVPN_VERSION=3.15.5
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
+  && apt-get upgrade -y -qq \
   && apt-get install -y -qq \
   curl \
   iputils-ping \
