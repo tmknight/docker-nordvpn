@@ -1,6 +1,7 @@
-ARG UBUNTU_VER=22.04
+ARG UBUNTU_VER
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
+ARG NORDVPN_VERSION
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description="NordVPN for Docker"
 LABEL org.opencontainers.image.licenses=GPL-3.0
@@ -13,7 +14,6 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   CONNECTION_FILTERS="" \
   REFRESH_CONNECTION_INTERVAL=120 \
   TECHNOLOGY=NordLynx
-ARG NORDVPN_VERSION=3.15.5
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get upgrade -y -qq \

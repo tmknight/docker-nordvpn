@@ -22,9 +22,14 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
+  # name of image
+  IMAGE: nordvpn
   # github.repository as <account>/<repo>
   IMAGE_NAME: tmknight88/nordvpn
-
+  # Build args
+  BUILD_ARGS: |
+    "UBUNTU_VER=22.04"
+    "NORDVPN_VERSION=3.15.5"
 
 jobs:
   build:
@@ -79,7 +84,8 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
-          file: nordvpn.dockerfile
+          file: ${{ env.IMAGE }}.dockerfile
+          build-args: ${{ env.BUILD_ARGS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
