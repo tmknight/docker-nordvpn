@@ -27,7 +27,7 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: tmknight88/nordvpn
   # cosign version
-  COSIGN_VER: 'v2.0.0'
+  COSIGN_VER: 'v1.3.1'
   # Build args
   BUILD_ARGS: |
     'UBUNTU_VER=22.04'
