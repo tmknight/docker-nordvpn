@@ -30,8 +30,8 @@ env:
   COSIGN_VER: 'v1.13.1'
   # Build args
   BUILD_ARGS: |
-    'UBUNTU_VER=22.04'
-    'NORDVPN_VERSION=3.15.5'
+    "UBUNTU_VER=22.04"
+    "NORDVPN_VERSION=3.15.5"
 
 jobs:
   build:
