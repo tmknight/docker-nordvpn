@@ -47,7 +47,7 @@ then
     export FIREWALL=true
     export KILLSWITCH=${tmpKILLSWITCH:-true}
     nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
-    [[ ! ${KILLSWITCH} == false ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
+    [[ ${KILLSWITCH} != false ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
 fi
 echo "########################"
 
