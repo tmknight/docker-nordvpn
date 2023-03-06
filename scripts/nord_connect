@@ -45,7 +45,7 @@ then
   fi
 else
   ## Report the recommended server, unless called from nord_watch
-  pgrep -f "nord_watch" > /dev/null  || echo "The recommended server is ${SERVER}"
+  pgrep -f "nord_watch" > /dev/null || echo "The recommended server is ${SERVER}"
 fi
 
 ## Make the connection
