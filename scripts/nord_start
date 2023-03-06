@@ -34,17 +34,20 @@ tmpFIREWALL=false
 if [[ -n ${CONNECTION_FILTERS} && ${FIREWALL:-true} == true ]]
 then
     tmpFIREWALL=true
+    [[ -n ${KILLSWITCH} ]] && tmpKILLSWITCH=${KILLSWITCH}
     export FIREWALL=false
+    export KILLSWITCH=false
 fi
 nord_config || exit $?
 nord_login || exit $?
 nord_connect "${CONNECT}" || exit $?
 ## Reset nord firewall if CONNECTION_FILTERS
-if [[ ${tmpFIREWALL} == true ]]
+if [[ "${tmpFIREWALL}" == true ]]
 then
     export FIREWALL=true
+    export KILLSWITCH=${tmpKILLSWITCH:-true}
     nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
-    [[ ${KILLSWITCH:-true} ]] && nordvpn set killswitch "${KILLSWITCH:-true}" | grep -Eiv -f /opt/inv-grep
+    [[ ! ${KILLSWITCH} == false ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
 fi
 echo "########################"
 
