@@ -6,7 +6,7 @@ then
    gw="$(ip route | awk '/default/{print $3}')"
    for net in ${NET_LOCAL//[;,]/ }
    do
-      echo -e $(date "+%F %T%z") "\tINFO\tEnabling connection to IPv4 network ${net}"
+      echo -e "$(date "+%F %T%z")\tINFO\tEnabling connection to IPv4 network ${net}"
       ip route | grep -q "$net" || ip route add "$net" via "$gw" dev eth0
       iptables -A INPUT   -i eth0 -s "$net" -j ACCEPT
       iptables -A OUTPUT  -o eth0 -d "$net" -j ACCEPT

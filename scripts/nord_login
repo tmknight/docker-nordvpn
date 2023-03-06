@@ -2,12 +2,12 @@
 
 if ! iptables -L > /dev/null 2>&1
 then
-  echo -e $(date "+%F %T%z") "\tWARNING\tiptables is not functional. Ensure your container capabilities include NET_ADMIN" 1>&2
+  echo -e "$(date "+%F %T%z")\tWARNING\tiptables is not functional. Ensure your container capabilities include NET_ADMIN" 1>&2
   # Null route rather than leaving traffic unprotected.
   ip route del default
   ip route del 0.0.0.0/1 > /dev/null 2>&1
   ip route add default via 127.0.0.1
-  echo -e $(date "+%F %T%z") "\tWARNING\tDue to errors, routing has been disabled and further execution halted; please check your container configuration" 1>&2
+  echo -e "$(date "+%F %T%z")\tWARNING\tDue to errors, routing has been disabled and further execution halted; please check your container configuration" 1>&2
   # Don't allow execution to proceed as traffic may not be protected. Don't exit either as
   # containers that expect to be behind the VPN will route through the normal network.
   while true
@@ -22,12 +22,12 @@ nordvpn logout > /dev/null
 if [[ -n ${TOKEN} ]]
 then
   nordvpn login --token "${TOKEN}" > /dev/null || {
-    echo -e $(date "+%F %T%z") "\tWARNING\tInvalid token."
+    echo -e "$(date "+%F %T%z")\tWARNING\tInvalid token."
     exit 1
   }
 else
   nordvpn login --legacy --username "${USER}" --password "${PASS}" > /dev/null || {
-    echo -e $(date "+%F %T%z") "\tWARNING\tInvalid Username or password."
+    echo -e "$(date "+%F %T%z")\tWARNING\tInvalid Username or password."
     exit 1
   }
 fi

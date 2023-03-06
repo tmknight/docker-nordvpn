@@ -3,8 +3,8 @@
 docker_networks=$(ip link | awk -F': ' '$0 !~ "lo|wg|tun|tap|^[^0-9]"{print $2;getline}' | cut -d@ -f1 | (
   while read -r interface
   do
-    network="$(ip -o addr show dev "$interface" | awk '$3 == "inet" {print $4}')"
-    if [ ! -z "$network" ]
+    network=$(ip -o addr show dev "$interface" | awk '$3 == "inet" {print $4}')
+    if [ -n "$network" ]
     then
       if [ -z "$result" ]
       then
