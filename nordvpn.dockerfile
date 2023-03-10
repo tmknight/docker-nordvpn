@@ -23,6 +23,7 @@ RUN apt-get update -qq \
   libc6 \
   dnsutils \
   jq \
+  iptables \
   ## only if desired to obtain the private key
   # wireguard \
   && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
