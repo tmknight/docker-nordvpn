@@ -45,7 +45,7 @@ COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/ \
-  && /usr/local/bin/iptables-wrapper-installer.sh --no-sanity-check
+  && /usr/local/bin/iptables-wrapper-installer.sh
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
