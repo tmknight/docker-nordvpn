@@ -104,9 +104,16 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=NordVPN for Docker
+          # outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=NordVPN for Docker
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Set image information with annotation
+        id: set_image_info
+        run: |
+          image_digest=$(docker inspect --format='{{json .RepoDigests}}' my-image:latest)
+          image_info="{\"description\":\"${{ github.repository_description }}\",\"digest\":${image_digest}}"
+          echo "::set-output name=target::$image_info"
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
