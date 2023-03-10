@@ -113,7 +113,7 @@ jobs:
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          if: ${{ build-and-push.platform == 'linux/amd64' }}
+          if: ${{ matrix.platform == 'linux/amd64' }}
           build-args: ${{ env.BUILD_ARGS_AMD }}
 
       - name: Build and push Docker image for arm64
@@ -129,7 +129,7 @@ jobs:
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          if: ${{ build-and-push.platform != 'linux/amd64' }}
+          if: ${{ matrix.platform != 'linux/amd64' }}
           build-args: ${{ env.BUILD_ARGS_ARM }}
           
       # Sign the resulting Docker image digest except on PRs.
