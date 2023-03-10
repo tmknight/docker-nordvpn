@@ -2,7 +2,6 @@ ARG UBUNTU_VER
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
 ARG NORDVPN_VERSION
-ARG IPT_CHECK
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description DESCRIPTION
 LABEL org.opencontainers.image.licenses=GPL-3.0
@@ -46,7 +45,7 @@ COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/ \
-  && /usr/local/bin/iptables-wrapper-installer.sh ${IPT_CHECK}
+  && /usr/local/bin/iptables-wrapper-installer.sh --no-sanity-check
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
