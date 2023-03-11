@@ -1,8 +1,8 @@
-name: cleanup caches by a branch
+name: Github Cache Management
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '59 23 28 * *'
+  schedule:
+    - cron: '2 0 * * 1'
 
 jobs:
   cleanup:
