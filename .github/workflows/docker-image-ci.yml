@@ -80,7 +80,7 @@ jobs:
 
     - name: Run Docker image amd64
       run: |
-        docker run --rm --add-cap NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 nord_start && iptables -L && exit 
+        docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 nord_start && iptables -L && exit 
 
     - name: Build Docker image arm64
       id: build-arm64
@@ -99,4 +99,4 @@ jobs:
 
     - name: Run Docker image arm64
       run: |
-        docker run --rm --add-cap NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 nord_start && iptables -L && exit 
+        docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 nord_start && iptables -L && exit 
