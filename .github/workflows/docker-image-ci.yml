@@ -72,8 +72,12 @@ jobs:
         file: ${{ env.IMAGE }}.dockerfile
         build-args: ${{ env.BUILD_ARGS }}
         push: false
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ${{ env.IMAGE_NAME }}:test
         labels: ${{ steps.meta.outputs.labels }}
-        outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
+        load: true
         cache-to: type=inline
         cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+    - name: Run Docker imageest
+      run: |
+        docker run --rm ${{ env.IMAGE_NAME }}:test
