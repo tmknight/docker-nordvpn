@@ -3,7 +3,7 @@ FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
 ARG NORDVPN_VERSION
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
-LABEL org.opencontainers.image.description="NordVPN for Docker"
+LABEL org.opencontainers.image.description DESCRIPTION
 LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.title=nordvpn
@@ -18,6 +18,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get upgrade -y -qq \
   && apt-get install -y -qq \
+  iptables \
   curl \
   iputils-ping \
   libc6 \
@@ -44,7 +45,8 @@ COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/ \
-  && /usr/local/bin/iptables-wrapper-installer.sh
+  && if [[ $(uname -i) != x86_64 ]]; then SANITY_CHECK="--no-sanity-check"; fi \
+  && /usr/local/bin/iptables-wrapper-installer.sh ${SANITY_CHECK}
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
