@@ -1,4 +1,4 @@
-name: cleanup caches by a branch
+name: Github Cache Management
 on:
   workflow_dispatch:
   # schedule:
