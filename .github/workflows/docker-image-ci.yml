@@ -1,0 +1,79 @@
+# for NordVPN
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - '*.md'
+      - '.*'
+      - '.LICENSE'
+      - 'examples'
+    # branches: [ "main" ]
+    # tags: [ 'v*.*.*' ]
+  # pull_request:
+    # branches: [ "main" ]
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # name of image
+  IMAGE: nordvpn
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: tmknight/nordvpn
+  # cosign version
+  COSIGN_VER: 'v1.13.1'
+  # Build args
+  BUILD_ARGS: |
+    "UBUNTU_VER=22.04"
+    "NORDVPN_VERSION=3.15.5"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    # Setup QEMU for multi-arch
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+      with:
+        platforms: amd64,arm64
+
+    # Workaround: https://github.com/docker/build-push-action/issues/461
+    - name: Setup Docker buildx
+      uses: docker/setup-buildx-action@v2
+
+    # Extract metadata (tags, labels) for Docker
+    # https://github.com/docker/metadata-action
+    - name: Extract Docker metadata
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+    # Build and push Docker image with Buildx (don't push on PR)
+    # https://github.com/docker/build-push-action
+    - name: Build Docker image
+      id: build
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        file: ${{ env.IMAGE }}.dockerfile
+        build-args: ${{ env.BUILD_ARGS }}
+        push: false
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
+        cache-to: type=inline
+        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
