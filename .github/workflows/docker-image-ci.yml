@@ -82,9 +82,11 @@ jobs:
       run: |
         docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 \
         00-firewall \
-        && 10-inet \
-        && iptables -L \
-        && exit 0
+        rm /run/nordvpn/* 2>/dev/null \
+        & nordvpnd >/dev/null \
+        & iptables -L \
+        & nordvpn version | grep -Eiv "new feature" \
+        & exit 0
 
     - name: Build Docker image arm64
       id: build-arm64
@@ -105,6 +107,8 @@ jobs:
       run: |
         docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 \
         00-firewall \
-        && 10-inet \
-        && iptables -L \
-        && exit 0
+        rm /run/nordvpn/* 2>/dev/null \
+        & nordvpnd >/dev/null \
+        & iptables -L \
+        & nordvpn version | grep -Eiv "new feature" \
+        & exit 0
