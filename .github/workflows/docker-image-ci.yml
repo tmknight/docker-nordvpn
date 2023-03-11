@@ -69,6 +69,3 @@ jobs:
         outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
         cache-from: type=gha
         cache-to: type=gha,mode=max
-
-    # - name: Build the Docker image
-    #   run: docker build . --file nordvpn.dockerfile --tag nordvpn:$(date +%s)
