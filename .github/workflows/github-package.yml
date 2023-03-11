@@ -12,14 +12,14 @@ on:
     # - cron: '00 23 * * *'
   release:
     types: [published]
-  push:
-    paths-ignore:
-      - '.github/**'
-      - '*.md'
-      - '.*'
-      - '.LICENSE'
-      - 'examples'
-    branches: [ "main", "develop" ]
+  # push:
+  #   paths-ignore:
+  #     - '.github/**'
+  #     - '*.md'
+  #     - '.*'
+  #     - '.LICENSE'
+  #     - 'examples'
+  #   branches: [ "main", "develop" ]
 
 env:
   # Use docker.io for Docker Hub if empty
