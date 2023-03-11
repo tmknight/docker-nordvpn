@@ -39,7 +39,7 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
-      
+
     steps:
     - uses: actions/checkout@v3
 
@@ -75,5 +75,5 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        cache-to: type=inline
+        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
