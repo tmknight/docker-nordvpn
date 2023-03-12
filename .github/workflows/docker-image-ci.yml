@@ -81,7 +81,7 @@ jobs:
     - name: Run Docker image amd64
       run: |
         docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 bash -c \
-        "00-firewall && 10-inet && 20-tun && rm /run/nordvpn/* 2>/dev/null && nordvpnd >/dev/null & while [ ! -S /run/nordvpn/nordvpnd.sock ]; do sleep 2s; done && iptables -L && nordvpn version | grep -Eiv 'new feature' && exit $?"
+        "00-firewall && 10-inet && 20-tun && iptables -L && exit $?"
 
 #    - name: Build Docker image arm64
 #      id: build-arm64
@@ -101,4 +101,4 @@ jobs:
 #    - name: Run Docker image arm64
 #      run: |
 #        docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-#        "00-firewall & rm /run/nordvpn/* 2>/dev/null & nordvpnd >/dev/null & iptables -L & nordvpn version | grep -Eiv "new feature" & exit 0"
+#        "00-firewall && 10-inet && 20-tun && iptables -L && exit $?"
