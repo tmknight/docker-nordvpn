@@ -3,13 +3,13 @@ name: Docker Image CI
 
 on:
   workflow_dispatch:
-  push:
-    paths-ignore:
-      - '.github/**'
-      - '*.md'
-      - '.*'
-      - '.LICENSE'
-      - 'examples'
+  # push:
+  #   paths-ignore:
+  #     - '.github/**'
+  #     - '*.md'
+  #     - '.*'
+  #     - '.LICENSE'
+  #     - 'examples'
     # branches: [ "main" ]
     # tags: [ 'v*.*.*' ]
   # pull_request:
