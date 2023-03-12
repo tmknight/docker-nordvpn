@@ -46,8 +46,7 @@ COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/ \
-  && if [ ${TARGETARCH} != amd64 ]; then SANITY_CHECK="--no-sanity-check"; fi \
-  && /usr/local/bin/iptables-wrapper-installer.sh ${SANITY_CHECK}
+  && if [ ${TARGETARCH} == amd64 ]; then /usr/local/bin/iptables-wrapper-installer.sh; fi
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
