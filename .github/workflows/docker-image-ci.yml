@@ -101,5 +101,5 @@ jobs:
     - name: Run Docker image arm64
       run: |
         docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-        "which iptables && which iptables-nft && exit $?"
+        "which iptables && iptables --help && which iptables-nft && iptables-nft --help && exit $?"
         # "00-firewall && 10-inet && 20-tun && 30-route && which iptables && iptables -V && iptables -L && exit $?"
