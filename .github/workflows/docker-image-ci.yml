@@ -101,7 +101,7 @@ jobs:
     - name: arm64 iptables-nft
       run: |
         docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-        "iptables-nft --help"
+        "IPTABLES_LEGACY=1; iptables-nft --help"
     - name: arm64 iptables-legacy
       run: |
         docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
