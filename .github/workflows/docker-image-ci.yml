@@ -80,8 +80,8 @@ jobs:
 
     - name: Run Docker image amd64
       run: |
-        docker run --rm -it --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 bash -c \
-        "00-firewall & 10-net & rm /run/nordvpn/* 2>/dev/null & nordvpnd >/dev/null & iptables -L & nordvpn version | grep -Eiv 'new feature' & exit 0"
+        docker run --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 bash -c \
+        "00-firewall & 10-inet & rm /run/nordvpn/* 2>/dev/null & nordvpnd >/dev/null & sleep 10s & iptables -L & nordvpn version | grep -Eiv 'new feature' & exit 0"
 
 #    - name: Build Docker image arm64
 #      id: build-arm64
