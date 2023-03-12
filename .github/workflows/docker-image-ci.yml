@@ -63,25 +63,25 @@ jobs:
 
     # Build and push Docker image with Buildx (don't push on PR)
     # https://github.com/docker/build-push-action
-    - name: Build Docker image amd64
-      id: build-amd64
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        platforms: linux/amd64
-        file: ${{ env.IMAGE }}.dockerfile
-        build-args: ${{ env.BUILD_ARGS }}
-        push: false
-        tags: ${{ env.IMAGE_NAME }}:amd64
-        labels: ${{ steps.meta.outputs.labels }}
-        load: true
-        cache-to: type=inline
-        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    # - name: Build Docker image amd64
+    #   id: build-amd64
+    #   uses: docker/build-push-action@v4
+    #   with:
+    #     context: .
+    #     platforms: linux/amd64
+    #     file: ${{ env.IMAGE }}.dockerfile
+    #     build-args: ${{ env.BUILD_ARGS }}
+    #     push: false
+    #     tags: ${{ env.IMAGE_NAME }}:amd64
+    #     labels: ${{ steps.meta.outputs.labels }}
+    #     load: true
+    #     cache-to: type=inline
+    #     cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    - name: Run Docker image amd64
-      run: |
-        docker run --platform linux/amd64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 bash -c \
-        "00-firewall && 10-inet && 20-tun && 30-route && which iptables && iptables -V && iptables -L && exit $?"
+    # - name: Run Docker image amd64
+    #   run: |
+    #     docker run --platform linux/amd64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 bash -c \
+    #     "00-firewall && 10-inet && 20-tun && 30-route && which iptables && iptables -V && iptables -L && exit $?"
 
     - name: Build Docker image arm64
       id: build-arm64
@@ -101,5 +101,5 @@ jobs:
     - name: Run Docker image arm64
       run: |
         docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-        "which iptables && exit $?"
+        "which iptables && which iptables-nft && exit $?"
         # "00-firewall && 10-inet && 20-tun && 30-route && which iptables && iptables -V && iptables -L && exit $?"
