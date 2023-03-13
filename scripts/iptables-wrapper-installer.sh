@@ -159,9 +159,9 @@ if ! legacy=\$("\${sbin}/iptables-legacy" --version > /dev/null 2>&1); then
     CODE=3
 fi
 
-if [ "\${mode}" = nft ] && [ \${CODE} = 2 ]; then
+if [ "\${mode}" = nft ] && [ \${CODE} -eq 2 ]; then
     mode=legacy
-elif [ "\${mode}" = legacy ] && [ \${CODE} = 3 ]; then
+elif [ "\${mode}" = legacy ] && [ \${CODE} -eq 3 ]; then
     mode=nft
 fi
 
