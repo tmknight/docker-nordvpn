@@ -30,6 +30,7 @@
 
 set -eu
 
+CODE=0
 # Find iptables binary location
 if [ -d /usr/sbin ] && [ -e /usr/sbin/iptables ]; then
     sbin="/usr/sbin"
@@ -54,25 +55,37 @@ fi
 
 if [ "${1:-}" != "--no-sanity-check" ]; then
     # Ensure dependencies are installed
-    if ! version=$("${sbin}/iptables-nft" --version 2> /dev/null); then
+    if ! nft=$("${sbin}/iptables-nft" --version 2> /dev/null); then
         echo "ERROR: iptables-nft is not installed" 1>&2
-        exit 1
+        CODE=2
     fi
-    if ! "${sbin}/iptables-legacy" --version > /dev/null 2>&1; then
+    if ! legacy=$("${sbin}/iptables-legacy" --version > /dev/null 2>&1); then
         echo "ERROR: iptables-legacy is not installed" 1>&2
-        exit 1
+        CODE=3
     fi
 
-    case "${version}" in
+    case "${nft}" in
     *v1.8.[0123]\ *)
         echo "ERROR: iptables 1.8.0 - 1.8.3 have compatibility bugs." 1>&2
         echo "       Upgrade to 1.8.4 or newer." 1>&2
-        exit 1
+        exit 4
         ;;
     *)
         # 1.8.4+ are OK
         ;;
     esac
+    case "${legacy}" in
+    *v1.8.[0123]\ *)
+        echo "ERROR: iptables 1.8.0 - 1.8.3 have compatibility bugs." 1>&2
+        echo "       Upgrade to 1.8.4 or newer." 1>&2
+        exit 5
+        ;;
+    *)
+        # 1.8.4+ are OK
+        ;;
+    esac
+
+    [ $CODE -ne 0 ] && exit $CODE
 fi
 
 # Start creating the wrapper...
@@ -129,6 +142,19 @@ else
     fi
 fi
 
+CODE=0
+if ! nft=\$("iptables-nft" --version 2> /dev/null); then
+    CODE=2
+fi
+if ! legacy=\$("iptables-legacy" --version > /dev/null 2>&1); then
+    CODE=3
+fi
+
+if [ "\${mode}" = nft ] && [ \${CODE} -eq 2 ]; then
+    mode=legacy
+elif [ "\${mode}" = legacy ] && [ \${CODE} -eq 3 ]; then
+    mode=nft
+fi
 EOF
 
 # Write out the appropriate alternatives-selection commands
