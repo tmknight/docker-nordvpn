@@ -142,6 +142,15 @@ else
 fi
 
 CODE=0
+if [ -d /usr/sbin ] && [ -e /usr/sbin/iptables ]; then
+    sbin="/usr/sbin"
+elif [ -d /sbin ] && [ -e /sbin/iptables ]; then
+    sbin="/sbin"
+else
+    echo "ERROR: iptables is not present in either /usr/sbin or /sbin" 1>&2
+    exit 1
+fi
+
 if ! nft=\$("\${sbin}/iptables-nft" --version 2> /dev/null); then
     echo "ERROR: iptables-nft is not installed" 1>&2
     CODE=2
