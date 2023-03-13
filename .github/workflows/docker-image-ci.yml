@@ -98,14 +98,14 @@ jobs:
         cache-to: type=inline
         cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    - name: Run arm64 iptables-legacy
-      run: |
-        docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-        "iptables-legacy --help && ls -alh /usr/sbin/iptables* && which iptables && which iptables-legacy && which iptables-nft"
-    # - name: Run arm64 iptables
+    # - name: Run arm64 iptables-legacy
     #   run: |
     #     docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-    #     "/usr/sbin/iptables --help"
+    #     "iptables-legacy --help && ls -alh /usr/sbin/iptables* && which iptables && which iptables-legacy && which iptables-nft"
+    - name: Run arm64 iptables
+      run: |
+        docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
+        "iptables --help && ls -alh /usr/sbin/iptables* && which iptables && which iptables-legacy && which iptables-nft"
     # - name: Run arm64 iptables-nft
     #   run: |
     #     docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
