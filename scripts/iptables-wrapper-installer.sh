@@ -85,8 +85,6 @@ if [ "${1:-}" != "--no-sanity-check" ]; then
         ;;
     esac
 
-    [ $CODE -ne 0 ] && exit $CODE
-
 fi
 
 # Start creating the wrapper...
@@ -218,5 +216,6 @@ case "${altstyle}" in
 	;;
 esac
 
+echo "CODE:$CODE | MODE:$mode"
 # Cleanup
 rm -f "$0"
