@@ -55,16 +55,16 @@ fi
 
 if [ "${1:-}" != "--no-sanity-check" ]; then
     # Ensure dependencies are installed
-    if ! version0=$("${sbin}/iptables-nft" --version 2> /dev/null); then
+    if ! nft=$("${sbin}/iptables-nft" --version 2> /dev/null); then
         echo "ERROR: iptables-nft is not installed" 1>&2
         CODE=2
     fi
-    if ! version1=$("${sbin}/iptables-legacy" --version > /dev/null 2>&1); then
+    if ! legacy=$("${sbin}/iptables-legacy" --version > /dev/null 2>&1); then
         echo "ERROR: iptables-legacy is not installed" 1>&2
         CODE=3
     fi
 
-    case "${version0}" in
+    case "${nft}" in
     *v1.8.[0123]\ *)
         echo "ERROR: iptables 1.8.0 - 1.8.3 have compatibility bugs." 1>&2
         echo "       Upgrade to 1.8.4 or newer." 1>&2
@@ -74,7 +74,7 @@ if [ "${1:-}" != "--no-sanity-check" ]; then
         # 1.8.4+ are OK
         ;;
     esac
-    case "${version1}" in
+    case "${legacy}" in
     *v1.8.[0123]\ *)
         echo "ERROR: iptables 1.8.0 - 1.8.3 have compatibility bugs." 1>&2
         echo "       Upgrade to 1.8.4 or newer." 1>&2
@@ -139,6 +139,22 @@ else
             mode=nft
         fi
     fi
+fi
+
+CODE=0
+if ! nft=\$("\${sbin}/iptables-nft" --version 2> /dev/null); then
+    echo "ERROR: iptables-nft is not installed" 1>&2
+    CODE=2
+fi
+if ! legacy=\$("\${sbin}/iptables-legacy" --version > /dev/null 2>&1); then
+    echo "ERROR: iptables-legacy is not installed" 1>&2
+    CODE=3
+fi
+
+if [ "\${mode}" = nft ] && [ \${CODE} = 2 ]; then
+    mode=legacy
+elif [ "\${mode}" = legacy ] && [ \${CODE} = 3 ]; then
+    mode=nft
 fi
 
 EOF
@@ -216,6 +232,5 @@ case "${altstyle}" in
 	;;
 esac
 
-echo "CODE:$CODE | MODE:$mode"
 # Cleanup
 rm -f "$0"
