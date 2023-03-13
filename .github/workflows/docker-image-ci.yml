@@ -81,7 +81,7 @@ jobs:
     - name: Run Docker image amd64
       run: |
         docker run --platform linux/amd64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:amd64 bash -c \
-        "00-firewall & 10-inet & 20-tun & 30-route & iptables -V & iptables -L & ls -alh /usr/sbin/iptables* & exit $?"
+        "00-firewall && 10-inet && 20-tun && 30-route && iptables -V && iptables -L && ls -alh /usr/sbin/iptables*"
 
     - name: Build Docker image arm64
       id: build-arm64
@@ -101,4 +101,4 @@ jobs:
     - name: Run Docker image arm64
       run: |
         docker run --platform linux/arm64 --rm --cap-add NET_ADMIN ${{ env.IMAGE_NAME }}:arm64 bash -c \
-        "00-firewall & 10-inet & 20-tun & 30-route & iptables -V & iptables -L & ls -alh /usr/sbin/iptables* & exit $?"
+         "00-firewall && 10-inet && 20-tun && 30-route && iptables -V && iptables -L && ls -alh /usr/sbin/iptables*"
