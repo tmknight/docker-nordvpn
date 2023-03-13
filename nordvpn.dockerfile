@@ -46,7 +46,7 @@ COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/ \
-  /usr/local/bin/iptables-wrapper-installer.sh
+  && /usr/local/bin/iptables-wrapper-installer.sh
   # && if [ "${TARGETARCH}" = "amd64" ]; then /usr/local/bin/iptables-wrapper-installer.sh; fi
 ## Expose Privoxy traffic
 EXPOSE 8118
