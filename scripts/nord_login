@@ -17,6 +17,7 @@ then
 fi
 
 ## only token is viable in a container
+nordvpn logout --persist-token > /dev/null 2>&1
 if [[ -n ${TOKEN} ]]
 then
   nordvpn login --token "${TOKEN}" > /dev/null || {

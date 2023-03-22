@@ -69,4 +69,6 @@ then
     nord_watch &
 fi
 wait $!
-exit $?
+CODE=$?
+nordvpn logout --persist-token > /dev/null 2>&1
+exit $CODE
