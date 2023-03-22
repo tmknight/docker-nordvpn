@@ -28,27 +28,14 @@ echo -e "$(date "+%F %T%z")\tINFO\tConfiguring and connecting NordVPN..."
 echo "########################"
 ## Client information
 nordvpn version | grep -Eiv "new feature"
-
-## Disable the nordvpn firewall prior to connection if CONNECTION_FILTERS
-tmpFIREWALL=false
-if [[ -n ${CONNECTION_FILTERS} && ${FIREWALL:-true} == true ]]
-then
-    tmpFIREWALL=true
-    [[ -n ${KILLSWITCH} ]] && tmpKILLSWITCH=${KILLSWITCH}
-    export FIREWALL=false
-    export KILLSWITCH=false
-fi
+## Nord firewall always off at this step to allow for filters
+nordvpn set firewall false > /dev/null
+nordvpn set killswitch false > /dev/null
+## Apply user settings
 nord_config || exit $?
 nord_login || exit $?
 nord_connect "${CONNECT}" || exit $?
-## Reset nord firewall if CONNECTION_FILTERS
-if [[ "${tmpFIREWALL}" == true ]]
-then
-    export FIREWALL=true
-    export KILLSWITCH=${tmpKILLSWITCH:-true}
-    nordvpn set firewall ${FIREWALL} | grep -Eiv -f /opt/inv-grep
-    [[ ${KILLSWITCH} != false ]] && nordvpn set killswitch ${KILLSWITCH} | grep -Eiv -f /opt/inv-grep
-fi
+nord_firewall || exit $?
 echo "########################"
 
 ## Allow NET_LOCAL traffic
@@ -69,4 +56,6 @@ then
     nord_watch &
 fi
 wait $!
-exit $?
+CODE=$?
+nordvpn logout --persist-token > /dev/null 2>&1
+exit $CODE

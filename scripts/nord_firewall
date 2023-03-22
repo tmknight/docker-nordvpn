@@ -1,0 +1,41 @@
+#!/bin/bash
+shopt -s nocasematch
+
+## NordVPN firewall enabled by default unless BYPASS_LIST set
+## Be warned that FIREWALL = true conflicts with BYPASS_LIST,
+## thus if BYPASS_LIST declared, FIREWALL automatically set to false
+if [[ -z ${FIREWALL} && -z ${BYPASS_LIST} ]]
+then
+  FIREWALL=true
+elif [[ -n ${BYPASS_LIST} ]]
+then
+  if [[ -n ${FIREWALL} ]]
+  then
+    ## If BYPASS_LIST, disable nord firewall, regardless if declared
+    echo -e "WARNING\tUse of BYPASS_LIST overrides FIREWALL; FIREWALL value will not be honored."
+    echo -e "INFO\tUsing iptables in place of NordVPN firewall."
+  fi
+  FIREWALL=false
+else
+## Ensure FIREWALL true/false
+  if [[ ! ${FIREWALL:-true} =~ (true|false) ]]
+  then
+    echo -e "WARNING\tNon-boolean FIREWALL value (${FIREWALL}); defaulting to 'true'."
+    FIREWALL=true
+  fi
+fi
+nordvpn set firewall "${FIREWALL:-true}" | grep -Eiv -f /opt/inv-grep
+
+## FIREWALL must be enabled to enable KILLSWITCH
+## Enabled by default
+if [[ "${FIREWALL}" == "true" ]]
+then
+## Ensure KILLSWITCH true/false
+  if [[ ! ${KILLSWITCH:-true} =~ (true|false) ]]
+  then
+    echo -e "WARNING\tNon-boolean KILLSWITCH value (${KILLSWITCH}); defaulting to 'true'."
+    KILLSWITCH=true
+  fi
+  nordvpn set killswitch "${KILLSWITCH:-true}" | grep -Eiv -f /opt/inv-grep
+fi
+exit 0
