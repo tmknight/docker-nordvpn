@@ -13,7 +13,7 @@ Leveraging the latest native NordVPN client, iptables and the Nord API to create
 
 Build based on:
 
-- NordVPN `3.15.5`
+- NordVPN `3.16.0`
 - Ubuntu `22.04`
 
 Examples of use:
