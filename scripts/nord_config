@@ -20,7 +20,7 @@ done
 [[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports "${PORT_RANGE}" | grep -Eiv -f /opt/inv-grep
 
 ## Whitelist local IPv4 networks
-# netReg="${dnsReg}/[0-9]{1,2}"
+netReg="${dnsReg}/[0-9]{1,2}"
 docker_networks=$(dockerNetworks)
 if [[ -n ${docker_networks} ]]
 then

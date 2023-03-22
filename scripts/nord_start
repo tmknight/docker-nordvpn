@@ -28,7 +28,10 @@ echo -e "$(date "+%F %T%z")\tINFO\tConfiguring and connecting NordVPN..."
 echo "########################"
 ## Client information
 nordvpn version | grep -Eiv "new feature"
-
+## Nord firewall always off at this step to allow for filters
+nordvpn set firewall false > /dev/null
+nordvpn set killswitch false > /dev/null
+## Apply user settings
 nord_config || exit $?
 nord_login || exit $?
 nord_connect "${CONNECT}" || exit $?
