@@ -31,9 +31,12 @@ env:
   # cosign version
   COSIGN_VER: 'v1.13.1'
   # Build args
+  # BUILD_ARGS: |
+  #   "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
+  #   "NORDVPN_VERSION=${{ vars.NORDVPN_VERSION }}"
   BUILD_ARGS: |
     "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
-    "NORDVPN_VERSION=${{ vars.NORDVPN_VERSION }}"
+    "NORDVPN_VERSION=3.16.0"
 
 jobs:
   build:
