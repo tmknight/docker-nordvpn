@@ -13,7 +13,7 @@ Leveraging the latest native NordVPN client, iptables and the Nord API to create
 
 Build based on:
 
-- NordVPN `3.15.5`
+- NordVPN `3.16.0`
 - Ubuntu `22.04`
 
 Examples of use:
@@ -42,7 +42,8 @@ Environment
 
 - [TOKEN](#env-token)
 
-  - Or `USER` & `PASS`/`PASSFILE` if you, for some reason, decide to use these instead
+  - **ONLY TOKENS ARE VIABLE IN A CONTAINER**
+  - The use of USERNAME and PASSWORD has been deprecated wherein only TOKEN or login via browser are accepted with the Linux client
 
 - [NET_LOCAL](#env-netlocal)
 
@@ -82,8 +83,6 @@ Generally, the default settings will provide a great experience, however, severa
 | **NET_LOCAL**<span id="env-netlocal"></span> |                          | Add a route to local IPv4 network once the VPN is up; the Docker network is automatically added; must be CIDR IPv4 format (e.g. `192.168.1.0/24`)                                                                                         |
 | **NET6_LOCAL**                  |                          | Add a route to local IPv4 network once the VPN is up; the Docker network is automatically added; must be CIDR IPv6 format (e.g. `fe00:d34d:b33f::/64`)                                                                                    |
 | **OBFUSCATE**                   | FALSE                    | Only valid when using TECHNOLOGY OpenVPN; learn more at [NordVPN](https://nordvpn.com/features/obfuscated-servers/) (TRUE/FALSE)                                                                                                          |
-| **PASS**                        |                          | Password for NordVPN account; surround in single quotes to prevent issues with special characters such as `$` (not required when using `TOKEN` or `PASSFILE`)                                                                             |
-| **PASSFILE**                    |                          | For use with `USER` and [docker secrets](https://docs.docker.com/compose/compose-file/compose-file-v3/#secrets), this should be set to `/run/secrets/<secret_name>`; this file should contain just the account password on the first line |
 | **PORT_RANGE**                  |                          | Port range to whitelist for both UDP and TCP; (e.g. `PORT_RANGE=9091 9095`)                                                                                                                                                               |
 | **PORTS**                       |                          | Semicolon delimited list of ports to whitelist for both UDP and TCP; (e.g `PORTS=9091;9095`)                                                                                                                                              |
 | **POST_CONNECT**                |                          | Command to execute after successful connection                                                                                                                                                                                            |
@@ -91,8 +90,7 @@ Generally, the default settings will provide a great experience, however, severa
 | **PROTOCOL**                    | UDP                      | Only valid when using TECHNOLOGY OpenVPN (TCP/UDP)                                                                                                                                                                                        |
 | **REFRESH_CONNECTION_INTERVAL** | 120                      | Time in minutes to trigger VPN reconnection to help ensure best connection available (0 = disable)                                                                                                                                                      |
 | **TECHNOLOGY**<span id="env-technology"></span> | NordLynx                 | Specify the VPN Technology to use (NordLynx/OpenVPN)                                                                           |
-| **TOKEN**<span id="env-token"></span> |                          | **RECOMMENDED**; use in place of `USER` and `PASS` for NordVPN account; generated from your [NordVPN account web portal](https://my.nordaccount.com/dashboard/nordvpn/)                                                                                                                    |
-| **USER**                        |                          | User for NordVPN account (not required when using `TOKEN`)                                                                                                                                                                                |
+| **TOKEN**<span id="env-token"></span> |                          | Generated from your [NordVPN account web portal](https://my.nordaccount.com/dashboard/nordvpn/)                                                                                                                    |
 
 ## Additional Information
 
