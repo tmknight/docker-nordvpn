@@ -16,9 +16,7 @@ then
   done
 fi
 
-[[ -z "${PASS}" ]] && [[ -f "${PASSFILE}" ]] && PASS="$(head -n 1 "${PASSFILE}")"
-nordvpn logout > /dev/null
-
+## only token is viable in a container
 if [[ -n ${TOKEN} ]]
 then
   nordvpn login --token "${TOKEN}" > /dev/null || {
@@ -26,13 +24,8 @@ then
     exit 1
   }
 else
-  nordvpn login --legacy --username "${USER}" --password "${PASS}" > /dev/null || {
-    echo -e "$(date "+%F %T%z")\tWARNING\tInvalid Username or password."
-    exit 1
-  }
+    echo -e "$(date "+%F %T%z")\tWARNING\tA token must be provided; only tokens are supported."
 fi
 ## Clear sensitive variables
-unset TOKEN
-unset PASS
 echo "Login successful; connection now in progress..."
 exit 0
