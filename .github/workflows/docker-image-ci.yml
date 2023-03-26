@@ -75,8 +75,8 @@ jobs:
         tags: ${{ env.IMAGE_NAME }}:amd64
         labels: ${{ steps.meta.outputs.labels }}
         load: true
-        cache-to: type=inline
-        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cache
+        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cache,mode=max
 
     - name: Run Docker image amd64
       run: |
@@ -95,8 +95,8 @@ jobs:
         tags: ${{ env.IMAGE_NAME }}:arm64
         labels: ${{ steps.meta.outputs.labels }}
         load: true
-        cache-to: type=inline
-        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cache
+        cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cache,mode=max
 
     - name: Run Docker image arm64
       run: |
