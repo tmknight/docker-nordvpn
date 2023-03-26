@@ -44,6 +44,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      ## Extract metadata (tags, labels) for Docker
+      ## https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
       ## Setup QEMU for multi-arch
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -63,15 +71,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
-      ## Extract metadata (tags, labels) for Docker
-      ## https://github.com/docker/metadata-action
-      # - name: Extract Docker metadata
-      #   id: meta
-      #   uses: docker/metadata-action@v4
-      #   with:
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
+          
       ## Build and push Docker image with Buildx (don't push on PR)
       ## https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -84,7 +84,7 @@ jobs:
           build-args: ${{ env.BUILD_ARGS }}
           push: false
           tags: ${{ env.IMAGE_NAME }}:ci
-          # labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}
           load: true
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:ci,mode=max
