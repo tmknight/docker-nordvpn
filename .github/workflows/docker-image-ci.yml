@@ -57,8 +57,6 @@ jobs:
           sudo sysctl -w net.ipv4.conf.all.route_localnet=1
           sudo sysctl -w net.bridge.bridge-nf-call-iptables=1
           sudo sysctl -w net.ipv4.ip_forward=1
-          sudo modprobe ip_tables
-          sudo echo 'ip_tables' >> /etc/modules
           sudo iptables -t nat -I POSTROUTING -s 127.0.0.0/8 ! -d 127.0.0.0/8 -j MASQUERADE
           
       # Workaround: https://github.com/docker/build-push-action/issues/461
