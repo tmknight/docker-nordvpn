@@ -148,10 +148,6 @@ if ! nft=\$("iptables-nft" --version 2> /dev/null); then
 fi
 if [ ! legacy=\$("iptables-legacy" --version > /dev/null 2>&1) ] && [ \${CODE} -eq 0 ]; then
     CODE=3
-else
-    ## Catastrophic; exit
-    unset mode
-    exit 99
 fi
 
 if [ "\${mode}" = nft ] && [ \${CODE} -eq 2 ]; then
