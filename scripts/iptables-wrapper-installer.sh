@@ -151,7 +151,7 @@ if [ ! legacy=\$("iptables-legacy" --version > /dev/null 2>&1) ] && [ \${CODE} -
 else
     ## Catastrophic; exit
     unset mode
-    exit 4
+    exit 99
 fi
 
 if [ "\${mode}" = nft ] && [ \${CODE} -eq 2 ]; then
