@@ -58,14 +58,18 @@ jobs:
           sudo sysctl -w net.bridge.bridge-nf-call-iptables=1
           sudo sysctl -w net.ipv4.ip_forward=1
           # load modules
-          sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/ip_tables.ko
-          sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_filter.ko
-          sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_mangle.ko
-          sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_nat.ko
-          sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_raw.ko
-          sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_security.ko
-          # sudo modprobe ip_tables
-          # sudo modprobe iptable_filter
+          # sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/ip_tables.ko
+          # sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_filter.ko
+          # sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_mangle.ko
+          # sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_nat.ko
+          # sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_raw.ko
+          # sudo modprobe /lib/modules/$(uname -r)/kernel/net/ipv4/netfilter/iptable_security.ko
+          sudo modprobe ip_tables
+          sudo modprobe iptable_filter
+          sudo modprobe iptable_mangle
+          sudo modprobe iptable_nat
+          sudo modprobe iptable_raw
+          sudo modprobe iptable_security
           # sudo echo 'ip_tables' >> /etc/modules
           sudo iptables -t nat -I POSTROUTING -s 127.0.0.0/8 ! -d 127.0.0.0/8 -j MASQUERADE
           
