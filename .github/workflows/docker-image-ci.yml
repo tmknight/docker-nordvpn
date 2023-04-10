@@ -137,5 +137,5 @@ jobs:
           docker run --platform linux/arm64 --rm --cap-add NET_ADMIN \
           --sysctl net.ipv4.conf.all.route_localnet=1 --sysctl net.bridge.bridge-nf-call-iptables=1 --sysctl net.ipv4.ip_forward=1 \
           ${{ env.IMAGE_NAME }}:arm64 bash -c \
-          "iptables -V && iptables-legacy -L && ls -alh /usr/sbin/iptables* && 00-firewall && 10-inet && 20-tun && 30-route"
+          "iptables -V && ls -alh /usr/sbin/iptables* && iptables -L && 00-firewall && 10-inet && 20-tun && 30-route"
       #     "iptables -V && iptables -L && ls -alh /usr/sbin/iptables*"
