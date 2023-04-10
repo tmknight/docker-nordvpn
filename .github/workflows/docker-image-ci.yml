@@ -54,6 +54,7 @@ jobs:
           # enable necessary kernel modules
           sudo ip6tables --list >/dev/null
           # enable necessary sysctls
+          sudo sysctl -w kernel.modules_disabled=0
           sudo sysctl -w net.ipv4.conf.all.route_localnet=1
           sudo sysctl -w net.bridge.bridge-nf-call-iptables=1
           sudo sysctl -w net.ipv4.ip_forward=1
