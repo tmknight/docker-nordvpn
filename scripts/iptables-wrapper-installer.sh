@@ -146,14 +146,22 @@ CODE=0
 if ! nft=\$("iptables-nft" --version 2> /dev/null); then
     CODE=2
 fi
-if [ ! legacy=\$("iptables-legacy" --version > /dev/null 2>&1) ] && [ \${CODE} -eq 0 ]; then
-    CODE=3
+if ! legacy=\$("iptables-legacy" --version > /dev/null 2>&1); then
+    if \${CODE} -eq 0; then
+	CODE=3
+    else
+    	CODE=5
+    fi
 fi
 
 if [ "\${mode}" = nft ] && [ \${CODE} -eq 2 ]; then
     mode=legacy
 elif [ "\${mode}" = legacy ] && [ \${CODE} -eq 3 ]; then
     mode=nft
+elif \${CODE} -eq 5; then
+    ## catastrophic; fail
+    unset mode
+    exit 99
 fi
 EOF
 
