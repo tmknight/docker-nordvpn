@@ -60,7 +60,7 @@ jobs:
           sudo iptables -t nat -I POSTROUTING -s 127.0.0.0/8 ! -d 127.0.0.0/8 -j MASQUERADE
           sudo modprobe ip_tables
           sudo modprobe iptable_filter
-          sudo echo 'ip_tables' >> /etc/modules
+          # sudo echo 'ip_tables' >> /etc/modules
           
       # Workaround: https://github.com/docker/build-push-action/issues/461
       - name: Setup Docker buildx
