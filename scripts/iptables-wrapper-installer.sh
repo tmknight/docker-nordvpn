@@ -30,7 +30,7 @@
 
 set -eu
 
-iptables_wrapper_path="./iptables-wrapper"
+iptables_wrapper_path="/usr/local/bin/iptables-wrapper"
 
 # Verify that the iptables-wrapper bin has been copied alongside the installer script
 if [ ! -f "${iptables_wrapper_path}" ]; then
