@@ -31,11 +31,12 @@
 set -eu
 
 # Set binary relative to architecture
-if [ "$(uname -i)" == "x86_64" ]; then
-    iptables_wrapper_path="/usr/local/bin/iptables-wrapper-amd64"
+if [ "$(uname -i)" = "x86_64" ]; then
+    ARCH="amd64"
 else
-    iptables_wrapper_path="/usr/local/bin/iptables-wrapper-arm64"
+    ARCH="arm64"
 fi
+iptables_wrapper_path="/usr/local/bin/iptables-wrapper-${ARCH}"
 
 # Verify that the iptables-wrapper bin has been copied alongside the installer script
 if [ ! -f "${iptables_wrapper_path}" ]; then
