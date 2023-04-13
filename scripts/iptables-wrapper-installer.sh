@@ -51,7 +51,7 @@ elif [ -d /sbin -a -e /sbin/iptables ]; then
     sbin="/sbin"
 else
     echo "ERROR: iptables is not present in either /usr/sbin or /sbin" 1>&2
-    exit 1
+    exit 2
 fi
 
 # Determine how the system selects between iptables-legacy and iptables-nft
@@ -70,18 +70,18 @@ if [ "${1:-}" != "--no-sanity-check" ]; then
     # Ensure dependencies are installed
     if ! version=$("${sbin}/iptables-nft" --version 2> /dev/null); then
         echo "ERROR: iptables-nft is not installed" 1>&2
-        exit 1
+        exit 11
     fi
     if ! "${sbin}/iptables-legacy" --version > /dev/null 2>&1; then
         echo "ERROR: iptables-legacy is not installed" 1>&2
-        exit 1
+        exit 12
     fi
 
     case "${version}" in
     *v1.8.[0123]\ *)
         echo "ERROR: iptables 1.8.0 - 1.8.3 have compatibility bugs." 1>&2
         echo "       Upgrade to 1.8.4 or newer." 1>&2
-        exit 1
+        exit 3
         ;;
     *)
         # 1.8.4+ are OK
