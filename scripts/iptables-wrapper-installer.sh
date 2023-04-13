@@ -30,7 +30,7 @@
 
 set -eu
 
-
+# Set binary relative to architecture
 if [ "$(uname -i)" == "x86_64" ]; then
     iptables_wrapper_path="/usr/local/bin/iptables-wrapper-amd64"
 else
@@ -42,7 +42,6 @@ if [ ! -f "${iptables_wrapper_path}" ]; then
     echo "ERROR: iptables-wrapper is not present, expected at ${iptables_wrapper_path}" 1>&2
     exit 1
 fi
-
 
 # Find iptables binary location
 if [ -d /usr/sbin -a -e /usr/sbin/iptables ]; then
