@@ -31,7 +31,7 @@
 set -eu
 
 # Set binary relative to architecture
-if [ "$(uname -i)" = "x86_64" ]; then
+if [ "$(uname -m)" = "x86_64" ]; then
     ARCH="amd64"
 else
     ARCH="arm64"
