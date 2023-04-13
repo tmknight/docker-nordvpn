@@ -30,7 +30,12 @@
 
 set -eu
 
-iptables_wrapper_path="/usr/local/bin/iptables-wrapper"
+
+if [ "$(uname -i)" == "x86_64" ]; then
+    iptables_wrapper_path="/usr/local/bin/iptables-wrapper-amd64"
+else
+    iptables_wrapper_path="/usr/local/bin/iptables-wrapper-arm64"
+fi
 
 # Verify that the iptables-wrapper bin has been copied alongside the installer script
 if [ ! -f "${iptables_wrapper_path}" ]; then
