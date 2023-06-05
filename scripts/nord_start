@@ -1,19 +1,6 @@
 #!/bin/bash
 shopt -s nocasematch
 
-## Set iptables
-## NET_LOCAL is blocked until VPN connected
-00-firewall
-
-## Establish network support
-10-inet
-## IPv6 support desired
-netipv6=$(dockerNetworks6)
-[[ -n ${netipv6} ]] && 10-inet6
-
-## if not using Nordlynx
-[[ ${TECHNOLOGY} != "NordLynx" ]] && 20-tun
-
 ## Start nordvpn daemon
 rm /run/nordvpn/* 2>/dev/null
 nordvpnd >/dev/null &
@@ -37,6 +24,19 @@ nord_login || exit $?
 nord_connect "${CONNECT}" || exit $?
 nord_firewall || exit $?
 echo "########################"
+
+## Set iptables
+## NET_LOCAL is blocked until VPN connected
+00-firewall
+
+## Establish network support
+10-inet
+## IPv6 support desired
+netipv6=$(dockerNetworks6)
+[[ -n ${netipv6} ]] && 10-inet6
+
+## if not using Nordlynx
+[[ ${TECHNOLOGY} != "NordLynx" ]] && 20-tun
 
 ## Allow NET_LOCAL traffic
 30-route
