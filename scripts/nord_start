@@ -1,6 +1,15 @@
 #!/bin/bash
 shopt -s nocasematch
 
+## Start nordvpn daemon
+rm /run/nordvpn/* 2>/dev/null
+nordvpnd >/dev/null &
+while [ ! -S /run/nordvpn/nordvpnd.sock ]
+do
+    echo -e "$(date "+%F %T%z")\tINFO\tWaiting for nord daemon to start..."
+    sleep 2s
+done
+
 ## Set iptables
 ## NET_LOCAL is blocked until VPN connected
 00-firewall
@@ -13,15 +22,6 @@ netipv6=$(dockerNetworks6)
 
 ## if not using Nordlynx
 [[ ${TECHNOLOGY} != "NordLynx" ]] && 20-tun
-
-## Start nordvpn daemon
-rm /run/nordvpn/* 2>/dev/null
-nordvpnd >/dev/null &
-while [ ! -S /run/nordvpn/nordvpnd.sock ]
-do
-    echo -e "$(date "+%F %T%z")\tINFO\tWaiting for nord daemon to start..."
-    sleep 2s
-done
 
 ## Start nordvpn
 echo -e "$(date "+%F %T%z")\tINFO\tConfiguring and connecting NordVPN..."

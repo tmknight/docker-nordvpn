@@ -33,7 +33,8 @@ env:
   ## Build args
   BUILD_ARGS: |
     "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
-    "NORDVPN_VERSION=${{ vars.NORDVPN_VERSION }}"
+    "NORDVPN_VERSION=3.16.3"
+    # "NORDVPN_VERSION=${{ vars.NORDVPN_VERSION }}"
 
 jobs:
   build:
