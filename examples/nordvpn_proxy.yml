@@ -5,8 +5,10 @@ services:
     container_name: nordvpn
     cap_add:
       - NET_ADMIN
-    mem_limit: 128m
-    memswap_limit: 128m
+    deploy:
+      resources:
+        limits:
+          memory: 128m
     env_file: ./nord.env
     environment: # Review https://github.com/tmknight/docker-nordvpn/#environment-variables
       BYPASS_LIST: iconfig.co,whatsmyip.com
@@ -22,8 +24,10 @@ services:
   proxy:
     image: tmknight88/privoxy:latest
     container_name: privoxy
-    mem_limit: 512m
-    memswap_limit: 640m
+    deploy:
+      resources:
+        limits:
+          memory: 512m
     environment:
       TZ: America/New_York
     sysctls:
