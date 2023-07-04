@@ -94,7 +94,7 @@ jobs:
         name: Conditional(Set tag as `latest`)
         run: |
           echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_ENV; \
-          label=${{ steps.meta.outputs.labels }}
+          label=$(echo ${{ steps.meta.outputs.labels }})
           label=$(echo $label | sed 's/version\=.*/version\=latest/')
           echo "label=$label" >> $GITHUB_ENV
 
@@ -103,7 +103,7 @@ jobs:
         name: Conditional(Set tag as called)
         run: |
           echo "tag=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV; \
-          label=${{ steps.meta.outputs.labels }}
+          label=$(echo ${{ steps.meta.outputs.labels }})
           echo "label=$label" >> $GITHUB_ENV
             
       ## Build and push Docker image with Buildx (don't push on PR)
