@@ -22,6 +22,8 @@ on:
   #   branches: [ "main", "develop" ]
 
 env:
+  ## Temp val
+  ver: ''
   ## Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   ## name of image
@@ -89,23 +91,19 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      ## On schedule Tag/Label latest
-      - if: github.event == 'schedule'
+      ## Set tag/label on schedule
+      - if: github.ref == 'schedule'
         name: Conditional(Set tag as `latest`)
         run: |
           echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_ENV
-          label=[${{ steps.meta.outputs.labels }}]
-          label=$(echo $label | sed 's/version\=.*/version\=latest/')
-          echo "label=$label" >> $GITHUB_ENV
-
-      ## Off schedule Tag/Label as called
-      - if: github.event != 'schedule'
+          echo "ver=org.opencontainers.image.version=latest" >> $GITHUB_ENV
+      
+      ## Set tag/label off schedule
+      - if: github.ref != 'schedule'
         name: Conditional(Set tag as called)
         run: |
           echo "tag=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
-          label=[${{ steps.meta.outputs.labels }}]
-          echo "label=$label" >> $GITHUB_ENV
-            
+      
       ## Build and push Docker image with Buildx (don't push on PR)
       ## https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -118,7 +116,9 @@ jobs:
           build-args: ${{ env.BUILD_ARGS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ env.tag }}
-          labels: ${{ env.label }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            ${{ env.ver }}
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
           cache-from: type=gha
           cache-to: type=gha,mode=max
