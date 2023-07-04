@@ -79,11 +79,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - if: github.ref == 'refs/heads/main'
+      - if: github.ref != 'release'
         name: Conditional(Set tag as `latest`)
         run: echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE }}:latest" >> $GITHUB_ENV
 
-      - if: startsWith(github.ref, 'refs/tags/')
+      - if: github.ref == 'release'
         name: Conditional(Set tag as `{version}`)
         run: echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE }}:${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         
