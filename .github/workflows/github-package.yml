@@ -30,9 +30,6 @@ env:
   IMAGE_NAME: tmknight/nordvpn
   ## cosign version
   COSIGN_VER: 'v1.13.1'
-  # temp vars
-  tag: ''
-  ver: ''
   ## Build args
   BUILD_ARGS: |
     "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
@@ -92,12 +89,23 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - if: github.ref != 'release'
+      ## On schedule Tag/Label latest
+      - if: github.event == 'schedule'
         name: Conditional(Set tag as `latest`)
         run: |
           echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_ENV; \
-          echo "ver=org.opencontainers.image.version=latest" >> $GITHUB_ENV
-      
+          label=${{ steps.meta.outputs.labels }}
+          label=$(echo $label | sed 's/version\=.*/version\=latest/')
+          echo "label=$label" >> $GITHUB_ENV
+
+      ## Off schedule Tag/Label as called
+      - if: github.event != 'schedule'
+        name: Conditional(Set tag as called)
+        run: |
+          echo "tag=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV; \
+          label=${{ steps.meta.outputs.labels }}
+          echo "label=$label" >> $GITHUB_ENV
+            
       ## Build and push Docker image with Buildx (don't push on PR)
       ## https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -109,12 +117,8 @@ jobs:
           file: ${{ env.IMAGE }}.dockerfile
           build-args: ${{ env.BUILD_ARGS }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: |
-            ${{ steps.meta.outputs.tags }}
-            ${{ env.tag }}
-          labels: |
-            ${{ steps.meta.outputs.labels }}
-            ${{ env.ver }}
+          tags: ${{ env.tag }}
+          labels: ${{ env.label }}
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Multi-arch NordVPN for Docker
           cache-from: type=gha
           cache-to: type=gha,mode=max
