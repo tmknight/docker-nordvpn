@@ -9,7 +9,7 @@ name: Docker Publish
 on:
   workflow_dispatch:
   schedule:
-    - cron: '59 00 * * *'
+    - cron: '58 00 * * *'
   release:
     types: [published]
 
