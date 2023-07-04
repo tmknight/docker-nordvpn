@@ -2,7 +2,7 @@ name: Github Cache Management
 on:
   workflow_dispatch:
   schedule:
-    - cron: '2 0 * * 1'
+    - cron: '2 2 * * 1'
 
 jobs:
   cleanup:
