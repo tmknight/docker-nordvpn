@@ -30,7 +30,8 @@ env:
   IMAGE_NAME: tmknight/nordvpn
   ## cosign version
   COSIGN_VER: 'v1.13.1'
-  # temp label version
+  # temp vars
+  tag: ''
   ver: ''
   ## Build args
   BUILD_ARGS: |
@@ -108,7 +109,9 @@ jobs:
           file: ${{ env.IMAGE }}.dockerfile
           build-args: ${{ env.BUILD_ARGS }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.tag }}
+          tags: |
+            ${{ steps.meta.outputs.tags }}
+            ${{ env.tag }}
           labels: |
             ${{ steps.meta.outputs.labels }}
             ${{ env.ver }}
