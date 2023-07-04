@@ -30,6 +30,8 @@ env:
   IMAGE_NAME: tmknight/nordvpn
   ## cosign version
   COSIGN_VER: 'v1.13.1'
+  # temp label version
+  ver: ''
   ## Build args
   BUILD_ARGS: |
     "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
