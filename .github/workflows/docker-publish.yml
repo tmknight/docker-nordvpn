@@ -82,14 +82,14 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       ## Set tag/label on schedule
-      - if: github.ref == 'schedule'
+      - if: github.event_name == 'schedule'
         name: Conditional(Set tag as `latest`)
         run: |
           echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_ENV
           echo "ver=org.opencontainers.image.version=latest" >> $GITHUB_ENV
       
       ## Set tag/label off schedule
-      - if: github.ref != 'schedule'
+      - if: github.event_name != 'schedule'
         name: Conditional(Set tag as called)
         run: |
           echo "tag=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
