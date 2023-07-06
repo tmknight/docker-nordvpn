@@ -15,6 +15,7 @@ Build based on:
 
 - NordVPN `3.16.3`
 - Ubuntu `22.04`
+  - Updated nighty
 
 Examples of use:
 
