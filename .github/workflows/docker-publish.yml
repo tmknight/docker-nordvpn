@@ -85,18 +85,12 @@ jobs:
         run: |
           echo "tag=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_ENV
           echo "ver=org.opencontainers.image.version=latest" >> $GITHUB_ENV
-      
-      ## Set tag/label off schedule
-      - if: github.event_name != 'schedule'
-        name: Conditional(Set tag as called)
-        run: |
-          echo "tag=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
-          echo "ver=org.opencontainers.image.version=" >> $GITHUB_ENV
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - name: Build and push Docker image
-        id: build-and-push
+      - if: github.event_name == 'schedule'
+        name: Build and push Docker image on schedule
+        id: build-and-push-schedule
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -110,3 +104,18 @@ jobs:
             ${{ env.ver }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - if: github.event_name != 'schedule'
+        name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: ${{ env.IMAGE }}.dockerfile
+          build-args: ${{ env.BUILD_ARGS }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max          
