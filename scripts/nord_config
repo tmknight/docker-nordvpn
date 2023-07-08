@@ -2,16 +2,16 @@
 shopt -s nocasematch
 
 ## Apply settings
-[[ -n ${DNS} ]] && nordvpn set dns "${DNS//[;,]/ }" | grep -Eiv -f /opt/inv-grep
-[[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec "${CYBER_SEC}" | grep -Eiv -f /opt/inv-grep
-[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate "${OBFUSCATE}" | grep -Eiv -f /opt/inv-grep
+[[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
+[[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
+[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
 if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
 then
   echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
   TECHNOLOGY="NordLynx"
 fi
-nordvpn set technology "${TECHNOLOGY:-NordLynx}" | grep -Eiv -f /opt/inv-grep
-[[ -n ${PROTOCOL} && ${PROTOCOL} =~ (udp|tcp) ]] && nordvpn set protocol "${PROTOCOL}" | grep -Eiv -f /opt/inv-grep
+nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
+[[ -n ${PROTOCOL} && ${PROTOCOL} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
@@ -28,12 +28,12 @@ then
   for net in "${networks[@]}"
   do
   IFS=" " read -r -a network <<< "$net"
-    nordvpn whitelist add subnet "${network[1]}" | grep -Eiv -f /opt/inv-grep
+    nordvpn whitelist add subnet ${network[1]} | grep -Eiv -f /opt/inv-grep
   done
 fi
 [[ -n ${NETWORK} && -z ${NET_LOCAL} ]] && NET_LOCAL=${NETWORK}
 [[ -n ${NET_LOCAL} && ${NET_LOCAL} =~ ${netReg} ]] && for net in ${NET_LOCAL//[;,]/ }
 do
-  nordvpn whitelist add subnet "${net}" | grep -Eiv -f /opt/inv-grep
+  nordvpn whitelist add subnet ${net} | grep -Eiv -f /opt/inv-grep
 done
 exit 0
