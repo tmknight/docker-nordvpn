@@ -15,9 +15,9 @@ nordvpn set technology "${TECHNOLOGY:-NordLynx}" | grep -Eiv -f /opt/inv-grep
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
-  nordvpn whitelist add port "${port}" | grep -Eiv -f /opt/inv-grep
+  nordvpn whitelist add port ${port} protocol TCP | grep -Eiv -f /opt/inv-grep
 done
-[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports "${PORT_RANGE}" | grep -Eiv -f /opt/inv-grep
+[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE} protocol TCP | grep -Eiv -f /opt/inv-grep
 
 ## Whitelist local IPv4 networks
 netReg="${dnsReg}/[0-9]{1,2}"
