@@ -143,7 +143,6 @@ jobs:
           KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         run: 'echo "$KEY" > cosign.key'
 
-
       - if: github.event_name == 'schedule'
         name: Sign the published Docker image on schedule
         env:
