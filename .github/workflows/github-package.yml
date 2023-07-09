@@ -143,8 +143,17 @@ jobs:
           KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
         run: 'echo "$KEY" > cosign.key'
 
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
+      - if: github.event_name == 'schedule'
+        name: Sign the published Docker image on schedule
+        env:
+          COSIGN_EXPERIMENTAL: "false"
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        ## This step uses the identity token to provision an ephemeral certificate
+        ## against the sigstore community Fulcio instance.
+        run: echo "${{ env.tag }}" | xargs -I {} cosign sign --key cosign.key {}@${{ steps.build-and-push.outputs.digest }}
+
+      - if: github.event_name != 'schedule' && github.event_name != 'pull_request'
+        name: Sign the published Docker image
         env:
           COSIGN_EXPERIMENTAL: "false"
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
