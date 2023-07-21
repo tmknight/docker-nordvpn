@@ -15,11 +15,11 @@ nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
-  nordvpn whitelist add port ${port} | grep -Eiv -f /opt/inv-grep
+  nordvpn allowlist add port ${port} | grep -Eiv -f /opt/inv-grep
 done
-[[ -n ${PORT_RANGE} ]] && nordvpn whitelist add ports ${PORT_RANGE} | grep -Eiv -f /opt/inv-grep
+[[ -n ${PORT_RANGE} ]] && nordvpn allowlist add ports ${PORT_RANGE} | grep -Eiv -f /opt/inv-grep
 
-## Whitelist local IPv4 networks
+## allowlist local IPv4 networks
 netReg="${dnsReg}/[0-9]{1,2}"
 docker_networks=$(dockerNetworks)
 if [[ -n ${docker_networks} ]]
@@ -28,12 +28,12 @@ then
   for net in "${networks[@]}"
   do
   IFS=" " read -r -a network <<< "$net"
-    nordvpn whitelist add subnet ${network[1]} | grep -Eiv -f /opt/inv-grep
+    nordvpn allowlist add subnet ${network[1]} | grep -Eiv -f /opt/inv-grep
   done
 fi
 [[ -n ${NETWORK} && -z ${NET_LOCAL} ]] && NET_LOCAL=${NETWORK}
 [[ -n ${NET_LOCAL} && ${NET_LOCAL} =~ ${netReg} ]] && for net in ${NET_LOCAL//[;,]/ }
 do
-  nordvpn whitelist add subnet ${net} | grep -Eiv -f /opt/inv-grep
+  nordvpn allowlist add subnet ${net} | grep -Eiv -f /opt/inv-grep
 done
 exit 0
