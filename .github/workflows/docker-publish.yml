@@ -73,34 +73,17 @@ jobs:
       
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
-      - if: github.event_name == 'schedule'
-        name: Build and push Docker image on schedule
-        id: build-and-push-schedule
+      - name: Build and push Docker image
+        id: build-and-push
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
           file: ${{ env.IMAGE }}.dockerfile
           build-args: ${{ env.BUILD_ARGS }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
             ${{ steps.meta.outputs.labels }}
-            org.opencontainers.image.version=latest
+            ${{ github.event_name == 'schedule' && 'org.opencontainers.image.version=latest' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - if: github.event_name != 'schedule'
-        name: Build and push Docker image
-        id: build-and-push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          file: ${{ env.IMAGE }}.dockerfile
-          build-args: ${{ env.BUILD_ARGS }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max          
