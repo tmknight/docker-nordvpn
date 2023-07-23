@@ -59,6 +59,7 @@ jobs:
           cosign-release: ${{ env.COSIGN_VER }}
 
       ## Setup QEMU for multi-arch
+      ## https://github.com/docker/setup-qemu-action
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
