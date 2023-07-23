@@ -82,8 +82,6 @@ jobs:
           build-args: ${{ env.BUILD_ARGS }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: |
-            ${{ steps.meta.outputs.labels }}
-            ${{ github.event_name == 'schedule' && 'org.opencontainers.image.version=latest' }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
