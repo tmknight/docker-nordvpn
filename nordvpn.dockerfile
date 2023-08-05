@@ -15,6 +15,15 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   CONNECTION_FILTERS="" \
   REFRESH_CONNECTION_INTERVAL=120 \
   TECHNOLOGY=NordLynx
+## Expose Privoxy traffic
+EXPOSE 8118
+HEALTHCHECK --start-period=10s --timeout=3s \
+  CMD /usr/local/bin/nord_healthcheck
+CMD /usr/local/bin/nord_start
+COPY ./scripts/ /usr/local/bin/
+COPY ./opt/ /opt/
+RUN chmod -R +x \
+  /usr/local/bin/
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get upgrade -y -qq \
@@ -42,14 +51,5 @@ RUN apt-get update -qq \
   /var/lib/apt/lists/* \
   /var/tmp/* \
   && mkdir -p /run/nordvpn
-COPY ./scripts/ /usr/local/bin/
-COPY ./opt/ /opt/
-RUN chmod -R +x \
-  /usr/local/bin/ \
-  && if [ "${TARGETARCH}" != "amd64" ]; then SANITY_CHECK='--no-sanity-check'; fi \
+RUN if [ "${TARGETARCH}" != "amd64" ]; then SANITY_CHECK='--no-sanity-check'; fi \
   && /usr/local/bin/iptables-wrapper-installer.sh ${SANITY_CHECK}
-## Expose Privoxy traffic
-EXPOSE 8118
-HEALTHCHECK --start-period=10s --timeout=3s \
-  CMD /usr/local/bin/nord_healthcheck
-CMD /usr/local/bin/nord_start
