@@ -17,13 +17,15 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   TECHNOLOGY=NordLynx
 ## Expose Privoxy traffic
 EXPOSE 8118
+HEALTHCHECK --start-period=10s --timeout=3s \
+  CMD /usr/local/bin/nord_healthcheck
+CMD /usr/local/bin/nord_start
+## Core scripts 
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/
-HEALTHCHECK --start-period=10s --timeout=3s \
-  CMD /usr/local/bin/nord_healthcheck
-CMD /usr/local/bin/nord_start
+## Setup base image and install nordvpn
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get upgrade -y -qq \
