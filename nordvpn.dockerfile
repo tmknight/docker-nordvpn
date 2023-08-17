@@ -36,7 +36,7 @@ RUN apt-get update -qq \
   libc6 \
   dnsutils \
   jq \
-  ## only if desired to obtain the private key
+  ## only if desired to obtain the private key or not installed on host OS 
   # wireguard \
   && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
   && apt-get install -y -qq \
@@ -44,6 +44,7 @@ RUN apt-get update -qq \
   && apt-get update -qq \
   && apt-get install -y -qq \
   nordvpn=${NORDVPN_VERSION} \
+  ## Cleanup
   && apt-get remove -y -qq nordvpn-release \
   && apt-get autoremove -y -qq \
   && apt-get clean -y -qq \
@@ -53,5 +54,6 @@ RUN apt-get update -qq \
   /var/lib/apt/lists/* \
   /var/tmp/* \
   && mkdir -p /run/nordvpn
+## Refactor iptables for host archetecture
 RUN if [ "${TARGETARCH}" != "amd64" ]; then SANITY_CHECK='--no-sanity-check'; fi \
   && /usr/local/bin/iptables-wrapper-installer.sh ${SANITY_CHECK}
