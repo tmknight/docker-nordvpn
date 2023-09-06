@@ -17,13 +17,15 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   TECHNOLOGY=NordLynx
 ## Expose Privoxy traffic
 EXPOSE 8118
+HEALTHCHECK --start-period=10s --timeout=3s \
+  CMD /usr/local/bin/nord_healthcheck
+CMD /usr/local/bin/nord_start
+## Core scripts 
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/
-HEALTHCHECK --start-period=10s --timeout=3s \
-  CMD /usr/local/bin/nord_healthcheck
-CMD /usr/local/bin/nord_start
+## Setup base image and install nordvpn
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get upgrade -y -qq \
@@ -34,7 +36,7 @@ RUN apt-get update -qq \
   libc6 \
   dnsutils \
   jq \
-  ## only if desired to obtain the private key
+  ## only if desired to obtain the private key or not installed on host OS 
   # wireguard \
   && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
   && apt-get install -y -qq \
@@ -42,6 +44,7 @@ RUN apt-get update -qq \
   && apt-get update -qq \
   && apt-get install -y -qq \
   nordvpn=${NORDVPN_VERSION} \
+  ## Cleanup
   && apt-get remove -y -qq nordvpn-release \
   && apt-get autoremove -y -qq \
   && apt-get clean -y -qq \
@@ -51,5 +54,6 @@ RUN apt-get update -qq \
   /var/lib/apt/lists/* \
   /var/tmp/* \
   && mkdir -p /run/nordvpn
+## Refactor iptables for host archetecture
 RUN if [ "${TARGETARCH}" != "amd64" ]; then SANITY_CHECK='--no-sanity-check'; fi \
   && /usr/local/bin/iptables-wrapper-installer.sh ${SANITY_CHECK}
