@@ -93,6 +93,22 @@ Generally, the default settings will provide a great experience, however, severa
 | **TECHNOLOGY**<span id="env-technology"></span> | NordLynx                 | Specify the VPN Technology to use (NordLynx/OpenVPN)                                                                           |
 | **TOKEN**<span id="env-token"></span> |                          | Generated from your [NordVPN account web portal](https://my.nordaccount.com/dashboard/nordvpn/)                                                                                                                    |
 
+## Troubleshooting
+
+- Ensure you have read all of the above information
+- Ensure you have pulled the latest available image
+  - Use `--force-recreate` to be sure
+- Check and double-check all of your values
+- Perform the following:
+  - Start a basic container:
+    - docker run -it --rm --name=nordvpn-tmp tmknight88/nordvpn:latest bash
+  - Perform the following in the container:
+    - nordvpnd &
+    - nordvpn login --token [your token]
+    - nordvpn connect
+- If you've performed all of the above without determining the issue, feel free to open an issue
+  - Be sure to include your log entries and be as descriptive as possible
+
 ## Additional Information
 
 Using the NordVPN API<span id="api"></span>
