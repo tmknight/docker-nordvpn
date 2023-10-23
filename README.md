@@ -106,6 +106,10 @@ Generally, the default settings will provide a great experience, however, severa
     - nordvpnd &
     - nordvpn login --token [your token]
     - nordvpn connect
+  - If basic container connectes without issue, then slowly/one-at-a-time, start applying any cusomizations and go through the previous steps with each change (yes, laborious, but that's what it takes)
+    - docker run -it --rm --name=nordvpn-tmp -v [something] tmknight88/nordvpn:latest bash
+    - docker run -it --rm --name=nordvpn-tmp -v [something] -e [something else] tmknight88/nordvpn:latest bash
+    - docker run -it --rm --name=nordvpn-tmp -v [something] -e [something else] -e [and so on] tmknight88/nordvpn:latest bash
 - If you've performed all of the above without determining the issue, feel free to open an issue
   - Be sure to include your log entries and be as descriptive as possible
 
