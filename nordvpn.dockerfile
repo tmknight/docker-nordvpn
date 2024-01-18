@@ -1,7 +1,7 @@
 ARG UBUNTU_VER
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
-ARG NORDVPN_VERSION
+# ARG NORDVPN_VERSION
 ARG TARGETARCH
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description DESCRIPTION
@@ -20,12 +20,12 @@ EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
   CMD /usr/local/bin/nord_healthcheck
 CMD /usr/local/bin/nord_start
-## Core scripts 
+## Core scripts
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
 RUN chmod -R +x \
   /usr/local/bin/
-## Setup base image and install nordvpn
+## Setup base image
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
   && apt-get upgrade -y -qq \
@@ -35,18 +35,18 @@ RUN apt-get update -qq \
   iputils-ping \
   libc6 \
   dnsutils \
-  jq \
-  ## only if desired to obtain the private key or not installed on host OS 
-  # wireguard \
-  && curl -so /tmp/nordrepo.deb https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb \
+  jq
+## Get latest DEB from repo and install nordvpn
+RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/" \
+  && html=$(curl -s "${endpoint}") \
+  && [ "${TARGETARCH}" == "amd64" ] && ARCH=amd64 || ARCH=arm64 \
+  && most_recent_file=$(echo "${html}" | grep -o '<a href="[^"]*_${ARCH}.deb"' | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1) \
+  && curl -Lo /tmp/nordrepo.deb "${endpoint}/${most_recent_file}" \
+  ## Install latest DEB
   && apt-get install -y -qq \
-  /tmp/nordrepo.deb \
-  && apt-get update -qq \
-  && apt-get install -y -qq \
-  nordvpn=${NORDVPN_VERSION} \
-  ## Cleanup
-  && apt-get remove -y -qq nordvpn-release \
-  && apt-get autoremove -y -qq \
+  /tmp/nordrepo.deb
+## Cleanup
+RUN apt-get autoremove -y -qq \
   && apt-get clean -y -qq \
   && rm -rf \
   /tmp/* \
