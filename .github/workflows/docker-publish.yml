@@ -25,24 +25,24 @@ env:
     "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
 
 jobs:
-      nordvpn-version:
-        name: "NordVPN Version"
-        runs-on: "ubuntu-latest"
-        outputs:
-          nordvpn-version: ${{ steps.get-version.outputs.NORDVPN_VERSION }}
-        steps:
-          - name: "Get version"
-            id: "get-version"
-            shell: "bash"
-            run: |
-              endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/";
-              html=$(curl -s "${endpoint}");
-              most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_amd64.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1);
-              echo NORDVPN_VERSION=$(echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> $GITHUB_OUTPUT
+  nordvpn-version:
+    name: "NordVPN Version"
+    runs-on: "ubuntu-latest"
+    outputs:
+      nordvpn-version: ${{ steps.get-version.outputs.NORDVPN_VERSION }}
+    steps:
+      - name: "Get version"
+        id: "get-version"
+        shell: "bash"
+        run: |
+          endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/";
+          html=$(curl -s "${endpoint}");
+          most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_amd64.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1);
+          echo NORDVPN_VERSION=$(echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> $GITHUB_OUTPUT
 
-    build:
-        needs: nordvpn-version
-        runs-on: ubuntu-latest
+  build:
+    needs: nordvpn-version
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
