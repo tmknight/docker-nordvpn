@@ -1,12 +1,13 @@
 ARG UBUNTU_VER
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
+ARG NORDVPN_VERSION
 ARG TARGETARCH
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description DESCRIPTION
 LABEL org.opencontainers.image.licenses=GPL-3.0
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
-LABEL org.opencontainers.image.title=nordvpn
+LABEL org.opencontainers.image.title="nordvpn v${NORDVPN_VERSION}"
 LABEL autoheal=true
 ENV CHECK_CONNECTION_INTERVAL=60 \
   CHECK_CONNECTION_URL="https://www.google.com" \
@@ -37,10 +38,11 @@ RUN apt-get update -qq \
   jq
 ## Get latest DEB from repo and install nordvpn
 RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/" \
-  && html=$(curl -s "${endpoint}") \
+  # && html=$(curl -s "${endpoint}") \
   && [ "${TARGETARCH}" != "amd64" ] && ARCH=arm64 || ARCH=amd64 \
-  && most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_${ARCH}.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1) \
-  && curl -Lo /tmp/nordrepo.deb "${endpoint}${most_recent_file}" \
+  && fileName="nordvpn_3.17.0_${ARCH}.deb" \
+  # && most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_${ARCH}.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1) \
+  && curl -Lo /tmp/nordrepo.deb "${endpoint}${fileName}" \
   ## Install latest DEB
   && apt-get install -y -qq \
   /tmp/nordrepo.deb
