@@ -1,7 +1,6 @@
 ARG UBUNTU_VER
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
-# ARG NORDVPN_VERSION
 ARG TARGETARCH
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
 LABEL org.opencontainers.image.description DESCRIPTION
@@ -41,7 +40,7 @@ RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/" \
   && html=$(curl -s "${endpoint}") \
   && [ "${TARGETARCH}" != "amd64" ] && ARCH=arm64 || ARCH=amd64 \
   && most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_${ARCH}.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1) \
-  && curl -Lo /tmp/nordrepo.deb "${endpoint}/${most_recent_file}" \
+  && curl -Lo /tmp/nordrepo.deb "${endpoint}${most_recent_file}" \
   ## Install latest DEB
   && apt-get install -y -qq \
   /tmp/nordrepo.deb
