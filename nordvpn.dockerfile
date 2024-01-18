@@ -40,7 +40,7 @@ RUN apt-get update -qq \
 RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/" \
   # && html=$(curl -s "${endpoint}") \
   && [ "${TARGETARCH}" != "amd64" ] && ARCH=arm64 || ARCH=amd64 \
-  && fileName="nordvpn_3.17.0_${ARCH}.deb" \
+  && fileName="nordvpn_${NORDVPN_VERSION}_${ARCH}.deb" \
   # && most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_${ARCH}.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1) \
   && curl -Lo /tmp/nordrepo.deb "${endpoint}${fileName}" \
   ## Install latest DEB
