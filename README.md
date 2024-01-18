@@ -14,7 +14,7 @@ Leveraging the latest native NordVPN client, iptables and the Nord API to create
 Build based on:
 
 - NordVPN `latest`
-  - From the [NordVPN repo](https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/)
+  - From the [NordVPN repository](https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/)
 - Ubuntu `latest LTS`
   - Updated nighty
 
