@@ -1,0 +1,33 @@
+name: "Release Version"
+
+permissions:
+  contents: "read"
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    outputs:
+        pkg-version:
+            description: "Get release version"
+            value: ${{ jobs.get-version.outputs.pkg-version }}
+
+jobs:
+  get-version:
+    name: "Get release version"
+    runs-on: "ubuntu-latest"
+    outputs:
+      pkg-version: ${{ steps.pkg-version.outputs.PKG_VERSION }}
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Get version"
+        id: "pkg-version"
+        shell: "bash"
+        run: |
+            endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/";
+            html=$(curl -s "${endpoint}");
+            most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_amd64.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1);
+            echo NORDVPN_VERSION=$(echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> $GITHUB_OUTPUT

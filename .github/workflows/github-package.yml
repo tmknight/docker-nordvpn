@@ -8,10 +8,10 @@ name: GitHub Package
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '33 00 * * *'
-  release:
-    types: [published]
+  # schedule:
+  #   - cron: '33 00 * * *'
+  # release:
+  #   types: [published]
   # push:
   #   paths-ignore:
   #     - '.github/**'
