@@ -29,7 +29,6 @@ RUN chmod -R +x \
 ## Setup base image
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq \
-  && apt-get upgrade -y -qq \
   && apt-get install -y -qq \
   iptables \
   curl \
@@ -46,7 +45,9 @@ RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/" \
   && apt-get install -y -qq \
   /tmp/nordrepo.deb
 ## Cleanup
-RUN apt-get autoremove -y -qq \
+RUN apt-get update -qq \
+  && apt-get upgrade -y -qq \
+  && apt-get autoremove -y -qq \
   && apt-get clean -y -qq \
   && rm -rf \
   /tmp/* \
