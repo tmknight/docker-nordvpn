@@ -1,6 +1,8 @@
 # Docker NordVPN
 
+<!--
 [![GitHubPackage][GitHubPackageBadge]][GitHubPackageLink]
+-->
 [![DockerPublishing][DockerPublishingBadge]][DockerLink]
 [![DockerSize][DockerSizeBadge]][DockerLink]
 [![DockerPulls][DockerPullsBadge]][DockerLink]
