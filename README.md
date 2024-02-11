@@ -18,7 +18,7 @@ Build based on:
 - NordVPN `latest`
   - From the [NordVPN repository](https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/)
 - Ubuntu `latest LTS`
-  - Updated nighty
+  - Updated nightly
 
 Examples of use:
 

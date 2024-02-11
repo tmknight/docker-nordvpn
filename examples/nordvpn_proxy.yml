@@ -17,7 +17,7 @@ services:
     ports:
       - 8888:8118
     sysctls:
-      - net.ipv6.conf.all.disable_ipv6=1 # Recomended if using ipv4 only
+      - net.ipv6.conf.all.disable_ipv6=1 # Recommended if using ipv4 only
     networks:
       - frontend
     restart: always
@@ -31,7 +31,7 @@ services:
     environment:
       TZ: America/New_York
     sysctls:
-      - net.ipv6.conf.all.disable_ipv6=1 # Recomended if using ipv4 only
+      - net.ipv6.conf.all.disable_ipv6=1 # Recommended if using ipv4 only
     network_mode: service:vpn
     volumes:
       - /mnt/privoxy/config:/etc/privoxy
