@@ -132,6 +132,6 @@ Using the NordVPN API<span id="api"></span>
 This project is independently developed for personal use; there is no affiliation with NordVPN or Nord Security companies.  Nord Security companies are not responsible for, nor have control over, the nature, content and availability of this project.
 
 [DockerPublishingBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg
-[DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=black&color=green
-[DockerSizeBadge]: https://badgen.net/docker/size/tmknight88/nordvpn?icon=docker&label=Docker+Size&labelColor=black&color=green
+[DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=31383f&color=32c855
+[DockerSizeBadge]: https://badgen.net/docker/size/tmknight88/nordvpn?icon=docker&label=Docker+Size&labelColor=31383f&color=32c855
 [DockerLink]: https://hub.docker.com/r/tmknight88/nordvpn
