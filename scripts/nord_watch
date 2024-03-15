@@ -32,11 +32,16 @@ do
   ## Evaluate connection to internet
   if [[ ! $(curl -Is -m 5 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
   then
+    if [[ -n ${CONNECT} ]]
+      then
+        SERVER="${CONNECT}"
+    fi
+
     ## Show status and retry connection
     echo -e "$(date "+%F %T%z")\tWARNING\tUnstable connection detected"
     echo "########################"
     nordvpn status | grep -Eiv -f /opt/inv-grep
-    if ! nord_connect
+    if ! nord_connect "${SERVER}"
     then
       echo -e "$(date "+%F %T%z")\tCRITICAL\tUnable to connect; exiting"
       CODE=1
