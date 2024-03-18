@@ -96,7 +96,7 @@ jobs:
           build-args: |
             ${{ env.BUILD_ARGS }}
             NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ (github.event_name != 'pull_request' && github.ref == 'refs/heads/main') || (github.ref == 'refs/heads/develop' && steps.meta.outputs.tags == *'ghcr.io'*) }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
