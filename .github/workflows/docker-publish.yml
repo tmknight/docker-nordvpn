@@ -94,6 +94,7 @@ jobs:
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
         id: build-and-push
+        if: ${{ steps.check.outputs.should_push }}
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -102,7 +103,7 @@ jobs:
           build-args: |
             ${{ env.BUILD_ARGS }}
             NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version }}
-          push: ${{ steps.check.outputs.should_push }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
