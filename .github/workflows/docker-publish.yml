@@ -84,6 +84,12 @@ jobs:
             type=ref,event=tag
             type=raw,enable=${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease) }},value=latest
 
+      ## Determine if image should be published
+      - name: Check registry and branch
+        id: check
+        run: |
+          echo "::set-output name=should_push::$(if [[ '${{ github.event_name }}' != 'pull_request' && '${{ github.ref }}' == 'refs/heads/main' ]] || [[ '${{ github.ref }}' == 'refs/heads/develop' && '${{ steps.meta.outputs.tags }}' == *'ghcr.io'* ]]; then echo 'true'; else echo 'false'; fi)"
+    
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -96,7 +102,7 @@ jobs:
           build-args: |
             ${{ env.BUILD_ARGS }}
             NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version }}
-          push: ${{ (github.event_name != 'pull_request' && github.ref == 'refs/heads/main') || (github.ref == 'refs/heads/develop' && steps.meta.outputs.tags == *'ghcr.io'*) }}
+          push: ${{ steps.check.outputs.should_push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
