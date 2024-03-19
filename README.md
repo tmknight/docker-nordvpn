@@ -9,7 +9,7 @@
 
 ### The NordVPN client for Docker
 
-Leveraging the latest native NordVPN client, iptables and the Nord API to create the fastest, most stable connection possible for other containers and systems on your network.
+Leveraging the latest native NordVPN client, iptables and the Nord API to create the fastest, safest, and most stable connection possible for other containers and systems on your network.
 
 ## The Essentials
 
