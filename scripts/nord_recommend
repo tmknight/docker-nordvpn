@@ -3,10 +3,8 @@ shopt -s nocasematch
 
 ## Determine current server load vs recommended server load
 ## Determine if filters and if special characters escaped
-if [[ -n ${CONNECTION_FILTERS} ]]
-then
-    if [[ ${CONNECTION_FILTERS} =~ .*(\\\[|\\\]).* ]]
-    then
+if [[ -n ${CONNECTION_FILTERS} ]]; then
+    if [[ ${CONNECTION_FILTERS} =~ .*(\\\[|\\\]).* ]]; then
         ## already escaped
         recFilters="?${CONNECTION_FILTERS}"
     else
@@ -22,9 +20,9 @@ fi
 recUri="https://api.nordvpn.com/v1/servers/recommendations${recFilters}"
 
 ## We need to ensure Wireguard is online when using NordLynx
-if [[ ${TECHNOLOGY:-NordLynx} == "NordLynx" ]]
-then
-    recSvr=$(curl -sm 5 "${recUri}" | jq '[sort_by(.load) |
+if [[ ${TECHNOLOGY:-NordLynx} == "NordLynx" ]]; then
+    recSvr=$(
+        curl -sm 5 "${recUri}" | jq '[sort_by(.load) |
         foreach .[] as $item ({};
             if (
                 foreach $item.technologies[] as $x ({};
@@ -52,27 +50,15 @@ recSvrLoad=$(echo "${recSvr}" | jq .load)
 
 ## Get current connected server load
 curSvrHost=$(nordvpn status | grep -Ei "hostname" | sed -E 's/hostname.\s+//i')
-if [[ -n ${curSvrHost} ]]
-then
-    curUri='https://api.nordvpn.com/server'
-    curSvrLoad=$(curl -sm 5 ${curUri} | jq '.[] | select(.domain == "'"${curSvrHost}"'").load')
-    ## Compare current and recommended; return server with lowest load
-    if [ "${curSvrLoad:-100}" -gt "${recSvrLoad}" ]
-    then
-        if [ "${recSvrLoad}" -eq 0 ]
-        then
-            host="null"
-            action="stay"
-        else
-            host=${recSvrHost}
-            action="go"
-        fi
-    else
-        host=${curSvrHost}
+if [[ -n ${curSvrHost} ]]; then
+    if [ "${curSvrHost}" == "${recSvrHost}" ]; then
+        host="null"
         action="stay"
+    else
+        host=${recSvrHost}
+        action="go"
     fi
-elif [[ -n ${recSvrHost} ]]
-then
+elif [[ -n ${recSvrHost} ]]; then
     host=${recSvrHost}
     action="go"
 fi
