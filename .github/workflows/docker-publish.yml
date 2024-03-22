@@ -70,7 +70,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Determine registries to published
+      - name: Determine registries to publish
         id: registry-select
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
@@ -88,7 +88,8 @@ jobs:
           images: ${{ env.IMAGES }}
           tags: |
             type=ref,event=tag
-            type=raw,enable=${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease) }},value=latest
+            type=raw,enable=${{ github.event_name == 'schedule'  || (github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease) }},value=latest
+            type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
