@@ -76,7 +76,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "IMAGES=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
           else
-            echo "IMAGES=\"${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE }}\" \"${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\"" >> $GITHUB_ENV
+            echo "IMAGES=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE }}, ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
           fi
 
       # Extract metadata (tags, labels) for Docker
