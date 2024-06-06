@@ -4,8 +4,7 @@ ARG UBUNTU_VER
 ARG NORDVPN_VERSION
 ARG TARGETARCH
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
-LABEL org.opencontainers.image.description DESCRIPTION
-LABEL org.opencontainers.image.licenses=GPL-3.0
+LABEL org.opencontainers.image.licenses=MIT
 LABEL org.opencontainers.image.source=https://github.com/tmknight/docker-nordvpn
 LABEL org.opencontainers.image.title=nordvpn
 LABEL autoheal=true
