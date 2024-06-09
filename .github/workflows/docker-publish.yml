@@ -102,7 +102,7 @@ jobs:
           file: ${{ env.IMAGE }}.dockerfile
           build-args: |
             ${{ env.BUILD_ARGS }}
-            NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version }}
+            NORDVPN_VERSION=${{ vars.NORDVPN_VERSION == 'false' && needs.nordvpn-version.outputs.pkg-version || vars.NORDVPN_VERSION }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
