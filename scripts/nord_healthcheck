@@ -8,16 +8,19 @@ then
 fi
 
 # The API has become unreliable for this
-# if [ $CODE -eq 0 ]
-# then
-#     unset CODE
-#     URI="https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data"
-#     CHK=$(curl -fs "$URI" | jq .status) || CODE=3
-#     if [[ ! "$CHK" == true ]]
-#     then
-#         STAT="Status: Unstable"
-#         CODE=${CODE:-4}
-#     fi
-# fi
+: <<'REM_API'
+if [ $CODE -eq 0 ]
+then
+    unset CODE
+    URI="https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data"
+    CHK=$(curl -fs "$URI" | jq .status) || CODE=3
+    if [[ ! "$CHK" == true ]]
+    then
+        STAT="Status: Unstable"
+        CODE=${CODE:-4}
+    fi
+fi
+REM_API
+
 echo -n "$STAT"
 exit $CODE
