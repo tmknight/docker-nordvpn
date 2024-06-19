@@ -7,16 +7,17 @@ then
     [ $CODE -eq 0 ] && CODE=2
 fi
 
-if [ $CODE -eq 0 ]
-then
-    unset CODE
-    URI="https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data"
-    CHK=$(curl -fs "$URI" | jq .status) || CODE=3
-    if [[ ! "$CHK" == true ]]
-    then
-        STAT="Status: Unstable"
-        CODE=${CODE:-4}
-    fi
-fi
+# The API has become unreliable for this
+# if [ $CODE -eq 0 ]
+# then
+#     unset CODE
+#     URI="https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data"
+#     CHK=$(curl -fs "$URI" | jq .status) || CODE=3
+#     if [[ ! "$CHK" == true ]]
+#     then
+#         STAT="Status: Unstable"
+#         CODE=${CODE:-4}
+#     fi
+# fi
 echo -n "$STAT"
 exit $CODE
