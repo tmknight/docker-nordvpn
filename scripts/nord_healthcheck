@@ -7,6 +7,8 @@ then
     [ $CODE -eq 0 ] && CODE=2
 fi
 
+# The API has become unreliable for this
+: <<'REM_API'
 if [ $CODE -eq 0 ]
 then
     unset CODE
@@ -18,5 +20,7 @@ then
         CODE=${CODE:-4}
     fi
 fi
+REM_API
+
 echo -n "$STAT"
 exit $CODE
