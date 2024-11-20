@@ -27,7 +27,6 @@ jobs:
         id: "pkg-version"
         shell: "bash"
         run: |
-            endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/";
-            html=$(curl -s "${endpoint}");
+            html=$(curl -s "${{ vars.REPO_URL }}");
             most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_amd64.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1);
             echo NORDVPN_VERSION=$(echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> $GITHUB_OUTPUT
