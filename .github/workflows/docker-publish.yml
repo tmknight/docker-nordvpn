@@ -23,6 +23,7 @@ env:
   # Build args
   BUILD_ARGS: |
     "UBUNTU_VER=${{ vars.UBUNTU_VER }}"
+    "REPO_URL"=${{ vars.REPO_URL }}
 
 jobs:
   nordvpn-version:

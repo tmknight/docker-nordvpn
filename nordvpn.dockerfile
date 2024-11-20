@@ -1,6 +1,7 @@
 ARG UBUNTU_VER
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
+ARG REPO_URL
 ARG NORDVPN_VERSION
 ARG TARGETARCH
 LABEL org.opencontainers.image.base.name="ubuntu:${UBUNTU_VER}"
@@ -37,10 +38,9 @@ RUN apt-get update -qq \
   dnsutils \
   jq
 ## Get latest DEB from repo and install nordvpn
-RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/" \
-  && [ "${TARGETARCH}" != "amd64" ] && ARCH=arm64 || ARCH=amd64 \
+RUN [ "${TARGETARCH}" != "amd64" ] && ARCH=arm64 || ARCH=amd64 \
   && fileName="nordvpn_${NORDVPN_VERSION}_${ARCH}.deb" \
-  && curl -Lo /tmp/nordrepo.deb "${endpoint}${fileName}" \
+  && curl -Lo /tmp/nordrepo.deb "${REPO_URL}${fileName}" \
   ## Install latest DEB
   && apt-get install -y -qq \
   /tmp/nordrepo.deb
