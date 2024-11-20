@@ -37,7 +37,7 @@ RUN apt-get update -qq \
   dnsutils \
   jq
 ## Get latest DEB from repo and install nordvpn
-RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/" \
+RUN endpoint="https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/n/nordvpn/" \
   && [ "${TARGETARCH}" != "amd64" ] && ARCH=arm64 || ARCH=amd64 \
   && fileName="nordvpn_${NORDVPN_VERSION}_${ARCH}.deb" \
   && curl -Lo /tmp/nordrepo.deb "${endpoint}${fileName}" \
