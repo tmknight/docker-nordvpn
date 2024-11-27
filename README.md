@@ -95,6 +95,7 @@ Generally, the default settings will provide a great experience, however, severa
 | **REFRESH_CONNECTION_INTERVAL** | 120                      | Time in minutes to trigger VPN reconnection to help ensure best connection available (0 = disable)                                                                                                                                                      |
 | **TECHNOLOGY**<span id="env-technology"></span> | NordLynx                 | Specify the VPN Technology to use (NordLynx/OpenVPN)                                                                           |
 | **TOKEN**<span id="env-token"></span> |                          | Generated from your [NordVPN account web portal](https://my.nordaccount.com/dashboard/nordvpn/)                                                                                                                    |
+| **TOKEN_FILE**<span id="env-token-file"></span> |                          | The same as [TOKEN](#env-token), but allows to use Docker Compose's [secrets](https://docs.docker.com/reference/compose-file/secrets/) feature. The TOKEN takes precedence over TOKEN_FILE                                                                                                                    |
 
 ## Troubleshooting
 
