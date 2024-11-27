@@ -48,6 +48,7 @@ Environment
 
   - **ONLY TOKENS ARE VIABLE IN A CONTAINER**
   - The use of USERNAME and PASSWORD has been deprecated wherein only TOKEN or login via browser are accepted with the Linux client
+  - You may use a secret in place of TOKEN - if TOKEN is set, it takes precedence over the secret
 
 - [NET_LOCAL](#env-netlocal)
 
