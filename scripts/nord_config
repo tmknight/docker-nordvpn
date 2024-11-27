@@ -4,13 +4,13 @@ shopt -s nocasematch
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
 [[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
-[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
 if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
 then
   echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
   TECHNOLOGY="NordLynx"
 fi
 nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
+[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
 [[ -n ${PROTOCOL} && ${PROTOCOL} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
