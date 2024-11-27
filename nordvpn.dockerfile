@@ -17,7 +17,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   REFRESH_CONNECTION_INTERVAL=120 \
   TECHNOLOGY=NordLynx \
   NORDVPN_VERSION=${NORDVPN_VERSION} \
-  TOKEN_FILE=/run/secrets/token_file
+  TOKEN_FILE=/run/secrets/nordvpn_token_file
 ## Expose Privoxy traffic
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
