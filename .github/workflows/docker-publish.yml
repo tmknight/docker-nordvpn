@@ -89,7 +89,8 @@ jobs:
           images: ${{ env.IMAGES }}
           tags: |
             type=ref,event=tag
-            type=raw,enable=${{ github.event_name == 'schedule' || (github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease) }},value=latest
+            type=raw,enable=${{ github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease }},value=latest
+            type=raw,enable=${{ github.event_name == 'schedule' }},value=nightly
             type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' }}
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -103,7 +104,7 @@ jobs:
           file: ${{ env.IMAGE }}.dockerfile
           build-args: |
             ${{ env.BUILD_ARGS }}
-            NORDVPN_VERSION=${{ vars.NORDVPN_VERSION == 'false' && needs.nordvpn-version.outputs.pkg-version || vars.NORDVPN_VERSION }}
+            NORDVPN_VERSION=${{ ((github.event_name == 'release' && vars.NORDVPN_VERSION == 'false') || github.event_name == 'schedule') && needs.nordvpn-version.outputs.pkg-version || vars.NORDVPN_VERSION }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
