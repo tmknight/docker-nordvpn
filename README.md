@@ -17,8 +17,8 @@ Build based on:
 
 - Latest
   - NordVPN `3.19.2`
-    - Automatically updated from the [NordVPN repository](https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/)
-  - Ubuntu `latest LTS`
+    - Latest known working version
+  - Ubuntu `LTS`
 - Nightly
   - NordVPN `latest`
     - Automatically updated from the [NordVPN repository](https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/)
