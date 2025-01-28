@@ -17,7 +17,8 @@ Build based on:
 
 - Latest
   - NordVPN `3.19.2`
-    - Latest known working version
+    - Latest known working version as of release 3.1.1
+      - Some users reported issues with 3.20.0
   - Ubuntu `LTS`
 - Nightly
   - NordVPN `latest`
