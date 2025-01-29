@@ -20,6 +20,7 @@ Build based on:
     - Latest known working version as of release 3.1.1
       - Some users reported issues with 3.20.0
   - Ubuntu `LTS`
+      - Updated to latest as of release time
 - Nightly
   - NordVPN `latest`
     - Automatically updated from the [NordVPN repository](https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/)
