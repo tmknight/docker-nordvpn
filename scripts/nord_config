@@ -2,7 +2,7 @@
 shopt -s nocasematch
 
 ## Hard defaults
-nordvpn set analytics off
+nordvpn set analytics off | grep -Eiv -f /opt/inv-grep
 
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
