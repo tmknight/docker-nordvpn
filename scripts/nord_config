@@ -22,6 +22,13 @@ do
 done
 [[ -n ${PORT_RANGE} ]] && nordvpn allowlist add ports ${PORT_RANGE} | grep -Eiv -f /opt/inv-grep
 
+if [[ ${TECHNOLOGY:-NordLynx} == NordLynx ]]
+then
+  nordvpn set post-quantum ${POST_QUANTUM:-true} | grep -Eiv -f /opt/inv-grep
+else
+  nordvpn set post-quantum false | grep -Eiv -f /opt/inv-grep
+fi
+
 ## Allow/Whitelist local IPv4 networks
 netReg="${dnsReg}/[0-9]{1,2}"
 docker_networks=$(dockerNetworks)
