@@ -6,6 +6,7 @@
 [![DockerPublishing][DockerPublishingBadge]][DockerLink]
 [![DockerSize][DockerSizeBadge]][DockerLink]
 [![DockerPulls][DockerPullsBadge]][DockerLink]
+[![GithubDownloads][GithubDLBadge]][GithubDLLink]
 
 ### The NordVPN client for Docker
 
@@ -145,3 +146,5 @@ This project is independently developed for personal use; there is no affiliatio
 [DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=31383f&color=32c855
 [DockerSizeBadge]: https://badgen.net/docker/size/tmknight88/nordvpn?icon=docker&label=Docker+Size&labelColor=31383f&color=32c855
 [DockerLink]: https://hub.docker.com/r/tmknight88/nordvpn
+[GithubDLBadge]: https://img.shields.io/badge/dynamic/json?style=flat&logo=github&color=blue&url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Ftmknight%2Fdocker-nordvpn%2Fnordvpn.json&query=%24.downloads&label=ghcr%20pulls&cacheSeconds=14400
+[GithubDLLink]: https://github.com/tmknight/docker-nordvpn/pkgs/container/nordvpn
