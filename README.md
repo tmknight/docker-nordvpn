@@ -3,7 +3,7 @@
 <!--
 [![GitHubPackage][GitHubPackageBadge]][GitHubPackageLink]
 -->
-[![DockerPublishing][DockerPublishingBadge]][DockerLink]
+[![DockerPublishing][DockerPublishingBadge]][GithubDLLink]
 [![DockerSize][DockerSizeBadge]][DockerLink]
 [![DockerPulls][DockerPullsBadge]][DockerLink]
 [![GithubDownloads][GithubDLBadge]][GithubDLLink]
@@ -142,9 +142,10 @@ Using the NordVPN API<span id="api"></span>
 
 This project is independently developed for personal use; there is no affiliation with NordVPN or Nord Security companies.  Nord Security companies are not responsible for, nor have control over, the nature, content and availability of this project.
 
-[DockerPublishingBadge]: https://github.com/tmknight/docker-nordvpn/actions/workflows/docker-publish.yml/badge.svg
-[DockerPullsBadge]: https://badgen.net/docker/pulls/tmknight88/nordvpn?icon=docker&label=Docker+Pulls&labelColor=31383f&color=32c855
-[DockerSizeBadge]: https://badgen.net/docker/size/tmknight88/nordvpn?icon=docker&label=Docker+Size&labelColor=31383f&color=32c855
+[DockerPublishingBadge]: https://img.shields.io/github/actions/workflow/status/tmknight/docker-nordvpn/docker-publish.yml?branch=main&style=flat-square&logo=github&label=publish%20image&cacheSeconds=9000
+[DockerPullsBadge]: https://img.shields.io/docker/pulls/tmknight88/nordvpn?style=flat-square&logo=docker&color=blue&cacheSeconds=9000
+[DockerSizeBadge]: https://img.shields.io/docker/image-size/tmknight88/nordvpn?sort=date&arch=amd64&style=flat-square&logo=docker&color=blue&cacheSeconds=9000
 [DockerLink]: https://hub.docker.com/r/tmknight88/nordvpn
-[GithubDLBadge]: https://img.shields.io/badge/dynamic/json?style=flat&logo=github&labelColor=31383f&color=32c855&url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Ftmknight%2Fdocker-nordvpn%2Fnordvpn.json&query=%24.downloads&label=ghcr%20pulls&cacheSeconds=14400
+[GithubDLBadge]: https://img.shields.io/badge/dynamic/json?style=flat-square&logo=github&color=blue&url=https%3A%2F%2Fipitio.github.io%2Fbackage%2Ftmknight%2Fdocker-nordvpn%2Fnordvpn.json&query=%24.downloads&label=ghcr%20pulls&cacheSeconds=14400
 [GithubDLLink]: https://github.com/tmknight/docker-nordvpn/pkgs/container/nordvpn
+
