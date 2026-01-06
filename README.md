@@ -18,7 +18,7 @@ Build based on:
 
 - Latest
   - NordVPN `4.3.1`
-    - Latest known working version as of release 3.3.0
+    - Latest known working version as of release 3.3.0 (if you have issues with current versions of NordVPN, pull ghcr.io/tmknight/nordvpn:v3.2.0)
   - Ubuntu `LTS`
       - Updated to latest as of release time
 - Nightly
