@@ -17,9 +17,8 @@ Leveraging the latest native NordVPN client, iptables and the Nord API to create
 Build based on:
 
 - Latest
-  - NordVPN `3.19.2`
-    - Latest known working version as of release 3.1.1
-      - Some users reported issues with 3.20.0
+  - NordVPN `4.3.1`
+    - Latest known working version as of release 3.3.0
   - Ubuntu `LTS`
       - Updated to latest as of release time
 - Nightly
