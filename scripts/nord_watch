@@ -30,7 +30,7 @@ do
   nDATE=$(date "+%Y%m%d%H%M")
 
   ## Evaluate connection to internet
-  if [[ ! $(curl -Is -m 5 -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
+  if [[ ! $(curl -Is -m "${CHECK_CONNECTION_TIMEOUT:-5}" -o /dev/null -w "%{http_code}" "${CHECK_CONNECTION_URL:-https://www.google.com}") =~ ^[23] ]]
   then
     if [[ -n ${CONNECT} ]]
       then
