@@ -26,7 +26,7 @@ on:
         description: "Semantic version of the created release"
         value: ${{ jobs.create_release.outputs.tag }}
   schedule:
-    - cron: "8 8 1 * *"
+    - cron: "12 12 1 * *"
 
 permissions:
   contents: write
