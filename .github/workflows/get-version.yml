@@ -46,9 +46,9 @@ jobs:
         run: |
           html=$(curl -s "${{ vars.REPO_URL }}")
           previous_file=$(
-            echo "$html" \
-              | grep -o '<a href="[^"]*_amd64\.deb"' \
-              | sed 's/<a href="//; s/">.*//; s/"$//' \
+              echo "${html}" \
+              | grep -o "<a href=\"[^\"]*_amd64.deb\"" \
+              | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' \
               | sort \
               | tail -n 2 \
               | head -n 1
