@@ -145,7 +145,7 @@ jobs:
           file: ${{ env.IMAGE }}.dockerfile
           build-args: |
             ${{ env.BUILD_ARGS }}
-            ${{ env.NORDVPN_VERSION }}
+            NORDVPN_VERSION=${{ env.NORDVPN_VERSION }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
