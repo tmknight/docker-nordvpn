@@ -19,7 +19,7 @@ jobs:
     runs-on: "ubuntu-latest"
     outputs:
       pkg-version: ${{ steps.pkg-version.outputs.NORDVPN_VERSION }}
-      pkg-version-prev: ${{ steps.pkg-version.outputs.NORDVPN_VERSION_PREV }}
+      pkg-version-prev: ${{ steps.pkg-version-prev.outputs.NORDVPN_VERSION }}
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v4
