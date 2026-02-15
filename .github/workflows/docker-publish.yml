@@ -100,7 +100,7 @@ jobs:
       - name: Determine NORDVPN_VERSION to publish
         id: nordversion-select
         run: |
-          if [[ ( ${{ inputs.latest }} && "${{ needs.nordvpn-version.outputs.pkg-version-prev }}" != '' ) \
+          if [[ ( "${{ inputs.latest }}" == 'true' && "${{ needs.nordvpn-version.outputs.pkg-version-prev }}" != '' ) \
                 || ( "${{ github.event_name }}" == 'release' \
                     && "${{ github.event.action }}" == 'published' \
                     && ! ${{ github.event.release.prerelease }} ) ]]; then
