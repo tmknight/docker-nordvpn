@@ -101,7 +101,7 @@ jobs:
       - name: Determine registries to publish
         id: registry-select
         run: |
-          if [[ ("${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.latest }}" != 'true') || "${{github.ref_name}}" != 'main' ]]; then
+          if [[ ("${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.latest }}" != 'true') || ("${{ github.ref_type }}" == 'branch' && "${{ github.ref_name }}" != 'main') ]]; then
             echo "IMAGES=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
             echo "PUB_BRANCH=true" >> $GITHUB_ENV
           else
