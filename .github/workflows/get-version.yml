@@ -38,7 +38,7 @@ jobs:
               | sort \
               | tail -n 1
             )
-            echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//" >> $GITHUB_OUTPUT
+            echo NORDVPN_VERSION=$(echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> $GITHUB_OUTPUT
 
       - name: "Get previous version"
         id: "pkg-version-prev"
@@ -53,4 +53,4 @@ jobs:
               | tail -n 2 \
               | head -n 1
           )
-          echo "$previous_file" | sed 's/nordvpn_//' | sed 's/_amd64\.deb//' >> "$GITHUB_OUTPUT"
+          echo NORDVPN_VERSION=$(echo "$previous_file" | sed 's/nordvpn_//' | sed 's/_amd64\.deb//') >> "$GITHUB_OUTPUT"
