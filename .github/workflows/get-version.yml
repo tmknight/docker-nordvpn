@@ -53,4 +53,4 @@ jobs:
               | tail -n 2 \
               | head -n 1
           )
-          echo NORDVPN_VERSION=$(echo "$previous_file" | sed 's/nordvpn_//' | sed 's/_amd64\.deb//') >> "$GITHUB_OUTPUT"
+          echo NORDVPN_VERSION=$(echo $previous_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> "$GITHUB_OUTPUT"
