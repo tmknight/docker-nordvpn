@@ -129,7 +129,7 @@ jobs:
           tags: |
             type=ref,event=tag
             type=raw,enable=${{ github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease }},value=latest
-            type=raw,enable=${{ inputs.latest == 'true' }},value=latest
+            type=raw,enable=${{ inputs.latest == true }},value=latest
             type=raw,enable=${{ inputs.version != '' }},value=${{ inputs.version }}
             type=raw,enable=${{ github.event_name == 'schedule' }},value=nightly
             type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' }}
