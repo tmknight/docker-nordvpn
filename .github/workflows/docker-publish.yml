@@ -12,6 +12,16 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      latest:
+        description: "Set 'latest' tag"
+        required: false
+        type: boolean
+        default: false
+      version:
+        description: "Set semantic version tag"
+        required: false
+        type: string
   workflow_call:
     inputs:
       latest:
