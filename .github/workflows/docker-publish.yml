@@ -103,8 +103,10 @@ jobs:
         run: |
           if [[ ("${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.latest }}" != 'true') || "${{github.ref_name}}" != 'main' ]]; then
             echo "IMAGES=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
+            echo "PUB_BRANCH=true" >> $GITHUB_ENV
           else
             echo "IMAGES=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE }}, ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
+            echo "PUB_BRANCH=false" >> $GITHUB_ENV
           fi
 
       - name: Determine NORDVPN_VERSION to publish
@@ -132,7 +134,7 @@ jobs:
             type=raw,enable=${{ inputs.latest == true }},value=latest
             type=raw,enable=${{ inputs.version != '' }},value=${{ inputs.version }}
             type=raw,enable=${{ github.event_name == 'schedule' }},value=nightly
-            type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' && env.PUB_BRANCH == true }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
