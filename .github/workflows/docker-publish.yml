@@ -5,10 +5,26 @@ name: "Publish Docker image"
 # separate terms of service, privacy policy, and support
 # documentation.
 
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      latest:
+        description: "Set 'latest' tag"
+        required: false
+        type: boolean
+        default: false
+      version:
+        description: "Set semantic version tag"
+        required: false
+        type: string
   schedule:
-    - cron: '33 00 * * *'
+    - cron: "33 00 * * *"
   release:
     types: [published]
 
@@ -81,6 +97,18 @@ jobs:
             echo "IMAGES=${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE }}, ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
           fi
 
+      - name: Determine NORDVPN_VERSION to publish
+        id: nordversion-select
+        run: |
+          if [[ ( ${{ inputs.latest }} && "${{ needs.nordvpn-version.outputs.pkg-version-prev }}" != '' ) \
+                || ( "${{ github.event_name }}" == 'release' \
+                    && "${{ github.event.action }}" == 'published' \
+                    && ! ${{ github.event.release.prerelease }} ) ]]; then
+            echo "NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version-prev }}" >> "$GITHUB_ENV"
+          else
+            echo "NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version }}" >> "$GITHUB_ENV"
+          fi
+
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
@@ -91,6 +119,8 @@ jobs:
           tags: |
             type=ref,event=tag
             type=raw,enable=${{ github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease }},value=latest
+            type=raw,enable=${{ inputs.latest }},value=latest
+            type=raw,enable=${{ inputs.version != '' }},value=${{ inputs.version }}
             type=raw,enable=${{ github.event_name == 'schedule' }},value=nightly
             type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' }}
 
@@ -105,7 +135,7 @@ jobs:
           file: ${{ env.IMAGE }}.dockerfile
           build-args: |
             ${{ env.BUILD_ARGS }}
-            NORDVPN_VERSION=${{ (((github.event_name == 'release' || github.event_name == 'workflow_dispatch') && vars.NORDVPN_VERSION == 'false') || github.event_name == 'schedule') && needs.nordvpn-version.outputs.pkg-version || vars.NORDVPN_VERSION }}
+            ${{ env.NORDVPN_VERSION }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

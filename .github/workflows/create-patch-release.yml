@@ -1,0 +1,125 @@
+name: Create patch release
+
+on:
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: "Create the release as a draft"
+        required: false
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      draft:
+        description: "Create the release as a draft"
+        required: false
+        type: boolean
+        default: true
+    outputs:
+      release_url:
+        description: "URL of the created release"
+        value: ${{ jobs.create_release.outputs.release_url }}
+      draft:
+        description: "Bool for release created as draft"
+        value: ${{ jobs.create_release.outputs.draft }}
+      tag:
+        description: "Semantic version of the created release"
+        value: ${{ jobs.create_release.outputs.tag }}
+  schedule:
+    - cron: "8 8 1 * *"
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+jobs:
+  create_release:
+    name: Create patch release
+    runs-on: ubuntu-latest
+    outputs:
+      release_url: ${{ fromJson(steps.create_release.outputs.result).url }}
+      tag: ${{ fromJson(steps.create_release.outputs.result).tag }}
+      draft: ${{ fromJson(steps.create_release.outputs.result).draft }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Release notes are generated in the 'Create new patch release' step
+      # so the generated notes reference the computed new tag (e.g. '1.6.0 - 1.6.1').
+
+      - id: create_release
+        name: Create new patch release
+        uses: actions/github-script@v6
+        env:
+          # Ensure SET_DRAFT is the literal string 'true' or 'false' so it
+          # can be safely compared in the script (process.env values are strings)
+          SET_DRAFT: ${{ (inputs.draft == false || github.event_name == 'schedule') && 'false' || 'true' }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Parse the set_draft value (env values are strings)
+            const set_draft = process.env.SET_DRAFT === 'true';
+
+            // Fetch latest release (returns null if none)
+            const latest = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            }).catch(e => {
+              if (e.status === 404) return null;
+              throw e;
+            });
+
+            // Default initial tag if no previous release exists (plain semver x.y.z)
+            let newTag = '0.0.1';
+
+            if (latest) {
+              const tag = latest.data.tag_name || '';
+              // Only accept tags like: 1.2.3 (reject leading 'v' or other formats);
+              // allow optional - / + suffixes after the patch version
+              const sem = tag.match(/^(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/);
+              if (!sem) {
+                throw new Error(`Latest tag '${tag}' is not a semantic version in the form MAJOR.MINOR.PATCH (e.g. 1.2.3). Leading 'v' is not permitted.`);
+              }
+              const major = parseInt(sem[1], 10);
+              const minor = parseInt(sem[2], 10);
+              const patch = parseInt(sem[3], 10) + 1;
+              // Use plain semantic versioning without 'v' prefix
+              newTag = `${major}.${minor}.${patch}`;
+            }
+
+            const previousTag = latest ? latest.data.tag_name : '';
+
+            const changelog = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: newTag,
+              previous_tag_name: previousTag
+            }).catch(e => {
+              console.log('Could not generate release notes:', e.message);
+              return { data: { body: 'Apply updates to base container image' } };
+            });
+
+            const created = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: newTag,
+              name: newTag,
+              body: changelog.data.body,
+              draft: set_draft,
+              prerelease: false
+            });
+
+            // Return structured JSON so the job can map outputs
+            return { url: created.data.html_url, tag: newTag, draft: set_draft }
+
+  trigger_docker_publish:
+    needs: create_release
+    uses: ./.github/workflows/docker-publish.yml
+    if: ${{ needs.create_release.outputs.draft == 'false' }}
+    with:
+      latest: true
+      version: ${{ needs.create_release.outputs.tag }}
+    secrets: inherit

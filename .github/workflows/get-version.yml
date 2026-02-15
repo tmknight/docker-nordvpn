@@ -10,23 +10,47 @@ on:
         pkg-version:
             description: "Get release version"
             value: ${{ jobs.get-version.outputs.pkg-version }}
-
+        pkg-version-prev:
+            description: "Get release version"
+            value: ${{ jobs.get-version.outputs.pkg-version-prev }}
 jobs:
   get-version:
     name: "Get release version"
     runs-on: "ubuntu-latest"
     outputs:
       pkg-version: ${{ steps.pkg-version.outputs.NORDVPN_VERSION }}
+      pkg-version-prev: ${{ steps.pkg-version.outputs.NORDVPN_VERSION_PREV }}
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Get version"
+      - name: "Get current version"
         id: "pkg-version"
         shell: "bash"
         run: |
-            html=$(curl -s "${{ vars.REPO_URL }}");
-            most_recent_file=$(echo "${html}" | grep -o "<a href=\"[^\"]*_amd64.deb\"" | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' | sort | tail -n 1);
-            echo NORDVPN_VERSION=$(echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//") >> $GITHUB_OUTPUT
+            html=$(curl -s "${{ vars.REPO_URL }}")
+            most_recent_file=$(
+              echo "${html}" \
+              | grep -o "<a href=\"[^\"]*_amd64.deb\"" \
+              | sed 's/<a href="//' | sed 's/">.*//' | sed 's/"$//' \
+              | sort \
+              | tail -n 1
+            )
+            echo $most_recent_file | sed 's/nordvpn_//' | sed  "s/_amd64.deb//" >> $GITHUB_OUTPUT
+
+      - name: "Get previous version"
+        id: "pkg-version-prev"
+        shell: "bash"
+        run: |
+          html=$(curl -s "${{ vars.REPO_URL }}")
+          previous_file=$(
+            echo "$html" \
+              | grep -o '<a href="[^"]*_amd64\.deb"' \
+              | sed 's/<a href="//; s/">.*//; s/"$//' \
+              | sort \
+              | tail -n 2 \
+              | head -n 1
+          )
+          echo "$previous_file" | sed 's/nordvpn_//' | sed 's/_amd64\.deb//' >> "$GITHUB_OUTPUT"
