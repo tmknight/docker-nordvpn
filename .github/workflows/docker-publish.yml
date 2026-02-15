@@ -103,7 +103,7 @@ jobs:
           if [[ ( "${{ inputs.latest }}" == 'true' && "${{ needs.nordvpn-version.outputs.pkg-version-prev }}" != '' ) \
                 || ( "${{ github.event_name }}" == 'release' \
                     && "${{ github.event.action }}" == 'published' \
-                    && ! ${{ github.event.release.prerelease }} ) ]]; then
+                    && "${{ github.event.release.prerelease }}" == '' ) ]]; then
             echo "NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version-prev }}" >> "$GITHUB_ENV"
           else
             echo "NORDVPN_VERSION=${{ needs.nordvpn-version.outputs.pkg-version }}" >> "$GITHUB_ENV"
