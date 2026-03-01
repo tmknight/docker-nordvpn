@@ -133,7 +133,7 @@ jobs:
             type=raw,enable=${{ github.event_name == 'release' && github.event.action == 'published' && !github.event.release.prerelease }},value=latest
             type=raw,enable=${{ inputs.latest == true }},value=latest
             type=raw,enable=${{ inputs.version != '' }},value=${{ inputs.version }}
-            type=raw,enable=${{ github.event_name == 'schedule' }},value=nightly
+            type=raw,enable=${{ github.event_name == 'schedule' && inputs.latest != true }},value=nightly
             type=ref,event=branch,enable=${{ github.event_name == 'workflow_dispatch' && env.PUB_BRANCH == true }}
 
       # Build and push Docker image with Buildx (don't push on PR)
