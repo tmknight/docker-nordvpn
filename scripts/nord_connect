@@ -51,7 +51,7 @@ fi
 ## Make the connection
 current_sleep=1
 # Use pipefail to ensure we catch non zero exit codes
-until (set -o pipefail && nordvpn connect "${SERVER}" | grep -Ei -f /opt/reg-grep)
+until (set -o pipefail && nordvpn connect ${SERVER} | grep -Ei -f /opt/reg-grep)
 do
   if [ ${current_sleep} -gt 32 ]
   then
