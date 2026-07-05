@@ -52,7 +52,7 @@ jobs:
 
       - id: create_release
         name: Create new patch release
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         env:
           # Ensure SET_DRAFT is the literal string 'true' or 'false' so it
           # can be safely compared in the script (process.env values are strings)
