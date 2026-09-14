@@ -7,7 +7,7 @@ nordvpn set analytics off | grep -Eiv -f /opt/inv-grep
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
 [[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
-if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN) ]]
+if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN|NordWhisper) ]]
 then
   echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
   TECHNOLOGY="NordLynx"
