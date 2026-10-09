@@ -1,4 +1,4 @@
-ARG UBUNTU_VER
+ARG UBUNTU_VER=latest
 FROM ubuntu:${UBUNTU_VER}
 ARG UBUNTU_VER
 ARG REPO_URL
@@ -22,7 +22,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
 EXPOSE 8118
 HEALTHCHECK --start-period=10s --timeout=3s \
   CMD /usr/local/bin/nord_healthcheck
-CMD /usr/local/bin/nord_start
+CMD [/usr/local/bin/nord_start]
 ## Core scripts
 COPY ./scripts/ /usr/local/bin/
 COPY ./opt/ /opt/
