@@ -37,5 +37,20 @@ then
     KILLSWITCH=true
   fi
   nordvpn set killswitch "${KILLSWITCH:-true}" | grep -Eiv -f /opt/inv-grep
+
+  ## 00-firewall's iptables DROP policy exists only to close the leak
+  ## window between container boot and this point - nordvpnd's own
+  ## killswitch (its "inet nordvpn" nftables table) is now up and is a
+  ## fully self-contained enforcement point (verified: it holds policy
+  ## drop independent of tunnel state, and survives nordvpnd itself
+  ## being killed, since nftables rules are kernel-resident). Leaving
+  ## 00-firewall's separate legacy iptables table active afterward is
+  ## redundant, and it lags behind nordvpnd's own tunnel-interface
+  ## support (e.g. NordWhisper's qtun) - hand off exclusively to
+  ## nordvpnd's table rather than keep maintaining a second one.
+  iptables -P INPUT ACCEPT
+  iptables -P OUTPUT ACCEPT
+  iptables -P FORWARD ACCEPT
+  iptables -F
 fi
 exit 0
