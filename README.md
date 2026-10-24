@@ -18,7 +18,7 @@ Build based on:
 
 - Latest
   - NordVPN
-    - This will be updated periodically to the version previous to the latest version (i.e. n - 1)
+    - If not already at the latest version from a release, this will be updated periodically to the version previous to the latest version (i.e. n - 1)
       - NOTE: if you have issues with current versions of NordVPN, pull `ghcr.io/tmknight/nordvpn:v3.2.0`
         - NOTE on the NOTE: This is a very old version and comes with no support (i.e. do not ask for help with it)
   - Ubuntu `LTS`
