@@ -6,15 +6,13 @@ nordvpn set analytics off | grep -Eiv -f /opt/inv-grep
 
 ## Apply settings
 [[ -n ${DNS} ]] && nordvpn set dns ${DNS//[;,]/ } | grep -Eiv -f /opt/inv-grep
-[[ -n ${CYBER_SEC} && ${CYBER_SEC} =~ (true|false) ]] && nordvpn set cybersec ${CYBER_SEC} | grep -Eiv -f /opt/inv-grep
-if [[ ! ${TECHNOLOGY:-NordLynx} =~ (NordLynx|OpenVPN|NordWhisper) ]]
+[[ -n ${PROTECTION} && ${PROTECTION} =~ (true|false) ]] && nordvpn set protection ${PROTECTION} | grep -Eiv -f /opt/inv-grep
+if [[ ! ${PROTOCOL:-NordLynx} =~ (NordLynx|OpenVPN_TCP|OpenVPN_UDP|NordWhisper) ]]
 then
-  echo -e "WARNING\tUnsupported TECHNOLOGY value (${TECHNOLOGY}); defaulting to 'NordLynx'."
-  TECHNOLOGY="NordLynx"
+  echo -e "WARNING\tUnsupported PROTOCOL value (${PROTOCOL}); defaulting to 'NordLynx'."
+  PROTOCOL="NordLynx"
 fi
-nordvpn set technology ${TECHNOLOGY:-NordLynx} | grep -Eiv -f /opt/inv-grep
-[[ -n ${OBFUSCATE} && ${OBFUSCATE} =~ (true|false) ]] && nordvpn set obfuscate ${OBFUSCATE} | grep -Eiv -f /opt/inv-grep
-[[ -n ${PROTOCOL} && ${PROTOCOL} =~ (udp|tcp) ]] && nordvpn set protocol ${PROTOCOL} | grep -Eiv -f /opt/inv-grep
+nordvpn set protocol ${PROTOCOL:-NordLynx} | grep -Eiv -f /opt/inv-grep
 
 [[ -n ${PORTS} ]] && for port in ${PORTS//[;,]/ }
 do
@@ -22,7 +20,7 @@ do
 done
 [[ -n ${PORT_RANGE} ]] && nordvpn allowlist add ports ${PORT_RANGE} | grep -Eiv -f /opt/inv-grep
 
-[[ ! ${TECHNOLOGY:-NordLynx} == NordLynx ]] && POST_QUANTUM=false
+[[ ! ${PROTOCOL:-NordLynx} == NordLynx ]] && POST_QUANTUM=false
 nordvpn set post-quantum ${POST_QUANTUM:-true} | grep -Eiv -f /opt/inv-grep
 
 ## Allow/Whitelist local IPv4 networks
