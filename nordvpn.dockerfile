@@ -15,7 +15,7 @@ ENV CHECK_CONNECTION_INTERVAL=60 \
   CONNECT="" \
   CONNECTION_FILTERS="" \
   REFRESH_CONNECTION_INTERVAL=120 \
-  TECHNOLOGY=NordLynx \
+  PROTOCOL=NordLynx \
   NORDVPN_VERSION=${NORDVPN_VERSION} \
   TOKEN_FILE=/run/secrets/nordvpn_token_file
 ## Expose Privoxy traffic
