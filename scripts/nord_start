@@ -57,5 +57,5 @@ then
 fi
 wait $!
 CODE=$?
-nordvpn logout --persist-token > /dev/null 2>&1
+nordvpn logout > /dev/null 2>&1
 exit $CODE
