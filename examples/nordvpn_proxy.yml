@@ -13,7 +13,7 @@ services:
     environment: # Review https://github.com/tmknight/docker-nordvpn/#environment-variables
       BYPASS_LIST: iconfig.co,whatsmyip.com
       CHECK_CONNECTION_INTERVAL: 90
-      CONNECTION_FILTERS: "filters[country_id]=38"
+      CONNECT: -g double_vpn united_states charlotte
     ports:
       - 8888:8118
     sysctls:
