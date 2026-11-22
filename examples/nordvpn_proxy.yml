@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   vpn:
-    image: tmknight88/nordvpn:latest
+    image: ghcr.io/tmknight/nordvpn:latest
     container_name: nordvpn
     cap_add:
       - NET_ADMIN
@@ -22,7 +22,7 @@ services:
       - frontend
     restart: always
   proxy:
-    image: tmknight88/privoxy:latest
+    image: ghcr.io/tmknight/privoxy:latest
     container_name: privoxy
     deploy:
       resources:
